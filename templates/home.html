@@ -3,11 +3,72 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-{% if user.is_authenticated %}
-  Hi {{ user.username }}! You are {{ user.age }} years old.
-{% else %}
-  <p>You are not logged in</p>
-  <a href="{% url 'login' %}">Log In</a> |
-  <a href="{% url 'signup' %}">Sign Up</a>
-{% endif %}
+  <!-- Sidebar -->
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar" id="sidebar">
+          <!-- Toggle Button -->
+          <button class="btn btn-light mb-3" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+          </button>
+          <!-- Sidebar Items -->
+          <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action sidebar-item">
+              <i class="fas fa-home"></i>
+              <span>Home</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action sidebar-item">
+              <i class="fas fa-user"></i>
+              <span>Profile</span>
+            </a>
+            <a href="#" class="list-group-item list-group-item-action sidebar-item">
+              <i class="fas fa-envelope"></i>
+              <span>Messages</span>
+            </a>
+          </div>
+        </div>
+        <!-- Main Content -->
+        <div class="col-md-10 ">
+          <div class="row">
+            <div class="col-3 list d-flex justify-content-center align-items-center ">
+              <div class="card">
+                <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                  <span>Item one</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                  <span>Item two</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                  <span>Item three</span>
+                </a>
+              </div>
+            </div>
+            <div class="col-9 Table d-flex justify-content-center align-items-center">
+              <div class="card align-items-center p-2">
+                sdfsdfsdfsdf
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- Custom Script -->
+  <script>
+    function toggleSidebar() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('sidebar-minimized');
+    }
+  </script>
+  
+
+  <!-- {% if user.is_authenticated %}
+    Hi {{ user.username }}! You are {{ user.age }} years old.
+  {% else %}
+    <p>You are not logged in</p>
+    <a href="{% url 'login' %}">Log In</a> |
+    <a href="{% url 'signup' %}">Sign Up</a>
+  {% endif %} -->
 {% endblock content %}

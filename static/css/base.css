@@ -14,3 +14,42 @@ body {
     font-family: 'Work Sans', sans-serif;
     font-size: 18px;
 }
+.sidebar {
+    height: 100vh;
+    background-color: #343a40;
+    padding-top: 20px;
+    padding-left: 15px;
+    transition: all 0.3s;
+  }
+
+  .sidebar-item {
+    padding: 10px;
+    transition: all 0.3s;
+  }
+  
+  .sidebar-item span {
+    margin-left: 10px;
+    transition: all 0.3s;
+  }
+  
+  .sidebar-minimized {
+    width: 80px !important;
+  }
+
+  .sidebar-minimized .sidebar-item span {
+    display: none;
+    margin-left: 0;
+  }
+
+  .list {
+    height: 100vh;
+  }
+
+  .card {
+    height: 80%;
+    width: 90%;
+  }
+
+  .Table {
+    height: 100vh;
+  }
