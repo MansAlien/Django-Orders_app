@@ -14,6 +14,24 @@
   {% endblock sidecontent %}
 
   {% block content %}
-    sdfsdfsdf
+  <a id="htmx_link" href={% url "home" %} hx-boost="true" hx-target="#paragraph"> link </a>
+  <button id="paragraph" class="m-5"> </button>
+
+  <div hx-post="/mouse_entered" hx-trigger="mouseenter">
+    [Here Mouse, Mouse!]
+  </div>
+
+  <div hx-post="/mouse_entered" hx-trigger="mouseenter once">
+    [Here Mouse, Mouse!]
+  </div>
+
+  <br>
+  <input type="text" name="q"
+    hx-get="/trigger_delay"
+    hx-trigger="keyup changed delay:500ms"
+    hx-target="#search-results"
+    placeholder="Search..."
+>
+  <div id="search-results"></div>
   {% endblock content %}
 
