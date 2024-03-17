@@ -12,6 +12,7 @@ This is project is created for helping the owners of the studios to manage every
 <p align="center">
   <img src="https://img.shields.io/badge/framework-Bootstrap-%23563d7c">
   <img src="https://img.shields.io/badge/framework-Django-%23092e20">
+  <img src="https://img.shields.io/badge/framework-HTMX-%23e34f26">
 </p>
 
 <p align="center">
