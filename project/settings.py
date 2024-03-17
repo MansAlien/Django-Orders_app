@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     # my app
     "accounts.apps.AccountsConfig",
-    "pages.apps.PagesConfig",
+    "orders.apps.OrdersConfig",
 ]
 
 MIDDLEWARE = [
