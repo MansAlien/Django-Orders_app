@@ -49,4 +49,5 @@ This is project is created for helping the owners of the studios to manage every
 1. [Planing The Main Lines](Meetings/13-Mar.md) dec/15/2023
 
 ### ScreenShots
-- 
+- ![Sidebar](./images/sidebar_max.png)
+- ![Sidebar](./images/sidebar_mini.png)
