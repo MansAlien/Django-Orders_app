@@ -57,17 +57,17 @@
                 <span>Settings</span>
               </a>
               <form method="post" action="{% url 'logout' %}" class="list-group-item list-group-item-action sidebar-item ">
-              {% csrf_token %}
-              <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Logout</span>
-              </button>
+                {% csrf_token %}
+                <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">
+                  <i class="fa-solid fa-right-from-bracket"></i>
+                  <span>Logout</span>
+                </button>
               </form> 
             </div>
           </div>
         </div>
         <!-- Main Content -->
-        <div class="col-10">
+        <div class="col-10" style="height: 100vh;">
           {% block content %}
           {% endblock content %}
         </div>

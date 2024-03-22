@@ -24,3 +24,29 @@ def createview(request):
     context = {"category_list":category_list}
     return render(request, "settings/category/category.html", context)
 
+def renameview(request, pk):
+    category = Category.objects.get(id=pk)
+    context = {"category":category}
+    return render(request, "settings/category/category_edit.html", context)
+
+def applyview(request, pk):
+    category = Category.objects.get(id=pk)
+    category.name = request.POST.get("update") 
+    category.save()
+    category_list = Category.objects.all()
+    context = {"category_list":category_list}
+    return render(request, "settings/category/category.html", context) 
+
+def deleteview(request, pk):
+    category = Category.objects.get(id=pk)
+    category.delete()
+    category_list = Category.objects.all()
+    context = {"category_list":category_list}
+    return render(request, "settings/category/category.html", context)
+
+def cancelview(request):
+    category_list = Category.objects.all()
+    context = {"category_list":category_list}
+    return render(request, "settings/category/category.html", context)
+
+
