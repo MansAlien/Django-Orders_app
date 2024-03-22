@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import CategoryListView, SettingsTemplateView, createview, categoryview, deleteview, renameview, applyview, cancelview
+from .views import HomeListView, SettingsTemplateView, createview, categoryview, deleteview, renameview, applyview, cancelview
 
 urlpatterns = [
-    path("", CategoryListView.as_view(), name="home"),
+    path("", HomeListView.as_view(), name="home"),
+    path("settings/", SettingsTemplateView.as_view(), name="settings"),
     path("settings/category/", categoryview, name="category_list"),
 ]
 

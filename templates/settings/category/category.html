@@ -27,10 +27,10 @@
 
               <div class="btn-container d-flex align-items-center justify-content-between" style="width: 20% ;">
                 <div
-                    hx-get="{% url "rename" category.id %}"
-                    hx-target="#category_{{category.id}}"
-                    hx-trigger="click"
-                    hx-swap="outerHTML"
+                  hx-get="{% url "rename" category.id %}"
+                  hx-target="#category_{{category.id}}"
+                  hx-trigger="click"
+                  hx-swap="outerHTML"
                   class="edit" id="edit_div">
                   <i class="fa-solid fa-pen-to-square" style="color: #74C0FC; cursor: pointer;"></i>
                 </div>

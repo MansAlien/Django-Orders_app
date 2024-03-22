@@ -3,10 +3,20 @@
 {% block title %}Settings{% endblock title %}
 
   {% block sidecontent %}
-  
+    <div class="list-group text-nowrap">
+      <div 
+        hx-get="{% url "category_list" %}"
+        hx-target="#settings_content"
+        hx-trigger="click"
+        hx-swap="outerHTML"
+        class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-plus" ></i>
+        <span>category</span>
+      </div>
+    </div>
   {% endblock sidecontent %}
 
   {% block content %}
-    {% include "settings/category/category.html" %}
+    <div id="settings_content"></div>
   {% endblock content %}
 

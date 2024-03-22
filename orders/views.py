@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django_htmx.http import HttpResponseClientRedirect
 from django.shortcuts import render
 
-class CategoryListView(ListView):
+class HomeListView(ListView):
     model = Category
     template_name = "home.html"
 
@@ -14,7 +14,7 @@ class SettingsTemplateView(TemplateView):
 def categoryview(request):
     category_list = Category.objects.all()
     context = {"category_list":category_list}
-    return render(request, "settings/settings.html", context)
+    return render(request, "settings/category/category.html", context)
 
 
 def createview(request):

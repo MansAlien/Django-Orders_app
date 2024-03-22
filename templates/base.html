@@ -33,7 +33,7 @@
           <!-- Sidebar Items -->
           <div class="d-flex flex-column justify-content-between pt-4 pb-4" style="height:100%;" id="sidebar-content">
             <div class="list-group text-nowrap">
-              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+              <a href="{% url "home" %}" class="list-group-item list-group-item-action sidebar-item">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
               </a>
@@ -46,13 +46,12 @@
                 <span>Messages</span>
               </a>
             </div>
-            <br>
             <div class="changed-list">
               {% block sidecontent %}
               {% endblock sidecontent %}
             </div>
             <div class="list-group text-nowrap align-items-end"> 
-              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+              <a href="{% url "settings" %}" class="list-group-item list-group-item-action sidebar-item">
                 <i class="fa-solid fa-gear"></i>
                 <span>Settings</span>
               </a>
