@@ -1,13 +1,14 @@
 from django.urls import path
-from .views import CatigoryListView, view_categories 
+from .views import CategoryListView, SettingsTemplateView, createview, categoryview
 
 urlpatterns = [
-    path("", CatigoryListView.as_view(), name="home"),
+    path("", CategoryListView.as_view(), name="home"),
+    path("settings/category/", categoryview, name="category_list"),
+    path("settings/category/create", createview, name="create"),
 ]
 
 
 htmx_urlpatterns = [
-    path("view_categories/", view_categories, name="view_categories"),
 ]
 
 urlpatterns += htmx_urlpatterns

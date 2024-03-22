@@ -22,37 +22,50 @@
   </head>
 
   <body>
-    <div class="containter-fluid">
+    <div class="container-fluid">
       <div class="row">
-
         <!-- Sidebar -->
-        <div class="col-md-2 sidebar" id="sidebar">
+        <div class="col-2 sidebar d-flex flex-column m-0 p-3" id="sidebar">
           <!-- Toggle Button -->
-          <button class="btn btn-light mb-3" onclick="toggleSidebar()">
+          <button class=" btn btn-dark mb-3 align-self-start" style="background-color: #181a1b;" onclick="toggleSidebar()">
             <i class="fas fa-bars"></i>
           </button>
           <!-- Sidebar Items -->
-          <div class="list-group text-nowrap">
-            <a href="#" class="list-group-item list-group-item-action sidebar-item">
-              <i class="fas fa-home"></i>
-              <span>Home</span>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action sidebar-item">
-              <i class="fas fa-user"></i>
-              <span>Profile</span>
-            </a>
-            <a href="#" class="list-group-item list-group-item-action sidebar-item">
-              <i class="fas fa-envelope"></i>
-              <span>Messages</span>
-            </a>
-          </div>
-          <br>
-          <div class="changed-list">
-            {% block sidecontent %}
-            {% endblock sidecontent %}
+          <div class="d-flex flex-column justify-content-between pt-4 pb-4" style="height:100%;" id="sidebar-content">
+            <div class="list-group text-nowrap">
+              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+              </a>
+              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                <i class="fas fa-envelope"></i>
+                <span>Messages</span>
+              </a>
+            </div>
+            <br>
+            <div class="changed-list">
+              {% block sidecontent %}
+              {% endblock sidecontent %}
+            </div>
+            <div class="list-group text-nowrap align-items-end"> 
+              <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Settings</span>
+              </a>
+              <form method="post" action="{% url 'logout' %}" class="list-group-item list-group-item-action sidebar-item ">
+              {% csrf_token %}
+              <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+              </button>
+              </form> 
+            </div>
           </div>
         </div>
-
         <!-- Main Content -->
         <div class="col-10">
           {% block content %}

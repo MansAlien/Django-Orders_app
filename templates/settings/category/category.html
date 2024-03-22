@@ -1,0 +1,40 @@
+    <script>
+      // Function to restrict input to alphanumeric characters
+      function restrictInput(event) {
+        const regex = /[a-zA-Z0-9]/;
+        const inputChar = String.fromCharCode(event.keyCode);
+        if (!regex.test(inputChar)) {
+          event.preventDefault();
+        }
+      }
+    </script>
+    <div id="category_container" class="d-flex justify-content-center align-items-center" style="width: 100%; height: 100%;">
+      <div class=" d-flex" style="height: 70%; width: 75%;">
+        <div class=" m-1 flex-grow-1" id="category_list">
+          <div>
+            <form class="input-group mb-3" action="" 
+               hx-post="{% url 'create' %}"
+               hx-trigger="submit"
+               hx-target="#category_container"
+               hx-swap="outerHTML"
+              >
+              {% csrf_token %}
+              <input class="form-control border-black me-2 flex-grow-1 rounded-start bg-dark border-secondary" type="text" 
+                placeholder="New Task" aria-describedby="button-addon2" name="category" required 
+                onkeypress="restrictInput(event)"> 
+              <button class="btn btn-success " type="submit" id="button-addon2">Add</button>
+            </form>
+          </div>
+          <div>
+            <ul>
+              {% for category in category_list %}
+                <li>{{category}}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="bg-dark m-1 flex-grow-1" id="sub_category_list">
+          
+        </div>
+      </div>
+    </div> 
