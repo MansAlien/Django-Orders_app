@@ -4,7 +4,7 @@
     <div class="col-1"></div>
     <div class="col-5 rounded-3 p-5 " id="category_list" style="background-color: #2c2f31; height: 95% ;">
       <div >
-        <form class="input-group mb-3" action="" 
+        <form class="input-group mb-3" style="margin-top: 45px;" action="" 
            hx-post="{% url 'create' %}"
            hx-trigger="submit"
            hx-target="#category_container"
@@ -12,8 +12,8 @@
           >
           {% csrf_token %}
           <input class="form-control border-black me-2 flex-grow-1 rounded-start bg-dark border-secondary text-white" type="text" 
-            placeholder="New Task" aria-describedby="button-addon2" name="category" required > 
-          <button class="btn btn-success" type="submit" id="button-addon2">Add</button>
+             aria-describedby="button-addon2_c" name="category" required > 
+          <button class="btn btn-success" type="submit" id="button-addon2_c">Add</button>
         </form>
       </div>
       <div class="overflow-auto" style="height: 95%;">
@@ -51,8 +51,36 @@
       </div>
     </div>
     <div class="col-1"></div>
-    <div class="col-5 rounded-3" id="sub_category_list" style="background-color: #2c2f31;">
-      
+    <div class="col-5 rounded-3 p-5" id="sub_category_list" style="background-color: #2c2f31; height: 95% ;">
+      <div>
+        <form class="input-group mb-3" action="" 
+           hx-post="{% url 'create_sub' %}"
+           hx-trigger="submit"
+           hx-target="#subcategory_list"
+           hx-swap="innerHTML"
+          >
+          {% csrf_token %}
+          <select 
+            hx-post="{% url 'subcategory' %}"
+            hx-trigger="change"
+            hx-target="#subcategory_list"
+            hx-swap="innerHTML"
+            class="select-control mb-2 p-1 rounded-3" style="height: 40px; width: 100%;" name="category_id">
+            <option value="nothing" disabled selected>--------</option>
+            {% for category in category_list %}
+            <option value="{{category.id}}">{{ category.name }}</option>
+            {% endfor %}
+          </select>
+          <input class="form-control border-black me-2 flex-grow-1 rounded-start bg-dark border-secondary text-white" type="text" 
+          placeholder="New Task" aria-describedby="button-addon2_s" name="subcategory_name" required > 
+          <button class="btn btn-success" type="submit" id="button-addon2_s">Add</button>
+        </form> 
+        </select>
+      </div>
+      <div class="overflow-auto" style="height: 95%;">
+        <div id="subcategory_list" class="list-group d-flex flex-column mt-2 border-0 rounded-3 border-secondary" >
+        </div>
+      </div>
     </div>
   </div>
 </div> 
