@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     #3rd party packs
     'crispy_forms',
     'crispy_bootstrap5',
+    'django_admin_generator',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
