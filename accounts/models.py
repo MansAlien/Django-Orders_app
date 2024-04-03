@@ -8,15 +8,34 @@ from django.contrib.auth.models import User
 class JobTitle(models.Model):
     name = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name
+
 class Department(models.Model):
     name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
 
 class Country(models.Model):
     name = models.CharField(max_length=255)
 
-class City(models.Model):
+    def __str__(self):
+        return self.name
+
+class Governorate(models.Model):
     name = models.CharField(max_length=255)
     country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
+
+class City(models.Model):
+    name = models.CharField(max_length=255)
+    governorate = models.ForeignKey(Governorate, on_delete=models.SET_NULL, null=True)
+
+    def __str__(self):
+        return self.name
 
 class UserProfile(models.Model):
     GENDER = {
@@ -31,6 +50,9 @@ class UserProfile(models.Model):
     start = models.DateField(null=True)
     address = models.TextField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER, default="M")
+
+    def __str__(self):
+        return self.user.username
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -47,8 +69,14 @@ class DepartmentHistory(models.Model):
     start = models.DateField()
     end = models.DateField()
 
+    def __str__(self):
+        return self.department.name
+
 class JobTitleHistory(models.Model):
     job_title = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True)
     start = models.DateField()
     end = models.DateField()
+
+    def __str__(self):
+        return self.job_title.name

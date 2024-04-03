@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap5',
     'django_admin_generator',
+    'import_export',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
