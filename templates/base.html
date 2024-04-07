@@ -20,74 +20,96 @@
       <link rel="stylesheet" href="{% static 'css/base.css' %}">
       
   </head>
-
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <div class="col-2 sidebar d-flex flex-column m-0 p-3" id="sidebar">
-          <!-- Toggle Button -->
-          <button class=" btn btn-dark mb-3 align-self-start" style="background-color: #181a1b;" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-          </button>
-          <!-- Sidebar Items -->
-          <div class="d-flex flex-column justify-content-between pt-4 pb-4" style="height:100%;" id="sidebar-content">
-            <div class="list-group text-nowrap">
-              <a href="{% url "home" %}" class="list-group-item list-group-item-action sidebar-item">
-                <i class="fas fa-home"></i>
-                <span>Home</span>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action sidebar-item">
-                <i class="fas fa-user"></i>
-                <span>Profile</span>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action sidebar-item">
-                <i class="fas fa-envelope"></i>
-                <span>Messages</span>
-              </a>
-            </div>
-            <div class="changed-list">
-              {% block sidecontent %}
-              {% endblock sidecontent %}
-            </div>
-            <div class="list-group text-nowrap align-items-end"> 
-              <a href="{% url "settings" %}" class="list-group-item list-group-item-action sidebar-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>Settings</span>
-              </a>
-              <form method="post" action="{% url 'logout' %}" class="list-group-item list-group-item-action sidebar-item ">
-                {% csrf_token %}
-                <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">
-                  <i class="fa-solid fa-right-from-bracket"></i>
-                  <span>Logout</span>
-                </button>
-              </form> 
+  {% if user.is_authenticated %}
+    <body>
+      <div class="container-fluid">
+        <div class="row">
+          {% if user.is_authenticated %}
+          <!-- Sidebar -->
+          <div class="col-2 sidebar d-flex flex-column m-0 p-3" id="sidebar">
+            <!-- Toggle Button -->
+            <button class=" btn btn-dark mb-3 align-self-start" style="background-color: #181a1b;" onclick="toggleSidebar()">
+              <i class="fas fa-bars"></i>
+            </button>
+            <!-- Sidebar Items -->
+            <div class="d-flex flex-column justify-content-between pt-4 pb-4" style="height:100%;" id="sidebar-content">
+              <div class="list-group text-nowrap">
+                <a href="{% url "home" %}" class="list-group-item list-group-item-action sidebar-item">
+                  <i class="fas fa-home"></i>
+                  <span>Home</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                  <i class="fas fa-user"></i>
+                  <span>Profile</span>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action sidebar-item">
+                  <i class="fas fa-envelope"></i>
+                  <span>Messages</span>
+                </a>
+              </div>
+              <div class="changed-list">
+                {% block sidecontent %}
+                {% endblock sidecontent %}
+              </div>
+              <div class="list-group text-nowrap align-items-end"> 
+                <a href="{% url "settings" %}" class="list-group-item list-group-item-action sidebar-item">
+                  <i class="fa-solid fa-gear"></i>
+                  <span>Settings</span>
+                </a>
+                <form method="post" action="{% url 'logout' %}" class="list-group-item list-group-item-action sidebar-item ">
+                  {% csrf_token %}
+                  <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                  </button>
+                </form> 
+              </div>
             </div>
           </div>
-        </div>
-        <!-- Main Content -->
-        <div class="col-10" style="height: 100vh;">
-          {% block content %}
-          {% endblock content %}
+          {% else %}
+          <div class="">
+
+          </div>
+          {% endif %}
+          <!-- Main Content -->
+          <div class="col-10" style="height: 100vh;">
+            {% block content %}
+            {% endblock content %}
+          </div>
         </div>
       </div>
-    </div>
 
-      <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-      <script src="{% static 'js/all.min.js' %}"></script>
-      <!-- <script src="https://unpkg.com/htmx.org@1.1.0"></script> -->
-      <script src="{% static 'js/htmx.min.js' %}"></script>
-      <script>
-          document.body.addEventListener('htmx:configRequest', (event) => {
-              event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
-          });
-      </script>
-      <!-- Custom Script -->
-      <script>
-        function toggleSidebar() {
-          var sidebar = document.getElementById('sidebar');
-          sidebar.classList.toggle('sidebar-minimized');
-        }
-      </script>
-  </body>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/all.min.js' %}"></script>
+        <!-- <script src="https://unpkg.com/htmx.org@1.1.0"></script> -->
+        <script src="{% static 'js/htmx.min.js' %}"></script>
+        <script>
+            document.body.addEventListener('htmx:configRequest', (event) => {
+                event.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+            });
+        </script>
+        <!-- Custom Script -->
+        <script>
+          function toggleSidebar() {
+            var sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('sidebar-minimized');
+          }
+        </script>
+    </body>
+  {% else %}
+    {% load crispy_forms_tags %}
+    <!-- Show login box in the middle of the screen -->
+    <body style="display: flex; justify-content: center; align-items: center; height: 100vh;">
+      <div style="width: 300px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; background-color: #f9f9f9;">
+          <!-- Include your login page content here -->
+          <h2>Log In</h2>
+          <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <button type="submit" class="btn btn-success"> Log In </button>
+          </form>
+          <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+      </div>
+    </body>
+  {% endif %}
 </html>
