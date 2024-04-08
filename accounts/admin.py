@@ -4,7 +4,6 @@ from django.contrib import admin
 
 import accounts.models as models
 
-
 class JobTitleAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     list_display = ('id', 'name')

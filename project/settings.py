@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5',
     'django_admin_generator',
     'import_export',
+    'login_history',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",

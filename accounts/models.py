@@ -112,5 +112,3 @@ def update_job_title_history(sender, instance, **kwargs):
             end=None
         )
         print("created")
-
-
