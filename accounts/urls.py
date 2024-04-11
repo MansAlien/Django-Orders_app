@@ -1,8 +1,9 @@
 from django.urls import path
-from .views import SignUpView
+from .views import SignUpView, EmployeeView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
+    path('employee_list/', EmployeeView.as_view(), name="employee_list"),
     path('signup/', SignUpView.as_view(), name='signup'),
 
     # Password reset links (refers to django.contrib.auth.views)

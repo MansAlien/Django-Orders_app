@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login History</title>
+</head>
+<body>
+    <h1>Login History</h1>
+    <ul>
+        {% for day, hours, minutes in paired_records %}
+        <li>
+            <strong>Date:</strong> {{ day }}<br>
+            <strong>Total Duration:</strong> {{ hours }} hours {{ minutes }} minutes
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+

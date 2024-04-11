@@ -8,15 +8,25 @@
         hx-get="{% url "category_list" %}"
         hx-target="#settings_content"
         hx-trigger="click"
-        hx-swap="outerHTML"
+        hx-swap="innerHtml"
         class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
         <i class="fa-solid fa-circle-plus" ></i>
         <span>category</span>
       </div>
+      <div 
+        hx-get="{% url "employee_list" %}"
+        hx-target="#settings_content"
+        hx-trigger="click"
+        hx-swap="innerHtml"
+        class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
+        <i class="fa-solid fa-circle-plus" ></i>
+        <span>Employee</span>
+      </div>
     </div>
+
   {% endblock sidecontent %}
 
   {% block content %}
-    <div id="settings_content"></div>
+    <div id="settings_content" class="p-5" style="width: 100%; height: 100%;"></div>
   {% endblock content %}
 
