@@ -21,3 +21,19 @@ def employee_view(request):
     }
     return render(request, "settings/employee/employee.html", context) 
 
+def employee_detail_view(request, pk):
+    user = UserProfile.objects.get(id=pk)
+    context = {
+            "user":user,
+    }
+    return render(request, "settings/employee/employee_detail.html", context) 
+
+def tab_one(request):
+    return render(request, 'settings/employee/tabs/tab_one.html')
+
+def tab_two(request):
+    return render(request, 'settings/employee/tabs/tab_two.html')
+
+def tab_three(request):
+    return render(request, 'settings/employee/tabs/tab_three.html')
+

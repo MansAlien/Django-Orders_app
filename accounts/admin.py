@@ -68,6 +68,12 @@ class SalaryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
     list_display = ('id', 'user_profile', 'amount', 'start', 'end')
     list_filter = ('id', 'user_profile', 'amount', 'start', 'end') 
+
+
+class DeductionAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+
+    list_display = ('id', 'user_profile', 'name', 'amount')
+    list_filter = ('id', 'user_profile', 'name', 'amount') 
 #class DepartmentHistoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 #    list_display = ('id', 'user_profile', 'start', 'end')
@@ -92,3 +98,4 @@ _register(models.City, CityAdmin)
 _register(models.UserProfile, UserProfileAdmin)
 _register(models.JobTitleHistory, JobTitleHistoryAdmin)
 _register(models.SalaryHistory, SalaryAdmin)
+_register(models.Deduction, DeductionAdmin)

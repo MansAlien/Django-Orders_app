@@ -1,24 +1,38 @@
-<div class="row h-100" >
-  <div class="bg-white">
-    <table class="table table-striped">
+<style>
+th {
+    cursor: pointer;
+}
+</style>
+
+<div class="row h-100">
+  <div class="">
+    <table class="table table-dark table-striped" id="sortable-table">
       <thead>
         <tr>
-          <th scope="col">id</th>
-          <th scope="col">username</th>
-          <th scope="col">name</th>
-          <th scope="col">age</th>
-          <th scope="col">gender</th>
-          <th scope="col">jobtitle</th>
-          <th scope="col">salary</th>
-          <th scope="col">O/F</th>
-          <th scope="col">Edit</th>
+          <th scope="col" onclick="sortTable(0)" class="sortable">id <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(1)" class="sortable">username <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(2)" class="sortable">name <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(3)" class="sortable">age <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(4)" class="sortable">gender <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(5)" class="sortable">jobtitle <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(6)" class="sortable">salary <span class="sort-arrow"></span></th>
+          <th scope="col" onclick="sortTable(7)" class="sortable">O/F <span class="sort-arrow"></span></th>
+          <th scope="col">is_active</th>
         </tr>
       </thead>
       <tbody>
         {% for user in userprofile_list %}
         <tr>
-          <td>{{ user.user.id }}</td>
-          <td>{{ user.user.username }}</td>
+          <td>{{ user.id }}</td>
+          <td>
+            <div 
+              hx-get="{% url "employee_detail" user.id %}"
+              hx-target="#settings_content"
+              hx-trigger="click"
+              hx-swap="innerHtml"
+              style="cursor: pointer;">
+              <span class="fw-bold">{{ user.user.username }}</span> </div>
+          </td>
           <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
           <td>{{ user.age }}</td>
           <td>{{ user.get_gender_display }}</td>
@@ -33,10 +47,90 @@
               <span style="color: #e13333;"> Offline </span>
             {% endif %}
           </td>
-          <td>{{ login_history }}</td>
+          <td>
+            {% if user.user.is_active %}
+              <span style="color: #63E6BE;"> Active </span>
+            {% else %}
+              <span style="color: #e13333;"> Inactive </span>
+            {% endif %}
+          </td> 
         </tr>
         {% endfor %}
       </tbody>
-    </table> 
+    </table>
   </div>
 </div>
+
+<style>
+.sortable {
+    cursor: pointer;
+}
+
+.sort-arrow {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    margin-left: 5px;
+    border-width: 5px 4px 0 4px;
+    border-color: #000 transparent transparent transparent;
+}
+
+.sort-arrow.desc {
+    border-width: 0 4px 5px 4px;
+    border-color: transparent transparent #000 transparent;
+}
+</style>
+
+<script>
+var sortOrders = []; // array to store sort orders for each column
+
+function sortTable(columnIndex) {
+    var table, rows, switching, i, x, y, shouldSwitch, sortOrder;
+    table = document.getElementById("sortable-table");
+    switching = true;
+    
+    // Initialize sort order for this column
+    if (!sortOrders[columnIndex]) {
+        sortOrders[columnIndex] = 'asc'; // default: ascending
+    } else {
+        sortOrders[columnIndex] = (sortOrders[columnIndex] === 'asc') ? 'desc' : 'asc'; // toggle sort order
+    }
+    sortOrder = sortOrders[columnIndex];
+    
+    while (switching) {
+        switching = false;
+        rows = table.rows;
+        for (i = 1; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            x = rows[i].getElementsByTagName("td")[columnIndex];
+            y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+            if (sortOrder === 'asc') {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            } else {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                }
+            }
+        }
+        if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+        }
+    }
+    
+    // Update sort arrow
+    var sortArrows = document.querySelectorAll('.sort-arrow');
+    for (var j = 0; j < sortArrows.length; j++) {
+        sortArrows[j].classList.remove('desc');
+    }
+    if (sortOrder === 'desc') {
+        sortArrows[columnIndex].classList.add('desc');
+    }
+}
+</script>
+
