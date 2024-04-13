@@ -52,6 +52,7 @@ class UserProfile(models.Model):
     start = models.DateField(null=True)
     address = models.TextField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER, default="M")
+    age = models.PositiveIntegerField(null=True)
 
     def __str__(self):
         return self.user.username

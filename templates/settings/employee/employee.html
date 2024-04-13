@@ -3,19 +3,39 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <th scope="col">#</th>
-          <th scope="col">First</th>
-          <th scope="col">Last</th>
-          <th scope="col">Handle</th>
+          <th scope="col">id</th>
+          <th scope="col">username</th>
+          <th scope="col">name</th>
+          <th scope="col">age</th>
+          <th scope="col">gender</th>
+          <th scope="col">jobtitle</th>
+          <th scope="col">salary</th>
+          <th scope="col">O/F</th>
+          <th scope="col">Edit</th>
         </tr>
       </thead>
       <tbody>
+        {% for user in userprofile_list %}
         <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+          <td>{{ user.user.id }}</td>
+          <td>{{ user.user.username }}</td>
+          <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
+          <td>{{ user.age }}</td>
+          <td>{{ user.get_gender_display }}</td>
+          <td>{{ user.job_title }}</td>
+          <td>0 EG</td>
+          <td>
+            {% if user.user.username in login_history %}
+              <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
+              <span style="color: #63E6BE;"> Online </span>
+            {% else %}
+              <i class="fa-solid fa-circle" style="color: #e13333;"></i>
+              <span style="color: #e13333;"> Offline </span>
+            {% endif %}
+          </td>
+          <td>{{ login_history }}</td>
         </tr>
+        {% endfor %}
       </tbody>
     </table> 
   </div>
