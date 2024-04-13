@@ -53,6 +53,7 @@ class UserProfile(models.Model):
     address = models.TextField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER, default="M")
     age = models.PositiveIntegerField(null=True)
+    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
 
     def __str__(self):
         return self.user.username
@@ -101,9 +102,6 @@ def update_job_title_history(sender, instance, **kwargs):
         if last_job_title_history:
             last_job_title_history.end = timezone.now()
             last_job_title_history.save()
-            print(last_job_title_history.end)
-            print(last_job_title_history.id)
-            print("done")
         
         # Create a new job title history record
         JobTitleHistory.objects.create(
@@ -112,4 +110,45 @@ def update_job_title_history(sender, instance, **kwargs):
             start=timezone.now(),
             end=None
         )
-        print("created")
+
+class SalaryHistory(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    start = models.DateTimeField()
+    end = models.DateTimeField(null=True)
+
+    def __str__(self):
+        return f"{self.user_profile} - {self.amount} - {self.start}"
+
+@receiver(pre_save, sender=UserProfile)
+def update_salary_history(sender, instance, **kwargs):
+    try:
+        old_instance = UserProfile.objects.get(pk=instance.pk)
+    except UserProfile.DoesNotExist:
+        # If UserProfile instance is being created, no need to update salary history
+        return 
+    
+    # Check if salary has changed
+    if old_instance.salary != instance.salary:
+        # If salary changed, update the end date of the last salary history
+        last_salary_history = SalaryHistory.objects.filter(user_profile=instance).order_by('start').last()
+        if last_salary_history:
+            last_salary_history.end = timezone.now()
+            last_salary_history.save()
+        
+        # Create a new salary history record
+        SalaryHistory.objects.create(
+            user_profile=instance,
+            amount=instance.salary,
+            start=timezone.now(),
+            end=None
+        )
+
+class Deduction(models.Model):
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return self.name
+

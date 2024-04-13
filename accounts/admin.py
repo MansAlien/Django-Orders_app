@@ -50,6 +50,7 @@ class UserProfileAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'start',
         'address',
         'gender',
+        'salary',
     )
     list_filter = (
         'user',
@@ -60,9 +61,13 @@ class UserProfileAdmin(ImportExportModelAdmin, admin.ModelAdmin):
         'id',
         'address',
         'gender',
+        'salary',
     )
 
+class SalaryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
+    list_display = ('id', 'user_profile', 'amount', 'start', 'end')
+    list_filter = ('id', 'user_profile', 'amount', 'start', 'end') 
 #class DepartmentHistoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 
 #    list_display = ('id', 'user_profile', 'start', 'end')
@@ -86,3 +91,4 @@ _register(models.Governorate, GovernorateAdmin)
 _register(models.City, CityAdmin)
 _register(models.UserProfile, UserProfileAdmin)
 _register(models.JobTitleHistory, JobTitleHistoryAdmin)
+_register(models.SalaryHistory, SalaryAdmin)
