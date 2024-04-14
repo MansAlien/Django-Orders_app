@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignUpView, EmployeeView, employee_view, employee_detail_view, tab_one, tab_two, tab_three
+from .views import SignUpView, EmployeeView, employee_view, employee_detail_view, info, log, permissions
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -16,9 +16,9 @@ urlpatterns = [
 htmx_urlpatterns = [
     path('employee_list/', employee_view, name="employee_list"),
     path('employee_list/<int:pk>', employee_detail_view, name="employee_detail"),
-    path('tab_one', tab_one, name='tab_one'),
-    path('tab_two/', tab_two, name='tab_two'),
-    path('tab_three/', tab_three, name='tab_three'),
+    path('info', info, name='info'),
+    path('log/', log, name='log'),
+    path('permissions/', permissions, name='permissions'),
 ]
 
 urlpatterns += htmx_urlpatterns

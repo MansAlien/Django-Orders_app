@@ -4,60 +4,108 @@ th {
 }
 </style>
 
-<div class="row h-100">
-  <div class="">
-    <table class="table table-dark table-striped" id="sortable-table">
-      <thead>
-        <tr>
-          <th scope="col" onclick="sortTable(0)" class="sortable">id <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(1)" class="sortable">username <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(2)" class="sortable">name <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(3)" class="sortable">age <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(4)" class="sortable">gender <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(5)" class="sortable">jobtitle <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(6)" class="sortable">salary <span class="sort-arrow"></span></th>
-          <th scope="col" onclick="sortTable(7)" class="sortable">O/F <span class="sort-arrow"></span></th>
-          <th scope="col">is_active</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for user in userprofile_list %}
-        <tr>
-          <td>{{ user.id }}</td>
-          <td>
-            <div 
-              hx-get="{% url "employee_detail" user.id %}"
-              hx-target="#settings_content"
-              hx-trigger="click"
-              hx-swap="innerHtml"
-              style="cursor: pointer;">
-              <span class="fw-bold">{{ user.user.username }}</span> </div>
-          </td>
-          <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
-          <td>{{ user.age }}</td>
-          <td>{{ user.get_gender_display }}</td>
-          <td>{{ user.job_title }}</td>
-          <td>{{ user.salary }} EG</td>
-          <td>
-            {% if user.user.username in login_history %}
-              <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
-              <span style="color: #63E6BE;"> Online </span>
-            {% else %}
-              <i class="fa-solid fa-circle" style="color: #e13333;"></i>
-              <span style="color: #e13333;"> Offline </span>
-            {% endif %}
-          </td>
-          <td>
-            {% if user.user.is_active %}
-              <span style="color: #63E6BE;"> Active </span>
-            {% else %}
-              <span style="color: #e13333;"> Inactive </span>
-            {% endif %}
-          </td> 
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+<div class="h-100">
+  <div class='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
+    <div class="col mb-3">
+      <div class="card bg-dark pb-2" style="border-left: 3px solid #28a745;">
+          <div class="card-body text-white fs-5 ">
+            <h5 class="card-title text-success m-0">Online</h5>
+            <div class='d-flex justify-content-between pt-2'>
+              <p class="card-text ps-2"> {{ online }} </p>
+              <i class="fs-4 fa-solid fa-signal-bars" style="--fa-primary-color: #ffffff; --fa-secondary-color: #ffffff;"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col mb-3">
+      <div class="card bg-dark pb-2" style="border-left: 3px solid #28a745;">
+          <div class="card-body text-white fs-5 ">
+            <h5 class="card-title text-success m-0">Activte</h5>
+            <div class='d-flex justify-content-between pt-2'>
+              <p class="card-text ps-2"> {{ active }} </p>
+              <i class="fs-4 fa-solid fa-check" style="color: #ffffff;"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col mb-3">
+      <div class="card bg-dark pb-2" style="border-left: 3px solid #DC4C64;">
+          <div class="card-body text-white fs-5 ">
+            <h5 class="card-title text-danger m-0">Offline</h5>
+            <div class='d-flex justify-content-between pt-2'>
+              <p class="card-text ps-2"> {{ offline }} </p>
+              <i class="fs-4 fa-solid fa-signal-slash" style="--fa-primary-color: #ffffff; --fa-secondary-color: #ffffff;"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+    <div class="col mb-3">
+      <div class="card bg-dark pb-2" style="border-left: 3px solid #DC4C64;">
+          <div class="card-body text-white fs-5 ">
+            <h5 class="card-title text-danger m-0">Inactive</h5>
+            <div class='d-flex justify-content-between pt-2'>
+              <p class="card-text ps-2"> {{ inactive }} </p>
+              <i class="fs-4 fa-solid fa-xmark" style="color: #ffffff;"></i>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <table class="table table-dark table-striped" id="sortable-table">
+        <thead>
+          <tr>
+            <th scope="col" onclick="sortTable(0)" class="sortable">id <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(1)" class="sortable">username <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(2)" class="sortable">name <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(3)" class="sortable">age <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(4)" class="sortable">gender <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(5)" class="sortable">jobtitle <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(6)" class="sortable">salary <span class="sort-arrow"></span></th>
+            <th scope="col" onclick="sortTable(7)" class="sortable">O/F <span class="sort-arrow"></span></th>
+            <th scope="col">is_active</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in userprofile_list %}
+          <tr>
+            <td>{{ user.id }}</td>
+            <td>
+              <div 
+                hx-get="{% url "employee_detail" user.id %}"
+                hx-target="#settings_content"
+                hx-trigger="click"
+                hx-swap="innerHtml"
+                style="cursor: pointer;">
+                <span class="fw-bold">{{ user.user.username }}</span> </div>
+            </td>
+            <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
+            <td>{{ user.age }}</td>
+            <td>{{ user.get_gender_display }}</td>
+            <td>{{ user.job_title }}</td>
+            <td>{{ user.salary }} EG</td>
+            <td>
+              {% if user.user.username in login_history %}
+                <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
+                <span style="color: #63E6BE;"> Online </span>
+              {% else %}
+                <i class="fa-solid fa-circle" style="color: #e13333;"></i>
+                <span style="color: #e13333;"> Offline </span>
+              {% endif %}
+            </td>
+            <td>
+              {% if user.user.is_active %}
+                <span style="color: #63E6BE;"> Active </span>
+              {% else %}
+                <span style="color: #e13333;"> Inactive </span>
+              {% endif %}
+            </td> 
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
 

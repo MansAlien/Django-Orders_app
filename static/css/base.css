@@ -32,6 +32,16 @@ body {
     transition: all 0.3s;
   }
 
+@media (max-width: 991.98px) { /* Medium screens */
+  .sidebar {
+    width: 80px; /* Set the width as desired for small screens */
+  }
+  .sidebar .sidebar-item span {
+    display: none;
+    margin-left: 0;
+  }
+}
+
 .list-group {
     background-color: #181a1b;
 }
