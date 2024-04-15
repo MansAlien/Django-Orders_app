@@ -5,7 +5,7 @@ from .models import UserProfile
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserCreationForm, UserProfileForm
+from .forms import UserCreationForm
 from django.http import JsonResponse
 
 class EmployeeView(ListView):
@@ -22,24 +22,11 @@ def create_user(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            user = form.save() 
-            return redirect('user_profile', pk=user.id)
-    else:
-        form = UserCreationForm()
-    return render(request, 'settings/employee/modals/create_user.html', {'form': form})
-
-def user_profile(request, pk):
-    user = User.objects.get(id=pk)
-    profile = UserProfile.objects.get(user=user)
-    if request.method == "POST":
-        form = UserProfileForm(request.POST, instance=profile)
-        if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={'HX-Trigger': 'table_refresh'})
-            # Redirect or do whatever you need after the update
     else:
-        form = UserProfileForm(instance=profile)
-    return render(request, 'settings/employee/modals/create_user_profile.html', {'form': form})
+        form = UserCreationForm()
+    return render(request, 'settings/employee/modals/table.html', {'form': form})
 
 def table_refresh(request):
     user_profile = UserProfile.objects.all()
