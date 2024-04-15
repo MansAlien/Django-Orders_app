@@ -1,8 +1,10 @@
+
 <style>
 th {
     cursor: pointer;
 }
 </style>
+  
 
 <div class="h-100">
   <div class='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
@@ -51,6 +53,17 @@ th {
       </div>
     </div>
   </div>
+  <div class="mt-3 mb-3">
+    <button hx-get="{% url 'create_user' %}" hx-target="#dialog" class="btn btn-primary">
+      Add a movie
+    </button>
+
+    <div id="modal" class="modal fade">
+      <div id="dialog" class="modal-dialog" hx-target="this"></div>
+    </div>
+  </div>
+
+
   <div class="row">
     <div class="col">
       <table class="table table-dark table-striped" id="sortable-table">
@@ -67,46 +80,13 @@ th {
             <th scope="col">is_active</th>
           </tr>
         </thead>
-        <tbody>
-          {% for user in userprofile_list %}
-          <tr>
-            <td>{{ user.id }}</td>
-            <td>
-              <div 
-                hx-get="{% url "employee_detail" user.id %}"
-                hx-target="#settings_content"
-                hx-trigger="click"
-                hx-swap="innerHtml"
-                style="cursor: pointer;">
-                <span class="fw-bold">{{ user.user.username }}</span> </div>
-            </td>
-            <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
-            <td>{{ user.age }}</td>
-            <td>{{ user.get_gender_display }}</td>
-            <td>{{ user.job_title }}</td>
-            <td>{{ user.salary }} EG</td>
-            <td>
-              {% if user.user.username in login_history %}
-                <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
-                <span style="color: #63E6BE;"> Online </span>
-              {% else %}
-                <i class="fa-solid fa-circle" style="color: #e13333;"></i>
-                <span style="color: #e13333;"> Offline </span>
-              {% endif %}
-            </td>
-            <td>
-              {% if user.user.is_active %}
-                <span style="color: #63E6BE;"> Active </span>
-              {% else %}
-                <span style="color: #e13333;"> Inactive </span>
-              {% endif %}
-            </td> 
-          </tr>
-          {% endfor %}
+        <tbody hx-trigger="load, table_refresh from:body" hx-get="{% url 'table_refresh' %}" hx-target="this" >
+
         </tbody>
       </table>
     </div>
   </div>
+  
 </div>
 
 <style>
@@ -180,5 +160,34 @@ function sortTable(columnIndex) {
         sortArrows[columnIndex].classList.add('desc');
     }
 }
+
+const modal = new bootstrap.Modal(document.getElementById("modal"))
+
+htmx.on("htmx:afterSwap", (e) => {
+  // Response targeting #dialog => show the modal
+  if (e.detail.target.id == "dialog") {
+    modal.show()
+  }
+})
+
+htmx.on("htmx:beforeSwap", (e) => {
+  // Empty response targeting #dialog => hide the modal
+  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+    modal.hide()
+    e.detail.shouldSwap = false
+  }
+})
+
+htmx.on("hidden.bs.modal", () => {
+  document.getElementById("dialog").innerHTML = ""
+})
+
+window.addEventListener('DOMContentLoaded', (event) => {
+    // Delay autofocus by 500 milliseconds (adjust the delay as needed)
+    setTimeout(() => {
+        document.querySelector('#elementToFocus').focus();
+    }, 500);
+});
+
 </script>
 

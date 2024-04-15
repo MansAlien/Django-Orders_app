@@ -1,25 +1,49 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect 
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, ListView
 from .models import UserProfile 
-from django.contrib.auth.models import User
 from login_history.models import LoginHistory
-
-class SignUpView(CreateView):
-    success_url = reverse_lazy("login")
-    template_name = "registration/signup.html"
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+from .forms import UserCreationForm
+from django.http import JsonResponse
 
 class EmployeeView(ListView):
     model = UserProfile
     template_name = "settings/employee/employee.html"
 
+class SignUpView(CreateView):
+   form_class = UserCreationForm
+   success_url = reverse_lazy("admin:index")
+   template_name = "registration/signup.html"
+
+
+def create_user(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'table_refresh'})
+    else:
+        form = UserCreationForm()
+    return render(request, 'registration/modal_content.html', {'form': form})
+
+def table_refresh(request):
+    user_profile = UserProfile.objects.all()
+    logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
+    context = {
+        "userprofile_list": user_profile,
+        "login_history": logged_in_users,
+    }
+    return render(request, "settings/employee/table.html", context) 
+
 def employee_view(request):
     user_profile = UserProfile.objects.all()
+    logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
     active = User.objects.filter(is_active=True).count()
     inactive = User.objects.filter(is_active=False).count()
     online = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True).count()
     offline = active - online
-    logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
     context = {
         "userprofile_list": user_profile,
         "login_history": logged_in_users,
@@ -29,6 +53,8 @@ def employee_view(request):
         "offline":offline,
     }
     return render(request, "settings/employee/employee.html", context) 
+
+
 
 def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
@@ -46,3 +72,9 @@ def log(request):
 def permissions(request):
     return render(request, 'settings/employee/tabs/permissions.html')
 
+
+def modal_view(request):
+    return render(request, 'settings/employee/modals/modal.html')
+
+def step2_view(request):
+    return HttpResponse('{% csrf_token %} <p>This is Step 2 content loaded via HTMX.</p>')
