@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignUpView, EmployeeView, employee_view, employee_detail_view, info, log, permissions, modal_view, step2_view, create_user, table_refresh, user_profile
+from .views import SignUpView, EmployeeView, employee_view, employee_detail_view, info, log, permissions, modal_view, step2_view, create_user, table_refresh, user_profile, cards
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -26,6 +26,7 @@ htmx_urlpatterns = [
 
 
     path('table_refresh/', table_refresh, name='table_refresh'),
+    path('cards/', cards, name='cards'),
     path('create-user/', create_user, name='create_user'),
     path('user_profile/<int:pk>', user_profile, name='user_profile'),
 

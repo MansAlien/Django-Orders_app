@@ -35,7 +35,7 @@ def user_profile(request, pk):
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=204, headers={'HX-Trigger': 'table_refresh'})
+            return HttpResponse(status=204, headers={'HX-Trigger': 'table_refresh, cards'})
             # Redirect or do whatever you need after the update
     else:
         form = UserProfileForm(instance=profile)
@@ -49,6 +49,21 @@ def table_refresh(request):
         "login_history": logged_in_users,
     }
     return render(request, "settings/employee/table.html", context) 
+
+def cards(request):
+    active = User.objects.filter(is_active=True).count()
+    inactive = User.objects.filter(is_active=False).count()
+    online = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True).count()
+    offline = active - online
+    context = {
+        "active":active,
+        "inactive":inactive,
+        "online":online,
+        "offline":offline,
+    }
+    return render(request, "settings/employee/cards.html", context) 
+
+
 
 def employee_view(request):
     user_profile = UserProfile.objects.all()
