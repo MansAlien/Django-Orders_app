@@ -93,6 +93,8 @@
             sidebar.classList.toggle('sidebar-minimized');
           }
         </script>
+        {% block script %}
+        {% endblock script %}
     </body>
   {% else %}
     {% load crispy_forms_tags %}

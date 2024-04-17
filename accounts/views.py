@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect 
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, ListView
+from django.views.generic import  TemplateView, ListView
+from django.views.generic.edit import  CreateView, UpdateView
 from .models import UserProfile, JobTitleHistory, SalaryHistory
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .forms import UserCreationForm, UserProfileForm
 from django.http import JsonResponse
+from django.http import HttpResponseRedirect
+
 
 class EmployeeView(ListView):
     model = UserProfile
@@ -27,6 +30,33 @@ def create_user(request):
     else:
         form = UserCreationForm()
     return render(request, 'settings/employee/modals/create_user.html', {'form': form})
+
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = "settings/employee/modals/edit_user.html"
+    fields = ['first_name', 'last_name', 'username', 'email', 'is_active']
+
+    def get_success_url(self):
+        user_id = self.object.id
+        return reverse_lazy("edit_user", kwargs={'pk': user_id})
+
+class UserProfileUpdateView(UpdateView):
+    model = UserProfile
+    template_name = "settings/employee/modals/edit_user_profile.html"
+    fields = ['job_title', 'city', 'date_of_birth', 'start', 'address', 'gender', 'age', 'salary']
+
+    def get_success_url(self):
+        user_id = self.object.id
+        # Add a query parameter to indicate that the page should be refreshed
+        return reverse_lazy("edit_user_profile", kwargs={'pk': user_id}) + '?refresh=true'
+
+    def dispatch(self, request, *args, **kwargs):
+        response = super().dispatch(request, *args, **kwargs)
+        
+        # Check if the request is an AJAX request (HX trigger)
+        if request.is_ajax():
+            response['HX-Trigger'] = 'update-success'
+        return response
 
 def user_profile(request, pk):
     user = User.objects.get(id=pk)

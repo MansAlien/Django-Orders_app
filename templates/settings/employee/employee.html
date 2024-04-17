@@ -16,9 +16,11 @@ th {
       Add Employee
     </button>
 
-    <div id="modal" class="modal fade">
-      <div id="dialog" class="modal-dialog" hx-target="this"></div>
-    </div>
+    {% block modal %}
+      <div id="modal" class="modal fade">
+        <div id="dialog" class="modal-dialog" hx-target="this"></div>
+      </div>
+    {% endblock modal %}
   </div>
 
 
@@ -68,89 +70,91 @@ th {
 }
 </style>
 
-<script>
-if (typeof modal !== 'undefined' && modal) {
-    modal.dispose(); // Remove the existing modal
-}
-
-// Define the modal
-var modal = new bootstrap.Modal(document.getElementById("modal"));
-
-var sortOrders = []; // array to store sort orders for each column
-
-function sortTable(columnIndex) {
-    var table, rows, switching, i, x, y, shouldSwitch, sortOrder;
-    table = document.getElementById("sortable-table");
-    switching = true;
-    
-    // Initialize sort order for this column
-    if (!sortOrders[columnIndex]) {
-        sortOrders[columnIndex] = 'asc'; // default: ascending
-    } else {
-        sortOrders[columnIndex] = (sortOrders[columnIndex] === 'asc') ? 'desc' : 'asc'; // toggle sort order
-    }
-    sortOrder = sortOrders[columnIndex];
-    
-    while (switching) {
-        switching = false;
-        rows = table.rows;
-        for (i = 1; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            x = rows[i].getElementsByTagName("td")[columnIndex];
-            y = rows[i + 1].getElementsByTagName("td")[columnIndex];
-            if (sortOrder === 'asc') {
-                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                }
-            } else {
-                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                }
-            }
-        }
-        if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-        }
-    }
-    
-    // Update sort arrow
-    var sortArrows = document.querySelectorAll('.sort-arrow');
-    for (var j = 0; j < sortArrows.length; j++) {
-        sortArrows[j].classList.remove('desc');
-    }
-    if (sortOrder === 'desc') {
-        sortArrows[columnIndex].classList.add('desc');
-    }
-}
-
-
-htmx.on("htmx:afterSwap", (e) => {
-  // Response targeting #dialog => show the modal
-  if (e.detail.target.id == "dialog") {
-    modal.show();
+{% block script %}
+  <script>
+  if (typeof modal !== 'undefined' && modal) {
+      modal.dispose(); // Remove the existing modal
   }
-});
 
-htmx.on("htmx:beforeSwap", (e) => {
-  // Empty response targeting #dialog => hide the modal
-  if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-    modal.hide();
-    e.detail.shouldSwap = false;
+  // Define the modal
+  var modal = new bootstrap.Modal(document.getElementById("modal"));
+
+  var sortOrders = []; // array to store sort orders for each column
+
+  function sortTable(columnIndex) {
+      var table, rows, switching, i, x, y, shouldSwitch, sortOrder;
+      table = document.getElementById("sortable-table");
+      switching = true;
+      
+      // Initialize sort order for this column
+      if (!sortOrders[columnIndex]) {
+          sortOrders[columnIndex] = 'asc'; // default: ascending
+      } else {
+          sortOrders[columnIndex] = (sortOrders[columnIndex] === 'asc') ? 'desc' : 'asc'; // toggle sort order
+      }
+      sortOrder = sortOrders[columnIndex];
+      
+      while (switching) {
+          switching = false;
+          rows = table.rows;
+          for (i = 1; i < (rows.length - 1); i++) {
+              shouldSwitch = false;
+              x = rows[i].getElementsByTagName("td")[columnIndex];
+              y = rows[i + 1].getElementsByTagName("td")[columnIndex];
+              if (sortOrder === 'asc') {
+                  if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
+                  }
+              } else {
+                  if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                      shouldSwitch = true;
+                      break;
+                  }
+              }
+          }
+          if (shouldSwitch) {
+              rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+              switching = true;
+          }
+      }
+      
+      // Update sort arrow
+      var sortArrows = document.querySelectorAll('.sort-arrow');
+      for (var j = 0; j < sortArrows.length; j++) {
+          sortArrows[j].classList.remove('desc');
+      }
+      if (sortOrder === 'desc') {
+          sortArrows[columnIndex].classList.add('desc');
+      }
   }
-});
 
-htmx.on("hidden.bs.modal", () => {
-  document.getElementById("dialog").innerHTML = "";
-});
 
-window.addEventListener('DOMContentLoaded', (event) => {
-    // Delay autofocus by 500 milliseconds (adjust the delay as needed)
-    setTimeout(() => {
-        document.querySelector('#elementToFocus').focus();
-    }, 500);
-});
-</script>
+  htmx.on("htmx:afterSwap", (e) => {
+    // Response targeting #dialog => show the modal
+    if (e.detail.target.id == "dialog") {
+      modal.show();
+    }
+  });
+
+  htmx.on("htmx:beforeSwap", (e) => {
+    // Empty response targeting #dialog => hide the modal
+    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+      modal.hide();
+      e.detail.shouldSwap = false;
+    }
+  });
+
+  htmx.on("hidden.bs.modal", () => {
+    document.getElementById("dialog").innerHTML = "";
+  });
+
+  window.addEventListener('DOMContentLoaded', (event) => {
+      // Delay autofocus by 500 milliseconds (adjust the delay as needed)
+      setTimeout(() => {
+          document.querySelector('#elementToFocus').focus();
+      }, 500);
+  });
+  </script>
+{% endblock script %}
 
