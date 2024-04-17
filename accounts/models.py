@@ -53,7 +53,7 @@ class UserProfile(models.Model):
     address = models.TextField(null=True)
     gender = models.CharField(max_length=1, choices=GENDER, default="M")
     age = models.PositiveIntegerField(null=True)
-    salary = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    salary = models.PositiveIntegerField(null=True)
 
     def __str__(self):
         return self.user.username
@@ -79,46 +79,58 @@ class DepartmentHistory(models.Model):
 class JobTitleHistory(models.Model):
     job_title = models.ForeignKey(JobTitle, on_delete=models.SET_NULL, null=True)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True)
-    start = models.DateTimeField()
+    start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
 
     def __str__(self):
         return f"{self.user_profile} - {self.job_title} - {self.start}" 
 
+@receiver(post_save, sender=UserProfile)
+def create_job_title_history(sender, instance, created, **kwargs):
+    if created:
+        job_title = instance.job_title
+        start = instance.start 
+        JobTitleHistory.objects.create(job_title=job_title, user_profile=instance, start=start)
+
+@receiver(pre_save, sender=UserProfile)
+def update_first_job_title_history(sender, instance, **kwargs):
+    if instance.pk:  # Check if the instance is already in the database (i.e., being updated)
+        original_instance = UserProfile.objects.get(pk=instance.pk)
+        if original_instance.start != instance.start:
+            # Get the first job title history associated with the profile
+            first_job_title_history = instance.jobtitlehistory_set.first()
+            if first_job_title_history:
+                first_job_title_history.job_title = instance.job_title  # Update the job title
+                first_job_title_history.start = instance.start  # Update the start time
+                first_job_title_history.save()
+
 @receiver(pre_save, sender=UserProfile)
 def update_job_title_history(sender, instance, **kwargs):
-    try:
-        old_instance = UserProfile.objects.get(pk=instance.pk)
-        print(old_instance)
-    except UserProfile.DoesNotExist:
-        # If UserProfile instance is being created, no need to update job title history
-        return 
-    
-    # Check if job title has changed
-    if old_instance.job_title != instance.job_title:
-        # If job title changed, update the end date of the last job title history
-        last_job_title_history = JobTitleHistory.objects.filter(user_profile=instance).order_by('start').last()
-        print(JobTitleHistory.objects.filter(user_profile=instance).order_by('-start').all())
+    if instance.pk:  # Check if the instance is already in the database (i.e., being updated)
+        last_job_title_history = instance.jobtitlehistory_set.last()  # Get the last job title history
         if last_job_title_history:
-            last_job_title_history.end = timezone.now()
-            last_job_title_history.save()
-        
-        # Create a new job title history record
-        JobTitleHistory.objects.create(
-            user_profile=instance,
-            job_title=instance.job_title,
-            start=timezone.now(),
-            end=None
-        )
+            if last_job_title_history.job_title != instance.job_title:  # Check if job_title is changed
+                last_job_title_history.end = timezone.now()  # End the current job title period
+                last_job_title_history.save()
+                # Create a new JobTitleHistory with the new job title
+                JobTitleHistory.objects.create(
+                    job_title=instance.job_title,
+                    user_profile=instance,
+                    start=timezone.now()
+                )
+                # Cancel the saving process to prevent UserProfile changes
+                return
+
 
 class SalaryHistory(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    start = models.DateTimeField()
+    amount = models.PositiveIntegerField(null=True)
+    start = models.DateTimeField(null=True)
     end = models.DateTimeField(null=True)
 
     def __str__(self):
         return f"{self.user_profile} - {self.amount} - {self.start}"
+
 
 @receiver(pre_save, sender=UserProfile)
 def update_salary_history(sender, instance, **kwargs):
@@ -143,6 +155,17 @@ def update_salary_history(sender, instance, **kwargs):
             start=timezone.now(),
             end=None
         )
+
+@receiver(pre_save, sender=UserProfile)
+def update_first_salary_history(sender, instance, **kwargs):
+    if instance.pk:  # Check if the instance is already in the database (i.e., being updated)
+        original_instance = UserProfile.objects.get(pk=instance.pk)
+        if original_instance.start != instance.start:
+            # Get the first salary history associated with the profile
+            first_salary_history = instance.salaryhistory_set.first()
+            if first_salary_history:
+                first_salary_history.start = instance.start  # Update the start time
+                first_salary_history.save()
 
 class Deduction(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
