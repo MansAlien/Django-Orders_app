@@ -5,8 +5,9 @@ from .models import UserProfile
 
 
 class UserCreationForm(UserCreationForm):
-    email = forms.EmailField()
-    first_name = forms.CharField(max_length=30, required=True)
+    username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'username'}))
+    email = forms.EmailField(label='Email', max_length=100, widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
+    first_name = forms.CharField(label='First Name', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'given-name'}))
     last_name = forms.CharField(max_length=30, required=True)
     is_active = forms.BooleanField(required=False, initial=True)
 

@@ -1,0 +1,20 @@
+<h5 class="card-title">Job Title History</h5>
+<table class="table table-dark table-striped" id="sortable-table">
+  <thead>
+    <tr>
+      <th class="sortable">Job Title</th>
+      <th class="sortable">Start</th>
+      <th class="sortable">End</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for job_title in job_title_history %}
+    <tr>
+      <td>{{ job_title.job_title }}</td>
+      <td>{{ job_title.start|date:"Y-m-d" }}</td>
+      <td>{{ job_title.end|date:"Y-m-d" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+

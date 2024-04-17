@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect 
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView, ListView
-from .models import UserProfile 
+from .models import UserProfile, JobTitleHistory, SalaryHistory
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
@@ -48,7 +48,7 @@ def table_refresh(request):
         "userprofile_list": user_profile,
         "login_history": logged_in_users,
     }
-    return render(request, "settings/employee/table.html", context) 
+    return render(request, "settings/employee/tables/table.html", context) 
 
 def cards(request):
     active = User.objects.filter(is_active=True).count()
@@ -86,19 +86,15 @@ def employee_view(request):
 
 def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
+    job_title_history = JobTitleHistory.objects.filter(user_profile=user)
+    salary_history = SalaryHistory.objects.filter(user_profile=user)
+    print(salary_history)
     context = {
             "user":user,
+            "job_title_history":job_title_history,
+            "salary_history":salary_history,
     }
     return render(request, "settings/employee/employee_detail.html", context) 
-
-def info(request):
-    return render(request, 'settings/employee/tabs/info.html')
-
-def log(request):
-    return render(request, 'settings/employee/tabs/log.html')
-
-def permissions(request):
-    return render(request, 'settings/employee/tabs/permissions.html')
 
 def modal_view(request):
     return render(request, 'settings/employee/modals/modal.html')
