@@ -2,26 +2,9 @@ from django.http.response import HttpResponse
 from .models import LoginHistory 
 from accounts.models import UserProfile 
 from django.shortcuts import render
-
-def home(request):
-    if not request.user.is_authenticated:
-        return HttpResponse("<h1>Please login to see your login histories</h1>")\
-
-        
-    active_logins = request.user.active_logins
-
-    active_logins_html = ""
-    for login in active_logins:
-        active_logins_html += f'<li>{login.ip} - {login.date_time} - {login.user_agent}</li>'
-
-    return HttpResponse(
-    f"""
-        <h1>Active Logins</h1>
-        <ul>
-            {active_logins_html}
-        </ul>
-    """
-    )
+from datetime import timedelta
+from django.db.models import Sum
+from django.db.models.functions import TruncDate
 
 def login_time_test(request, pk):
     user_date = UserProfile.objects.get(id=pk)
@@ -33,19 +16,14 @@ def login_time_test(request, pk):
     }
     return render(request, "login_time.html", context) 
 
-from datetime import timedelta
-from django.db.models import Sum
-from django.db.models.functions import TruncDate
 
 def login_time(request, pk):
     user_date = UserProfile.objects.get(id=pk)
     # Fetch login and logout records ordered by timestamp
     login_records = LoginHistory.objects.filter(user=pk, is_login=True, is_logged_in=False).order_by('date_time')
     logout_records = LoginHistory.objects.filter(user=pk, is_login=False).order_by('date_time')
-    
     # Combine login and logout records into a single list
     records = [[login, logout] for login, logout in zip(login_records, logout_records)]
-    
     # Group records by day
     records_by_day = {}
     for record_pair in records:
@@ -70,4 +48,4 @@ def login_time(request, pk):
     context = {
         "paired_records": paired_records,
     }
-    return render(request, "login_time.html", context)
+    return render(request, "settings/employee/tables/login_time.html", context)
