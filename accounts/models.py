@@ -99,9 +99,14 @@ def update_first_job_title_history(sender, instance, **kwargs):
         if original_instance.start != instance.start:
             # Get the first job title history associated with the profile
             first_job_title_history = instance.jobtitlehistory_set.first()
-            if first_job_title_history:
+            if first_job_title_history and first_job_title_history.job_title == None:
+                first_job_title_history.job_title = instance.job_title  # Update the job title
                 first_job_title_history.start = instance.start  # Update the start time
                 first_job_title_history.save()
+            elif first_job_title_history.job_title != None:
+                first_job_title_history.start = instance.start  # Update the start time
+                first_job_title_history.save()
+                pass
 
 @receiver(pre_save, sender=UserProfile)
 def update_job_title_history(sender, instance, **kwargs):
