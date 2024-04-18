@@ -141,10 +141,12 @@ def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)
     salary_history = SalaryHistory.objects.filter(user_profile=user)
+    login_history = LoginHistory.objects.filter(user=user.user)
     context = {
             "user":user,
             "job_title_history":job_title_history,
             "salary_history":salary_history,
+            "login_history":login_history,
     }
     return render(request, "settings/employee/employee_detail.html", context) 
 

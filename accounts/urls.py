@@ -28,6 +28,8 @@ htmx_urlpatterns = [
     path('employee_list/<int:pk>/edit_user/', user_update_view, name='edit_user'),
     path('employee_list/<int:pk>/edit_user_profile/', user_update_profile, name='edit_user_profile'),
     path('user_profile/<int:pk>', user_profile, name='user_profile'),
+
+
     path('info/<int:pk>/', info_refresh, name='info_refresh'),
 
 ]

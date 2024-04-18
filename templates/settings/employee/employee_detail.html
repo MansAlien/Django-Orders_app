@@ -21,12 +21,13 @@
 <div class="tab-content h-100" id="myTabContent">
     <div
       hx-trigger="load, info from:body" hx-get="{% url 'info_refresh' user.user.id %}" hx-target="this"
-      class="tab-pane fade show active mt-4 h-100" id="home" role="tabpanel" aria-labelledby="home-tab">
+      class="tab-pane fade show active  h-100" id="home" role="tabpanel" aria-labelledby="home-tab">
     </div>
-    <div class="tab-pane fade mt-4" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+    <div
+      class="tab-pane fade  h-75" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       {% include "settings/employee/tabs/log.html" %}
     </div>
-    <div class="tab-pane fade mt-4" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+    <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
       {% include "settings/employee/tabs/permissions.html" %}
     </div>
 </div>
