@@ -100,7 +100,6 @@ def update_first_job_title_history(sender, instance, **kwargs):
             # Get the first job title history associated with the profile
             first_job_title_history = instance.jobtitlehistory_set.first()
             if first_job_title_history:
-                first_job_title_history.job_title = instance.job_title  # Update the job title
                 first_job_title_history.start = instance.start  # Update the start time
                 first_job_title_history.save()
 

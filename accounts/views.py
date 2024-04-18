@@ -6,9 +6,11 @@ from .models import UserProfile, JobTitleHistory, SalaryHistory
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserCreationForm, UserProfileForm
+from .forms import UserCreationForm, UserProfileForm, UserUpdateForm
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+
 
 
 class EmployeeView(ListView):
@@ -40,23 +42,20 @@ class UserUpdateView(UpdateView):
         user_id = self.object.id
         return reverse_lazy("edit_user", kwargs={'pk': user_id})
 
-class UserProfileUpdateView(UpdateView):
-    model = UserProfile
-    template_name = "settings/employee/modals/edit_user_profile.html"
-    fields = ['job_title', 'city', 'date_of_birth', 'start', 'address', 'gender', 'age', 'salary']
 
-    def get_success_url(self):
-        user_id = self.object.id
-        # Add a query parameter to indicate that the page should be refreshed
-        return reverse_lazy("edit_user_profile", kwargs={'pk': user_id}) + '?refresh=true'
 
-    def dispatch(self, request, *args, **kwargs):
-        response = super().dispatch(request, *args, **kwargs)
+def user_update_view(request, pk):
+    user_instance = get_object_or_404(User, pk=pk)
+    
+    if request.method == 'POST':
+        form = UserUpdateForm(request.POST, instance=user_instance)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'info'})
+    else:
+        form = UserUpdateForm(instance=user_instance)
         
-        # Check if the request is an AJAX request (HX trigger)
-        if request.is_ajax():
-            response['HX-Trigger'] = 'update-success'
-        return response
+    return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
 def user_profile(request, pk):
     user = User.objects.get(id=pk)
@@ -70,6 +69,30 @@ def user_profile(request, pk):
     else:
         form = UserProfileForm(instance=profile)
     return render(request, 'settings/employee/modals/create_user_profile.html', {'form': form})
+
+def user_update_profile(request, pk):
+    user = User.objects.get(id=pk)
+    profile = UserProfile.objects.get(user=user)
+    if request.method == "POST":
+        form = UserProfileForm(request.POST, instance=profile)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'info'})
+    else:
+        form = UserProfileForm(instance=profile)
+    return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
+
+def info_refresh(request, pk):
+    user = UserProfile.objects.get(id=pk)
+    job_title_history = JobTitleHistory.objects.filter(user_profile=user)
+    salary_history = SalaryHistory.objects.filter(user_profile=user)
+    context = {
+            "user":user,
+            "job_title_history":job_title_history,
+            "salary_history":salary_history,
+    }
+    return render(request, "settings/employee/tabs/info.html", context)
+
 
 def table_refresh(request):
     user_profile = UserProfile.objects.all()
@@ -118,7 +141,6 @@ def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)
     salary_history = SalaryHistory.objects.filter(user_profile=user)
-    print(salary_history)
     context = {
             "user":user,
             "job_title_history":job_title_history,
