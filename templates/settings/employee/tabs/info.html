@@ -18,8 +18,13 @@
         </ul> 
         <a
           hx-get="{% url 'edit_user' user.user.id %}" hx-target="#dialog"
-          href="#" class="btn btn-primary mt-3">
+          href="#" class="btn btn-primary mt-3 me-2">
           Edit
+        </a>
+        <a
+          hx-get="{% url 'reset_password' user.user.id %}" hx-target="#dialog"
+          href="#" class="btn btn-primary mt-3 me-2">
+          Reset Password
         </a>
       </div>
     </div>
@@ -43,7 +48,7 @@
         </a>
 
         {% block modal %}
-        <div id="info_modal" class="modal fade">
+        <div id="modal" class="modal fade">
           <div id="dialog" class="modal-dialog" hx-target="this"></div>
         </div>
         {% endblock modal %}
@@ -67,21 +72,20 @@
 
 {% block script %}
   <script>
-  // Define the modal
-  var info_modal = new bootstrap.Modal(document.getElementById("info_modal"));
 
+  var modal = new bootstrap.Modal(document.getElementById("modal"));
 
   htmx.on("htmx:afterSwap", (e) => {
     // Response targeting #dialog => show the modal
     if (e.detail.target.id == "dialog") {
-      info_modal.show();
+      modal.show();
     }
   });
 
   htmx.on("htmx:beforeSwap", (e) => {
     // Empty response targeting #dialog => hide the modal
     if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-      info_modal.hide();
+      modal.hide();
       e.detail.shouldSwap = false;
     }
   });

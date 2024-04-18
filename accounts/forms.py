@@ -38,3 +38,14 @@ class UserUpdateForm(forms.ModelForm):
             raise forms.ValidationError('This email is already in use.')
         return email
 
+class PasswordResetForm(forms.Form):
+    new_password = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        new_password = cleaned_data.get('new_password')
+        confirm_password = cleaned_data.get('confirm_password')
+
+        if new_password != confirm_password:
+            raise forms.ValidationError("The new passwords do not match.")

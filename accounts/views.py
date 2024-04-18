@@ -6,22 +6,18 @@ from .models import UserProfile, JobTitleHistory, SalaryHistory
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserCreationForm, UserProfileForm, UserUpdateForm
+from .forms import UserCreationForm, UserProfileForm, UserUpdateForm, PasswordResetForm
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 
-
-
-class EmployeeView(ListView):
-    model = UserProfile
-    template_name = "settings/employee/employee.html"
-
+##########################################################
+#######                Forms                ##############
+##########################################################
 class SignUpView(CreateView):
    form_class = UserCreationForm
    success_url = reverse_lazy("admin:index")
    template_name = "registration/signup.html"
-
 
 def create_user(request):
     if request.method == "POST":
@@ -32,17 +28,6 @@ def create_user(request):
     else:
         form = UserCreationForm()
     return render(request, 'settings/employee/modals/create_user.html', {'form': form})
-
-class UserUpdateView(UpdateView):
-    model = User
-    template_name = "settings/employee/modals/edit_user.html"
-    fields = ['first_name', 'last_name', 'username', 'email', 'is_active']
-
-    def get_success_url(self):
-        user_id = self.object.id
-        return reverse_lazy("edit_user", kwargs={'pk': user_id})
-
-
 
 def user_update_view(request, pk):
     user_instance = get_object_or_404(User, pk=pk)
@@ -82,6 +67,27 @@ def user_update_profile(request, pk):
         form = UserProfileForm(instance=profile)
     return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
+def reset_password(request, user_id):
+    user = User.objects.get(pk=user_id)
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            new_password = form.cleaned_data['new_password']
+            # Reset the password for the user
+            user.set_password(new_password)
+            user.save()
+            # Redirect or render success message
+            return HttpResponse(status=204)
+    else:
+        form = PasswordResetForm()
+    return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
+
+
+
+##########################################################
+#######                Refresh              ##############
+##########################################################
+
 def info_refresh(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)
@@ -118,6 +124,15 @@ def cards(request):
 
 
 
+
+##########################################################
+#######                Views                ##############
+##########################################################
+
+class EmployeeView(ListView):
+    model = UserProfile
+    template_name = "settings/employee/employee.html"
+
 def employee_view(request):
     user_profile = UserProfile.objects.all()
     logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
@@ -135,8 +150,6 @@ def employee_view(request):
     }
     return render(request, "settings/employee/employee.html", context) 
 
-
-
 def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)
@@ -150,8 +163,3 @@ def employee_detail_view(request, pk):
     }
     return render(request, "settings/employee/employee_detail.html", context) 
 
-def modal_view(request):
-    return render(request, 'settings/employee/modals/modal.html')
-
-def step2_view(request):
-    return HttpResponse('{% csrf_token %} <p>This is Step 2 content loaded via HTMX.</p>')
