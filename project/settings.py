@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'django_admin_generator',
     'import_export',
     'login_history',
+    'easyaudit',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'easyaudit.middleware.easyaudit.EasyAuditMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
