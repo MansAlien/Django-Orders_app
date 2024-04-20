@@ -2,11 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import  TemplateView, ListView
 from django.views.generic.edit import  CreateView, UpdateView
-from .models import UserProfile, JobTitleHistory, SalaryHistory
 from login_history.models import LoginHistory
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .forms import UserCreationForm, UserProfileForm, UserUpdateForm, PasswordResetForm
+from .models import UserProfile, JobTitleHistory, SalaryHistory, Deduction
+from .forms import UserCreationForm, UserProfileForm, UserUpdateForm, PasswordResetForm, DeductionForm
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
@@ -82,7 +82,19 @@ def reset_password(request, user_id):
         form = PasswordResetForm()
     return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
-
+def create_deduction_view(request, pk):
+    user = User.objects.get(id=pk)
+    profile = UserProfile.objects.get(user=user)
+    if request.method == 'POST':
+        form = DeductionForm(request.POST)
+        if form.is_valid():
+            deduction = form.save(commit=False)
+            deduction.user_profile = profile
+            deduction.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'deduction_refresh'})
+    else:
+        form = DeductionForm()
+    return render(request, 'settings/employee/modals/create_deduction.html', {'form': form})
 
 ##########################################################
 #######                Refresh              ##############
@@ -99,6 +111,15 @@ def info_refresh(request, pk):
     }
     return render(request, "settings/employee/tabs/info.html", context)
 
+
+def deduction_refresh(request, pk):
+    user = UserProfile.objects.get(id=pk)
+    deduction_list = Deduction.objects.filter(user_profile=user)
+    context = {
+            "user":user,
+            "deduction_list":deduction_list,
+    }
+    return render(request, "settings/employee/tabs/deduction.html", context)
 
 def table_refresh(request):
     user_profile = UserProfile.objects.all()

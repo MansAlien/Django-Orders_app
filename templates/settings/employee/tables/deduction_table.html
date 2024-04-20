@@ -1,0 +1,22 @@
+<h5 class="card-title">Deductions</h5>
+<table class="table table-dark table-striped" id="sortable-table">
+  <thead>
+    <tr>
+      <th class="sortable">Name</th>
+      <th class="sortable">Amount</th>
+      <th class="sortable">Discription</th>
+      <th class="sortable">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for deduction in deduction_list %}
+    <tr>
+      <td>{{ deduction.name }}</td>
+      <td>{{ deduction.amount }}</td>
+      <td>{{ deduction.discription }}</td>
+      <td>{{ deduction.date|date:"Y-m-d" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+

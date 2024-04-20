@@ -12,6 +12,12 @@
           type="button" role="tab" aria-controls="profile" aria-selected="false">Login</button>
     </li>
     <li class="nav-item" role="presentation">
+        <button
+          style='color: #6c7293;'
+          class="nav-link" id="deduction-tab" data-bs-toggle="tab" data-bs-target="#deduction" 
+          type="button" role="tab" aria-controls="deduction" aria-selected="false">Deduction</button>
+    </li>
+    <li class="nav-item" role="presentation">
         <button 
           style='color: #6c7293;'
           class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" 
@@ -26,6 +32,10 @@
     <div
       class="tab-pane fade  h-75" id="profile" role="tabpanel" aria-labelledby="profile-tab">
       {% include "settings/employee/tabs/log.html" %}
+    </div>
+    <div
+      hx-trigger="load, deduction_refresh from:body" hx-get="{% url 'deduction_refresh' user.user.id %}" hx-target="this"
+      class="tab-pane fade  h-75" id="deduction" role="tabpanel" aria-labelledby="deduction-tab">
     </div>
     <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
       {% include "settings/employee/tabs/permissions.html" %}

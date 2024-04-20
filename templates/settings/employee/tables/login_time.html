@@ -4,13 +4,15 @@
     <tr>
       <th class="sortable">Date</th>
       <th class="sortable">Time</th>
+      <th class="sortable">Over Time</th>
     </tr>
   </thead>
   <tbody>
-    {% for day, hours, minutes in paired_records %}
+    {% for day, hours, minutes, overtime_hours, overtime_minutes in paired_records %}
     <tr>
       <td>{{ day }}</td>
-      <td>{{ hours }}: {{ minutes }}</td>
+      <td>{{ hours }} h : {{ minutes }} m</td>
+      <td>{{ overtime_hours }} h : {{ overtime_minutes }} m</td>
     </tr>
     {% endfor %}
   </tbody>

@@ -47,7 +47,12 @@ def login_time(request, pk):
                 total_duration += diff
         hours = total_duration.seconds // 3600
         minutes = (total_duration.seconds % 3600) // 60
-        paired_records.append((day, hours, minutes))
+
+        # Calculate overtime
+        overtime_hours = max(0, hours - 12)
+        overtime_minutes = (total_duration.seconds - (12 * 3600)) // 60 if hours > 12 else 0
+
+        paired_records.append((day, hours, minutes, overtime_hours, overtime_minutes))
     
     context = {
         "paired_records": paired_records,
