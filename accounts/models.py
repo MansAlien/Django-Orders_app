@@ -5,6 +5,7 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.contrib.auth import user_logged_in, user_logged_out
 
 
 class JobTitle(models.Model):
@@ -184,7 +185,7 @@ class Deduction(models.Model):
 User = settings.AUTH_USER_MODEL
 
 class LoggedInUser(models.Model):
-    user = models.OneToOneField(User, related_name='logged_in_user')
+    user = models.OneToOneField(User, related_name='logged_in_user', on_delete=models.CASCADE)
     session_key = models.CharField(max_length=32, null=True, blank=True)
 
     def __str__(self):
