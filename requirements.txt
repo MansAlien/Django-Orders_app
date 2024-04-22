@@ -16,6 +16,7 @@ django-jazzmin==2.6.0
 django-utils2==3.0.2
 environs==9.3.5
 et-xmlfile==1.1.0
+gunicorn==22.0.0
 MarkupPy==1.14
 marshmallow==3.20.2
 odfpy==1.4.1
