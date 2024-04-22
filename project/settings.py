@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 from environs import Env
 import os 
+import dj_database_url
 
 # Environment Variables
 env = Env()
@@ -25,14 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
+SECRET_KEY = os.env.get("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
 # SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = env.bool("DEBUG", default=False)
-
-ALLOWED_HOSTS = []
+# DEBUG = True
+DEBUG = os.env.get("DEBUG", "False").lower() == "True"
+ALLOWED_HOSTS = os.env.get("ALLOWED_HOSTS").split(" ")
 # ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
 
 
@@ -107,13 +108,16 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'railway',
-#         'USER': env.str("P_USER"),
-#         'PASSWORD': env.str("P_PASSWORD"),
-#         'HOST': env.str("P_HOST"),
-#         'PORT': env.str("P_PORT"),
+#         'NAME': 'studio_vision',
+#         'USER': "studio_vision_user",
+#         'PASSWORD': "yQlhMrQuIGEDArgfVWRfHiDUqWPS69IV",
+#         'HOST': "dpg-coj7r2f79t8c738t14kg-a",
+#         'PORT': "5432",
 #     }
 # }
+
+database_url = os.env.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
