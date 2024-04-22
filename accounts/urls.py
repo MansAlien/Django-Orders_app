@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import SignUpView, EmployeeView, employee_view, employee_detail_view, create_user, table_refresh, user_profile, cards,  user_update_view, user_update_profile, info_refresh, reset_password, create_deduction_view, deduction_refresh
+from .views import SignUpView, employee_view, employee_detail_view, create_user, table_refresh, user_profile, cards,  user_update_view, user_update_profile, info_refresh, reset_password, create_deduction_view, deduction_refresh, permission_view
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
@@ -24,6 +24,7 @@ htmx_urlpatterns = [
     path('employee_list/<int:pk>/edit_user_profile/', user_update_profile, name='edit_user_profile'),
     path('user_profile/<int:pk>', user_profile, name='user_profile'),
     path('deduction/<int:pk>', create_deduction_view, name='create_deduction'),
+    path('permissions/<int:pk>', permission_view, name='permissions'),
 
 
     path('info/<int:pk>/', info_refresh, name='info_refresh'),

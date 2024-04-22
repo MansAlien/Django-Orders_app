@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from .models import UserProfile, Deduction
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Row, Column, Field
+from django.contrib.auth.models import Permission
 
 
 class UserCreationForm(UserCreationForm):
@@ -73,3 +74,22 @@ class PasswordResetForm(forms.Form):
 
         if new_password != confirm_password:
             raise forms.ValidationError("The new passwords do not match.")
+
+class PermissionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        permissions = kwargs.pop('permissions', None)
+        super(PermissionForm, self).__init__(*args, **kwargs)
+        if permissions:
+            self.fields['user_permissions'].queryset = permissions
+            # Set the label of each checkbox to the codename of the permission
+            for permission in permissions:
+                self.fields['user_permissions'].label_from_instance = lambda obj: obj.codename
+        self.fields['user_permissions'].label = ""
+        self.fields['user_permissions'].help_text = ""
+
+    class Meta:
+        model = User
+        fields = ('user_permissions',)
+        widgets = {
+            'user_permissions': forms.CheckboxSelectMultiple,
+        }

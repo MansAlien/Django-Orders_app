@@ -10,6 +10,10 @@ from .forms import UserCreationForm, UserProfileForm, UserUpdateForm, PasswordRe
 from django.http import JsonResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
+from .forms import PermissionForm
+from django.contrib.auth.models import Permission
+from django.db.models import Q
+from django.contrib.auth.decorators import permission_required
 
 ##########################################################
 #######                Forms                ##############
@@ -19,6 +23,7 @@ class SignUpView(CreateView):
    success_url = reverse_lazy("admin:index")
    template_name = "registration/signup.html"
 
+@permission_required("accounts.add_userprofile")
 def create_user(request):
     if request.method == "POST":
         form = UserCreationForm(request.POST)
@@ -29,6 +34,7 @@ def create_user(request):
         form = UserCreationForm()
     return render(request, 'settings/employee/modals/create_user.html', {'form': form})
 
+@permission_required("accounts.change_userprofile")
 def user_update_view(request, pk):
     user_instance = get_object_or_404(User, pk=pk)
     
@@ -42,6 +48,7 @@ def user_update_view(request, pk):
         
     return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
+@permission_required("accounts.add_userprofile")
 def user_profile(request, pk):
     user = User.objects.get(id=pk)
     profile = UserProfile.objects.get(user=user)
@@ -55,6 +62,7 @@ def user_profile(request, pk):
         form = UserProfileForm(instance=profile)
     return render(request, 'settings/employee/modals/create_user_profile.html', {'form': form})
 
+@permission_required("accounts.change_userprofile")
 def user_update_profile(request, pk):
     user = User.objects.get(id=pk)
     profile = UserProfile.objects.get(user=user)
@@ -67,6 +75,7 @@ def user_update_profile(request, pk):
         form = UserProfileForm(instance=profile)
     return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
+@permission_required("accounts.change_userprofile")
 def reset_password(request, user_id):
     user = User.objects.get(pk=user_id)
     if request.method == 'POST':
@@ -82,6 +91,7 @@ def reset_password(request, user_id):
         form = PasswordResetForm()
     return render(request, 'settings/employee/modals/edit_user.html', {'form': form})
 
+@permission_required("accounts.change_userprofile")
 def create_deduction_view(request, pk):
     user = User.objects.get(id=pk)
     profile = UserProfile.objects.get(user=user)
@@ -96,10 +106,28 @@ def create_deduction_view(request, pk):
         form = DeductionForm()
     return render(request, 'settings/employee/modals/create_deduction.html', {'form': form})
 
+@permission_required("accounts.change_userprofile")
+def permission_view(request, pk):
+    user = User.objects.get(id=pk)
+    permissions = Permission.objects.filter(
+        content_type__app_label='accounts',
+        codename__endswith="_userprofile"
+    ).exclude(codename__startswith="delete")
+    
+    if request.method == 'POST':
+        form = PermissionForm(request.POST, instance=user, permissions=permissions)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={'HX-Trigger': 'permissions_refresh'})
+    else:
+        form = PermissionForm(instance=user, permissions=permissions)
+    
+    return render(request, 'settings/employee/tabs/permissions.html', {'form': form, 'user': user})
 ##########################################################
 #######                Refresh              ##############
 ##########################################################
 
+@permission_required("accounts.view_userprofile")
 def info_refresh(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)
@@ -111,7 +139,7 @@ def info_refresh(request, pk):
     }
     return render(request, "settings/employee/tabs/info.html", context)
 
-
+@permission_required("accounts.view_userprofile")
 def deduction_refresh(request, pk):
     user = UserProfile.objects.get(id=pk)
     deduction_list = Deduction.objects.filter(user_profile=user)
@@ -121,6 +149,7 @@ def deduction_refresh(request, pk):
     }
     return render(request, "settings/employee/tabs/deduction.html", context)
 
+@permission_required("accounts.view_userprofile")
 def table_refresh(request):
     user_profile = UserProfile.objects.all()
     logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
@@ -130,6 +159,7 @@ def table_refresh(request):
     }
     return render(request, "settings/employee/tables/table.html", context) 
 
+@permission_required("accounts.view_userprofile")
 def cards(request):
     active = User.objects.filter(is_active=True).count()
     inactive = User.objects.filter(is_active=False).count()
@@ -150,10 +180,7 @@ def cards(request):
 #######                Views                ##############
 ##########################################################
 
-class EmployeeView(ListView):
-    model = UserProfile
-    template_name = "settings/employee/employee.html"
-
+@permission_required("accounts.view_userprofile")
 def employee_view(request):
     user_profile = UserProfile.objects.all()
     logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
@@ -171,6 +198,7 @@ def employee_view(request):
     }
     return render(request, "settings/employee/employee.html", context) 
 
+@permission_required("accounts.view_userprofile")
 def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
     job_title_history = JobTitleHistory.objects.filter(user_profile=user)

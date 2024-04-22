@@ -5,15 +5,18 @@
 
       <div class="bg-white p-4 mt-4 rounded" style="height: 95%">
         {% include "settings/employee/tables/deduction_table.html" %}
-        <a hx-get="{% url 'create_deduction' user.user.id %}" hx-target="#customDialog" href="#" class="btn btn-primary mt-3">
-          Create Deduction
-        </a>
 
-        {% block modal %}
-        <div id="customModal" class="modal fade">
-          <div id="customDialog" class="modal-dialog" hx-target="this"></div>
-        </div>
-        {% endblock modal %}
+        {% if perms.accounts.change_userprofile %}
+          <a hx-get="{% url 'create_deduction' user.user.id %}" hx-target="#customDialog" href="#" class="btn btn-primary mt-3">
+            Create Deduction
+          </a>
+
+          {% block modal %}
+          <div id="customModal" class="modal fade">
+            <div id="customDialog" class="modal-dialog" hx-target="this"></div>
+          </div>
+          {% endblock modal %}
+        {% endif %}
 
       </div>
     </div>
@@ -25,34 +28,36 @@
 {% block script %}
 <script>
 
-  // Define the custom modal
-  var customModal = new bootstrap.Modal(document.getElementById("customModal"));
+  {% if perms.accounts.change_userprofile %}
+    // Define the custom modal
+    var customModal = new bootstrap.Modal(document.getElementById("customModal"));
 
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #customDialog => show the custom modal
-    if (e.detail.target.id == "customDialog") {
-      customModal.show();
-    }
-  });
+    htmx.on("htmx:afterSwap", (e) => {
+      // Response targeting #customDialog => show the custom modal
+      if (e.detail.target.id == "customDialog") {
+        customModal.show();
+      }
+    });
 
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #customDialog => hide the custom modal
-    if (e.detail.target.id == "customDialog" && !e.detail.xhr.response) {
-      customModal.hide();
-      e.detail.shouldSwap = false;
-    }
-  });
+    htmx.on("htmx:beforeSwap", (e) => {
+      // Empty response targeting #customDialog => hide the custom modal
+      if (e.detail.target.id == "customDialog" && !e.detail.xhr.response) {
+        customModal.hide();
+        e.detail.shouldSwap = false;
+      }
+    });
 
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("customDialog").innerHTML = "";
-  });
+    htmx.on("hidden.bs.modal", () => {
+      document.getElementById("customDialog").innerHTML = "";
+    });
 
-  window.addEventListener('DOMContentLoaded', (event) => {
-      // Delay autofocus by 500 milliseconds (adjust the delay as needed)
-      setTimeout(() => {
-          document.querySelector('#elementToFocus').focus();
-      }, 500);
-  });
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Delay autofocus by 500 milliseconds (adjust the delay as needed)
+        setTimeout(() => {
+            document.querySelector('#elementToFocus').focus();
+        }, 500);
+    });
+  {% endif %}
 </script>
 {% endblock script %}
 

@@ -11,6 +11,7 @@ th {
     hx-trigger="load, cards from:body" hx-get="{% url 'cards' %}" hx-target="this"
     id='cards' class='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
   </div>
+  {% if perms.accounts.add_userprofile %}
   <div class="mt-3 mb-3">
     <button hx-get="{% url 'create_user' %}" hx-target="#dialog" class="btn btn-primary">
       Add Employee
@@ -22,6 +23,7 @@ th {
       </div>
     {% endblock modal %}
   </div>
+  {% endif %}
 
 
   <div class="row">
@@ -72,12 +74,39 @@ th {
 
 {% block script %}
   <script>
-  if (typeof modal !== 'undefined' && modal) {
-      modal.dispose(); // Remove the existing modal
-  }
+  {% if perms.accounts.add_userprofile %}
+    if (typeof modal !== 'undefined' && modal) {
+        modal.dispose(); // Remove the existing modal
+    }
 
-  // Define the modal
-  var modal = new bootstrap.Modal(document.getElementById("modal"));
+    // Define the modal
+    var modal = new bootstrap.Modal(document.getElementById("modal"));
+
+      htmx.on("htmx:afterSwap", (e) => {
+      // Response targeting #dialog => show the modal
+      if (e.detail.target.id == "dialog") {
+        modal.show();
+      }
+    });
+
+    htmx.on("htmx:beforeSwap", (e) => {
+      // Empty response targeting #dialog => hide the modal
+      if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+        modal.hide();
+        e.detail.shouldSwap = false;
+      }
+    });
+
+    htmx.on("hidden.bs.modal", () => {
+      document.getElementById("dialog").innerHTML = "";
+    });
+  {% endif %}
+
+  window.addEventListener('DOMContentLoaded', (event) => {
+      // Delay autofocus by 500 milliseconds (adjust the delay as needed)
+      setTimeout(() => {
+          document.querySelector('#elementToFocus').focus();
+      }, 500);
 
   var sortOrders = []; // array to store sort orders for each column
 
@@ -129,31 +158,6 @@ th {
       }
   }
 
-
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show();
-    }
-  });
-
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-      modal.hide();
-      e.detail.shouldSwap = false;
-    }
-  });
-
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = "";
-  });
-
-  window.addEventListener('DOMContentLoaded', (event) => {
-      // Delay autofocus by 500 milliseconds (adjust the delay as needed)
-      setTimeout(() => {
-          document.querySelector('#elementToFocus').focus();
-      }, 500);
   });
   </script>
 {% endblock script %}

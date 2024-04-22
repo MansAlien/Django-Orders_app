@@ -16,16 +16,18 @@
             {% endif %}
           </li>
         </ul> 
-        <a
-          hx-get="{% url 'edit_user' user.user.id %}" hx-target="#dialog"
-          href="#" class="btn btn-primary mt-3 me-2">
-          Edit
-        </a>
-        <a
-          hx-get="{% url 'reset_password' user.user.id %}" hx-target="#dialog"
-          href="#" class="btn btn-primary mt-3 me-2">
-          Reset Password
-        </a>
+        {% if perms.accounts.change_userprofile %}
+          <a
+            hx-get="{% url 'edit_user' user.user.id %}" hx-target="#dialog"
+            href="#" class="btn btn-primary mt-3 me-2">
+            Edit
+          </a>
+          <a
+            hx-get="{% url 'reset_password' user.user.id %}" hx-target="#dialog"
+            href="#" class="btn btn-primary mt-3 me-2">
+            Reset Password
+          </a>
+        {% endif %}
       </div>
     </div>
     <div class="col-md-6">
@@ -41,17 +43,19 @@
           <li class="list-group-item">Age: {{ user.age }}</li>
           <li class="list-group-item">Salary: {{ user.salary }}</li>
         </ul>
-        <a
-          hx-get="{% url 'edit_user_profile' user.user.id %}" hx-target="#dialog"
-          href="#" class="btn btn-primary mt-3">
-          Edit
-        </a>
+        {% if perms.accounts.change_userprofile %}
+          <a
+            hx-get="{% url 'edit_user_profile' user.user.id %}" hx-target="#dialog"
+            href="#" class="btn btn-primary mt-3">
+            Edit
+          </a>
 
-        {% block modal %}
-        <div id="modal" class="modal fade">
-          <div id="dialog" class="modal-dialog" hx-target="this"></div>
-        </div>
-        {% endblock modal %}
+          {% block modal %}
+          <div id="modal" class="modal fade">
+            <div id="dialog" class="modal-dialog" hx-target="this"></div>
+          </div>
+          {% endblock modal %}
+        {% endif %}
       </div>
     </div>
   </div>
@@ -71,34 +75,36 @@
 </div>
 
 {% block script %}
-<script>
+  <script>
+    {% if perms.accounts.change_userprofile %}
 
-  var modal = new bootstrap.Modal(document.getElementById("modal"));
+      var modal = new bootstrap.Modal(document.getElementById("modal"));
 
-  htmx.on("htmx:afterSwap", (e) => {
-    // Response targeting #dialog => show the modal
-    if (e.detail.target.id == "dialog") {
-      modal.show();
-    }
-  });
+      htmx.on("htmx:afterSwap", (e) => {
+        // Response targeting #dialog => show the modal
+        if (e.detail.target.id == "dialog") {
+          modal.show();
+        }
+      });
 
-  htmx.on("htmx:beforeSwap", (e) => {
-    // Empty response targeting #dialog => hide the modal
-    if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
-      modal.hide();
-      e.detail.shouldSwap = false;
-    }
-  });
+      htmx.on("htmx:beforeSwap", (e) => {
+        // Empty response targeting #dialog => hide the modal
+        if (e.detail.target.id == "dialog" && !e.detail.xhr.response) {
+          modal.hide();
+          e.detail.shouldSwap = false;
+        }
+      });
 
-  htmx.on("hidden.bs.modal", () => {
-    document.getElementById("dialog").innerHTML = "";
-  });
+      htmx.on("hidden.bs.modal", () => {
+        document.getElementById("dialog").innerHTML = "";
+      });
 
-  window.addEventListener('DOMContentLoaded', (event) => {
-      // Delay autofocus by 500 milliseconds (adjust the delay as needed)
-      setTimeout(() => {
-          document.querySelector('#elementToFocus').focus();
-      }, 500);
-  });
+      window.addEventListener('DOMContentLoaded', (event) => {
+          // Delay autofocus by 500 milliseconds (adjust the delay as needed)
+          setTimeout(() => {
+              document.querySelector('#elementToFocus').focus();
+          }, 500);
+      });
+    {% endif %}
   </script>
 {% endblock script %}

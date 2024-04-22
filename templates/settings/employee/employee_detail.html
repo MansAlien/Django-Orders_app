@@ -1,3 +1,9 @@
+<style>
+    #contact select {
+        height: 100%; /* Adjust the height as needed */
+        width: 100%; /* Adjust the height as needed */
+    }
+</style>
 <ul class="nav nav-tabs" id="myTab" role="tablist" >
     <li class="nav-item" role="presentation">
         <button
@@ -17,12 +23,19 @@
           class="nav-link" id="deduction-tab" data-bs-toggle="tab" data-bs-target="#deduction" 
           type="button" role="tab" aria-controls="deduction" aria-selected="false">Deduction</button>
     </li>
-    <li class="nav-item" role="presentation">
-        <button 
-          style='color: #6c7293;'
-          class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" 
-          type="button" role="tab" aria-controls="contact" aria-selected="false">Permissions</button>
-    </li>
+
+    {% if perms.accounts.change_userprofile %}
+      <li class="nav-item" role="presentation">
+          <button 
+            hx-get="{% url "permissions" user.user.id%}"
+            hx-target="#permissions"
+            hx-trigger="click"
+            hx-swap="innerHtml"
+            style='color: #6c7293;'
+            class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#permissions" 
+            type="button" role="tab" aria-controls="contact" aria-selected="false">Permissions</button>
+      </li>
+    {% endif %}
 </ul>
 <div class="tab-content h-100" id="myTabContent">
     <div
@@ -37,7 +50,10 @@
       hx-trigger="load, deduction_refresh from:body" hx-get="{% url 'deduction_refresh' user.user.id %}" hx-target="this"
       class="tab-pane fade  h-75" id="deduction" role="tabpanel" aria-labelledby="deduction-tab">
     </div>
-    <div class="tab-pane fade " id="contact" role="tabpanel" aria-labelledby="contact-tab">
-      {% include "settings/employee/tabs/permissions.html" %}
-    </div>
+    {% if perms.accounts.change_userprofile %}
+      <div
+        hx-trigger="load, permissions_refresh from:body" hx-get="{% url 'permissions' user.user.id %}" hx-target="this"
+        class="tab-pane fade h-75 " id="permissions" role="tabpanel" aria-labelledby="contact-tab">
+      </div>
+    {% endif %}
 </div>

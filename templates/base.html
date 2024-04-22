@@ -48,12 +48,6 @@
                   <i class="fa-solid fa-gear"></i>
                   <span>Settings</span>
                 </a>
-                {% if user.is_staff %}
-                  <a href="{% url "admin:index" %}" class="list-group-item list-group-item-action sidebar-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Admin</span>
-                  </a>
-                {% endif %}
                 <form method="post" action="{% url 'logout' %}" class="list-group-item list-group-item-action sidebar-item ">
                   {% csrf_token %}
                   <button type="submit" class="h-100 w-100 text-start border-0 bg-transparent text-white">

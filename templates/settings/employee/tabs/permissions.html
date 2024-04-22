@@ -1,5 +1,27 @@
-<div>
-    <h2>Tab Two Content</h2>
-    <p>This is the content of tab two.</p>
-</div>
 
+{% load crispy_forms_tags %}
+
+<div class="container" >
+  <div class="row">
+    <div class="col-md-3"></div>
+    <div class="col-md-6">
+      <div class="bg-white p-4 mt-4 rounded " style="height: 95%">
+        <h5 class="">User Permission</h5>
+        <form method="post" action="{% url 'permissions' user.id %}" >
+          <div class="h-75 bg-dark text-white p-4 mb-3 rounded">
+            {% csrf_token %}
+            {% for checkbox in form.user_permissions %}
+              <div class="form-check">
+                  {{ checkbox }}
+              </div>
+              {% if forloop.counter|divisibleby:3 and not forloop.last %}
+                <br>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <button class="btn btn-primary" type="submit">Save</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

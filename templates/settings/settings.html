@@ -13,15 +13,17 @@
         <i class="fa-solid fa-circle-plus" ></i>
         <span>category</span>
       </div>
-      <div 
-        hx-get="{% url "employee_list" %}"
-        hx-target="#settings_content"
-        hx-trigger="click"
-        hx-swap="outerHtml"
-        class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
-        <i class="fa-solid fa-circle-plus" ></i>
-        <span>Employee</span>
-      </div>
+      {% if perms.accounts %}
+        <div 
+          hx-get="{% url "employee_list" %}"
+          hx-target="#settings_content"
+          hx-trigger="click"
+          hx-swap="outerHtml"
+          class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
+          <i class="fa-solid fa-circle-plus" ></i>
+          <span>Employee</span>
+        </div>
+      {% endif %}
     </div>
 
   {% endblock sidecontent %}
