@@ -9,6 +9,7 @@ dj-database-url==2.1.0
 dj-email-url==1.0.6
 Django==5.0.2
 django-admin-generator==2.6.0
+django-bootstrap5==24.1
 django-cache-url==3.4.5
 django-crispy-forms==1.13.0
 django-datatables-view==1.20.0
