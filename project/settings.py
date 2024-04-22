@@ -25,16 +25,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = os.environ.get("SECRET_KEY")
-SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
+SECRET_KEY = os.environ.get("SECRET_KEY")
+# SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
 # SECRET_KEY = env.str("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
-# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
-ALLOWED_HOSTS = []
+# DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+# ALLOWED_HOSTS = []
 # ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
 
 
@@ -117,9 +116,9 @@ DATABASES = {
 #     }
 # }
 
-# database_url = os.environ.get("DATABASE_URL")
-# DATABASES["default"] = dj_database_url.parse(database_url)
-DATABASES["default"] = dj_database_url.parse("postgres://studio_vision_user:yQlhMrQuIGEDArgfVWRfHiDUqWPS69IV@dpg-coj7r2f79t8c738t14kg-a.oregon-postgres.render.com/studio_vision")
+database_url = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(database_url)
+# DATABASES["default"] = dj_database_url.parse("postgres://studio_vision_user:yQlhMrQuIGEDArgfVWRfHiDUqWPS69IV@dpg-coj7r2f79t8c738t14kg-a.oregon-postgres.render.com/studio_vision")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
