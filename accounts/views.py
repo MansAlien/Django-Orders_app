@@ -161,14 +161,28 @@ def table_refresh(request):
 
 @permission_required("accounts.view_userprofile")
 def cards(request):
-    active = User.objects.filter(is_active=True).count()
-    inactive = User.objects.filter(is_active=False).count()
-    online = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True).count()
+    admin_active = User.objects.filter(is_active=True).count()
+    active = User.objects.filter(is_active=True, is_superuser=False).count()
+
+    admin_inactive = User.objects.filter(is_active=False).count()
+    inactive = User.objects.filter(is_active=False, is_superuser=False).count()
+
+    admin_online = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True).count()
+    online = LoginHistory.objects.filter(is_logged_in=True, user__is_superuser=False).values_list('user__username', flat=True).count()
+
+    admin_offline = admin_active - admin_online
     offline = active - online
     context = {
+        "admin_active":admin_active,
         "active":active,
+
+        "admin_inactive":admin_inactive,
         "inactive":inactive,
+
+        "admin_online":admin_online,
         "online":online,
+
+        "admin_offline":admin_offline,
         "offline":offline,
     }
     return render(request, "settings/employee/cards.html", context) 
@@ -184,17 +198,9 @@ def cards(request):
 def employee_view(request):
     user_profile = UserProfile.objects.all()
     logged_in_users = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True)
-    active = User.objects.filter(is_active=True).count()
-    inactive = User.objects.filter(is_active=False).count()
-    online = LoginHistory.objects.filter(is_logged_in=True).values_list('user__username', flat=True).count()
-    offline = active - online
     context = {
         "userprofile_list": user_profile,
         "login_history": logged_in_users,
-        "active":active,
-        "inactive":inactive,
-        "online":online,
-        "offline":offline,
     }
     return render(request, "settings/employee/employee.html", context) 
 
