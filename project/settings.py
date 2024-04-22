@@ -161,7 +161,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STORAGES = {
     "staticfiles": {
-        "BACKEND": “whitenoise.storage.CompressedManifestStaticFilesStorage”,
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
 },
 }
 # Default primary key field type
