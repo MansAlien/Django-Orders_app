@@ -1,26 +1,29 @@
-from django.contrib.auth import logout
-from django.conf import settings
-from django.shortcuts import redirect
+from django.contrib.sessions.models import Session
 
-class PreventMultipleLoginMiddleware:
+class OneSessionPerUserMiddleware:
+    # Called only once when the web server starts
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        # Check if user is authenticated and if so, check if they have a session token stored
-        if request.user.is_authenticated and 'session_token' in request.session:
-            current_session_token = request.session.session_key
-            previous_session_token = request.session.get('session_token')
+        # Code to be executed for each request before
+        # the view (and later middleware) are called.
+        if request.user.is_authenticated:
+            stored_session_key = request.user.logged_in_user.session_key
 
-            # If the current session token is different from the one stored, log out the user from the previous session
-            if current_session_token != previous_session_token:
-                logout(request)
-                # Redirect user to login page with a message indicating why they were logged out
-                return redirect(settings.LOGIN_URL + '?multiple_login_error=true')
+            # if there is a stored_session_key  in our database and it is
+            # different from the current session, delete the stored_session_key
+            # session_key with from the Session table
+            if stored_session_key and stored_session_key != request.session.session_key:
+                Session.objects.get(session_key=stored_session_key).delete()
 
-        # Set session token to current session
-        request.session['session_token'] = request.session.session_key
+            request.user.logged_in_user.session_key = request.session.session_key
+            request.user.logged_in_user.save()
 
         response = self.get_response(request)
+
+        # This is where you add any extra code to be executed for each request/response after
+        # the view is called.
+        # For this tutorial, we're not adding any code so we just return the response
 
         return response

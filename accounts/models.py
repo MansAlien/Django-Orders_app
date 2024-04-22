@@ -181,3 +181,20 @@ class Deduction(models.Model):
     def __str__(self):
         return self.name
 
+User = settings.AUTH_USER_MODEL
+
+class LoggedInUser(models.Model):
+    user = models.OneToOneField(User, related_name='logged_in_user')
+    session_key = models.CharField(max_length=32, null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+
+@receiver(user_logged_in)
+def on_user_logged_in(sender, request, **kwargs):
+    LoggedInUser.objects.get_or_create(user=kwargs.get('user')) 
+
+
+@receiver(user_logged_out)
+def on_user_logged_out(sender, **kwargs):
+    LoggedInUser.objects.filter(user=kwargs.get('user')).delete()

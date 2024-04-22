@@ -72,7 +72,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
-    'accounts.middleware.PreventMultipleLoginMiddleware',
+    'accounts.middleware.OneSessionPerUserMiddleware'
 ]
 
 ROOT_URLCONF = 'project.urls'
