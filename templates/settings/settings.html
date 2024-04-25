@@ -1,35 +1,18 @@
-{% extends "base.html" %}
+{% extends 'layouts/blank.html' %}
 
-{% block title %}Settings{% endblock title %}
+{% block sidecontent %}
+  <li>
+    <a href="{% url 'employee_list' %}" class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+      dark:hover:bg-gray-700 group">
+      <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+        <i class="text-xl fa-solid fa-circle-plus"></i>
+      </span>
+        <span class="ms-5 text-gray-300 ">Employee</span>
+    </a>
+  </li>
+{% endblock %}
 
-  {% block sidecontent %}
-    <div class="list-group text-nowrap">
-      <div 
-        hx-get="{% url "category_list" %}"
-        hx-target="#settings_content"
-        hx-trigger="click"
-        hx-swap="innerHtml"
-        class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
-        <i class="fa-solid fa-circle-plus" ></i>
-        <span>category</span>
-      </div>
-      {% if perms.accounts %}
-        <div 
-          hx-get="{% url "employee_list" %}"
-          hx-target="#settings_content"
-          hx-trigger="click"
-          hx-swap="outerHtml"
-          class="list-group-item list-group-item-action sidebar-item" style="cursor: pointer;">
-          <i class="fa-solid fa-circle-plus" ></i>
-          <span>Employee</span>
-        </div>
-      {% endif %}
-    </div>
-
-  {% endblock sidecontent %}
-
-  {% block content %}
-    <div id="settings_content" class="p-5" style="width: 100%; height: 100%;"></div>
-  {% endblock content %}
-
-
+{% block content %} 
+    {% include 'settings/employee/employee.html' %}
+{% endblock %}

@@ -15,12 +15,65 @@
         <link rel="stylesheet" href="{% static 'src/output.css' %}">
       {% endcompress %}
   </head>
-  <body class="bg-green-50">
+  <body class="bg-gray-600">
 
     
     {% include 'includes/header.html' %}
     {% if user.is_authenticated %}
-      {% include 'includes/sidebar.html' %}
+      <style>
+      #logo-sidebar .font-medium li:hover span {
+        color: white;
+      }
+      </style>
+      <aside id="logo-sidebar" 
+        class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full 
+        bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-900 dark:border-gray-800" 
+        aria-label="Sidebar">
+          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-900 flex flex-col justify-between ">
+            <ul class="space-y-2 font-medium">
+              <li>
+                <a href="{% url 'home' %}" class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+                  dark:hover:bg-gray-700 group">
+                  <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <i class="text-xl fas fa-home"></i>
+                  </span>
+                    <span class="ms-5 text-gray-300">Home</span>
+                </a>
+              </li>
+            </ul>
+            <ul class="space-y-2 font-medium">
+              {% block sidecontent %}
+              {% endblock sidecontent %}
+            </ul>
+            <ul class="space-y-2 font-medium">
+              <li>
+                <a href="{% url 'settings' %}" class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+                  dark:hover:bg-gray-700 group">
+                  <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <i class="text-xl fa-solid fa-gear"></i>
+                  </span>
+                    <span class="ms-5 text-gray-300 ">Settings</span>
+                </a>
+              </li>
+
+              <li>
+                <form action="{% url 'logout' %}" method="post" >
+                  {% csrf_token %}
+                  <button type="submit" class="flex w-full items-top p-2 text-gray-900 rounded-lg 
+                    dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                      <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+                        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                          <i class="text-xl fa-solid fa-right-from-bracket text-gray-300"></i>
+                      </span>
+                      <span class="ms-5 text-gray-300">Logout</span>
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+      </aside>
     {% endif %}
     {% block layout %}
     {% endblock layout%}
