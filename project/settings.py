@@ -49,12 +49,13 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #3rd party packs
-    'crispy_forms',
-    'crispy_bootstrap5',
+    "crispy_forms",
+    "crispy_tailwind",
     'django_admin_generator',
     'import_export',
     'login_history',
     'easyaudit',
+    'compressor',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
@@ -96,8 +97,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'project.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+# The compressor of Tailwind
+COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 DATABASES = {
     'default': {
@@ -170,8 +173,8 @@ LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
 
 #crispy settings
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 #EMAIL_HOST = env.str("EMAIL_HOST")
 #EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")

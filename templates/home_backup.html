@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock title %}
+
+  {% block sidecontent %}
+    <div class="list-group text-nowrap">
+      {% for category in category_list %}
+        <a href="#" class="list-group-item list-group-item-action sidebar-item">
+          <i class="fa-solid fa-circle-plus"></i>
+          <span>{{ category.name }}</span>
+        </a>
+      {% endfor %}
+    </div>
+  {% endblock sidecontent %}
+
+  {% block content %}
+
+  {% endblock content %}
+
