@@ -1,4 +1,4 @@
-{% extends 'layouts/blank.html' %}
+{% extends 'base.html' %}
 
 {% block sidecontent %}
   <li>
@@ -11,7 +11,7 @@
         <span class="ms-5 text-gray-300 ">Employee</span>
     </a>
   </li>
-{% endblock %}
+{% endblock sidecontent %}
 
 {% block content %} 
     {% include 'settings/employee/employee.html' %}

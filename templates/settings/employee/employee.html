@@ -1,6 +1,12 @@
-<div class="grid ">
-  <div></div>
-  <div></div>
-  <div></div>
-  <div></div>
-</div>
+{% extends 'base.html' %}
+
+{% block content %} 
+  <div class="p-4 sm:ml-64">
+    <div class="p-4 rounded-lg mt-14">
+      <div 
+        hx-trigger="load, cards from:body" hx-get="{% url 'cards' %}" hx-target="this"
+        id='cards' class='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -2,6 +2,12 @@
   <div class="px-3 py-3 lg:px-5 lg:pl-3">
     <div class="flex items-center justify-between">
       <div class="flex items-center justify-start rtl:justify-end">
+        <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
+          type="button" class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden 
+          hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+          <span class="sr-only">Open sidebar</span>
+          <i class="fa-solid fa-list-ul text-2xl"></i>
+        </button>
         <a href="{% url "home" %}" class="flex ms-2 md:me-24 items-center">
           <i class="fa-solid fa-camera mx-2 text-2xl" style="color: #ffffff;"></i>
           <span class="text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">Studio Vision</span>
