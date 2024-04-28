@@ -1,0 +1,75 @@
+{% if request.user.is_superuser %}
+  {% for user in userprofile_list %}
+    <tr>
+      <td>{{ user.id }}</td>
+      <td>
+        <div 
+          hx-get="{% url "employee_detail" user.id %}"
+          hx-target="#settings_content"
+          hx-trigger="click"
+          hx-swap="innerHtml"
+          style="cursor: pointer;">
+          <span class="fw-bold">{{ user.user.username }}</span> </div>
+      </td>
+      <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
+      <td>{{ user.age }}</td>
+      <td>{{ user.get_gender_display }}</td>
+      <td>{{ user.job_title }}</td>
+      <td>{{ user.salary }} EG</td>
+      <td>
+        {% if user.user.username in login_history %}
+          <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
+          <span style="color: #63E6BE;"> Online </span>
+        {% else %}
+          <i class="fa-solid fa-circle" style="color: #e13333;"></i>
+          <span style="color: #e13333;"> Offline </span>
+        {% endif %}
+      </td>
+      <td>
+        {% if user.user.is_active %}
+          <span class="badge rounded-pill bg-success">Active</span>
+        {% else %}
+          <span class="badge rounded-pill bg-danger">Inactive</span>
+        {% endif %}
+      </td> 
+    </tr>
+  {% endfor %}
+{% else %}
+  {% for user in userprofile_list %}
+    {% if not user.user.is_superuser %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>
+          <div 
+            hx-get="{% url "employee_detail" user.id %}"
+            hx-target="#settings_content"
+            hx-trigger="click"
+            hx-swap="innerHtml"
+            style="cursor: pointer;">
+            <span class="fw-bold">{{ user.user.username }}</span> </div>
+        </td>
+        <td>{{ user.user.first_name }} {{ user.user.last_name }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.get_gender_display }}</td>
+        <td>{{ user.job_title }}</td>
+        <td>{{ user.salary }} EG</td>
+        <td>
+          {% if user.user.username in login_history %}
+            <i class="fa-solid fa-circle" style="color: #63E6BE;"></i>
+            <span style="color: #63E6BE;"> Online </span>
+          {% else %}
+            <i class="fa-solid fa-circle" style="color: #e13333;"></i>
+            <span style="color: #e13333;"> Offline </span>
+          {% endif %}
+        </td>
+        <td>
+          {% if user.user.is_active %}
+            <span class="badge rounded-pill bg-success">Active</span>
+          {% else %}
+            <span class="badge rounded-pill bg-danger">Inactive</span>
+          {% endif %}
+        </td> 
+      </tr>
+    {% endif %}
+  {% endfor %}
+{% endif %}
