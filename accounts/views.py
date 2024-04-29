@@ -60,7 +60,8 @@ def user_profile(request, pk):
             # Redirect or do whatever you need after the update
     else:
         form = UserProfileForm(instance=profile)
-    return render(request, 'settings/employee/modals/create_user_profile.html', {'form': form})
+    return render(request, 'settings/employee/modals/create_user_profile.html', {'form': form, 'pk': pk})
+
 
 @permission_required("accounts.change_userprofile")
 def user_update_profile(request, pk):
