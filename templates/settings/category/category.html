@@ -3,7 +3,7 @@
     <div class="grid md:grid-cols-2 gap-10 h-modal ">
       <div
         id="category_list"
-        class="bg-gray-800 rounded-lg p-10 h-full mx-10 min-w-40 md:my-5">
+        class="bg-gray-800 rounded-lg p-10 h-full mx-10 min-w-40 md:my-0 my-5">
         <form class="input-group mb-3" action="" 
            hx-post="{% url 'create' %}"
            hx-trigger="submit"
@@ -11,7 +11,7 @@
            hx-swap="outerHTML" >
           {% csrf_token %}
           <div>
-            <div class="flex gap-2">
+            <div class="flex">
               <input type="text"  name="category" class="bg-gray-50 border border-gray-300 
                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block 
                 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 
@@ -33,7 +33,7 @@
            hx-swap="outerHTML" >
           {% csrf_token %}
           <div>
-            <div class="flex gap-2">
+            <div class="flex">
               <input type="text"  name="sub_category" class="bg-gray-50 border border-gray-300 
                 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block 
                 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white 

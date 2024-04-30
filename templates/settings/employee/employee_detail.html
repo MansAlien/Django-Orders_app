@@ -1,7 +1,40 @@
 <div class="p-4 sm:ml-64 h-modal">
-  <div class="p-4 pt-10 rounded-lg mt-14 h-modal px-10">
-    <div class="grid md:grid-cols-2 ">
-      
+  <div class="p-4 pt-10 rounded-lg mt-14 h-modal px-10 min-w-min">
+    <div
+      id="tabs" hx-target="#tab-contents" role="tablist"
+      hx-on:htmx-after-on-load="let currentTab = document.querySelector('[aria-selected=true]');
+      currentTab.setAttribute('aria-selected', 'false') currentTab.classList.remove('selected')
+      let newTab = event.target newTab.setAttribute('aria-selected', 'true') newTab.classList.add('selected')"
+      class="flex space-x-4 border-b border-gray-500" >
+
+      <button
+        role="tab" aria-controls="tab-contents" aria-selected="true"
+        hx-get="{% url 'info' user.user.id %}"
+        class="px-4 py-2 rounded-lg bg-gray-700 text-white rounded-b-none bg-gray-500"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs add .bg-gray-500 to me" >
+        info
+      </button>
+      <button
+        role="tab" aria-controls="tab-contents" aria-selected="false"
+        hx-get=""
+        class="px-4 py-2 rounded-lg bg-gray-700 text-white rounded-b-none"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs add .bg-gray-500 to me" >
+        login
+      </button>
+      <button
+        role="tab" aria-controls="tab-contents" aria-selected="false"
+        hx-get="{% url 'deduction' user.user.id %}"
+        class="px-4 py-2 rounded-lg bg-gray-700 text-white rounded-b-none"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs add .bg-gray-500 to me" >
+        deduction
+      </button>
+      <button role="tab" aria-controls="tab-contents" aria-selected="false"
+        hx-get="/tab3"
+        class="px-4 py-2 rounded-lg bg-gray-700 text-white rounded-b-none"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs add .bg-gray-500 to me" >
+        permissions
+      </button>
     </div>
+    <div id="tab-contents" role="tabpanel" hx-get="{% url 'info' user.user.id %}" hx-trigger="load" class="mt-5" ></div>
   </div>
 </div>
