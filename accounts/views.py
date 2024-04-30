@@ -261,3 +261,13 @@ def deduction(request, pk):
         "deduction_list": deduction_list,
     }
     return render(request, "settings/employee/tabs/deduction.html", context)
+
+@permission_required("accounts.view_userprofile")
+def log(request, pk):
+    user = UserProfile.objects.get(id=pk)
+    login_history = LoginHistory.objects.filter(user=user.user)
+    context = {
+        "user": user,
+        "login_history": login_history,
+    }
+    return render(request, "settings/employee/tabs/log.html")

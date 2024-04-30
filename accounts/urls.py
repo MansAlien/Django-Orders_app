@@ -10,6 +10,7 @@ from .views import (
     deduction,
     employee_detail_view,
     info,
+    log,
     permission_view,
     reset_password,
     table_refresh,
@@ -36,10 +37,14 @@ htmx_urlpatterns = [
     path("employee_list/<int:pk>/edit_user/", user_update_view, name="edit_user"),
     path( "employee_list/<int:pk>/edit_user_profile/", user_update_profile, name="edit_user_profile",),
     path("user_profile/<int:pk>", user_profile, name="user_profile"),
+    
+    #tabs
+    path("info/<int:pk>/", info, name="info"),
+    path("log/<int:pk>/", log, name="log"),
     path("deduction/<int:pk>", create_deduction_view, name="create_deduction"),
     path("permissions/<int:pk>", permission_view, name="permissions"),
-    path("info/<int:pk>/", info, name="info"),
     path("deduction_refresh/<int:pk>/", deduction, name="deduction"),
+
     path("table_refresh/", table_refresh, name="table_refresh"),
     path("cards/", cards, name="cards"),
 ]

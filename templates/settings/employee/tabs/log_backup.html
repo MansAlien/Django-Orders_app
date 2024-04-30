@@ -1,0 +1,16 @@
+<div class="container h-100" >
+  <div class="row h-100">
+    <div class="col-md-6">
+      <div class="bg-white p-4 mt-4 rounded " style="height: 95%">
+        {% include "settings/employee/tables/login_table.html" %}
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div
+        hx-trigger="load, login_time from:body" hx-get="{% url 'login_time' user.user.id %}" hx-target="this"
+        class="bg-white p-4 mt-4 rounded " style="height: 95%">
+      </div>
+    </div>
+  </div>
+  <br>
+</div>
