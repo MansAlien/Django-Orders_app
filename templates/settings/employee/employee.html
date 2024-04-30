@@ -7,53 +7,26 @@
       id='cards' class='row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3'>
     </div>
 
-    <button _="on click increment :x then put it into the next <output/>" 
+    <!-- Toggle Modal -->
+    <button 
+      hx-get="{% url "create_user" %}"
+      hx-target="#modal_form"
+      hx-swap="innerHtml"
+      _="on click remove .hidden from modal_div " 
       class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
       font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
       dark:focus:ring-blue-800 my-3" type="button">
     Click Me
     </button>
-    <output>--</output>
-    <div _="on click toggle .bg-red-500 .text-white">Click Me!</div>
 
-    <!-- Modal -->
-    <!-- Modal toggle -->
-    <button
-      hx-get="{% url "create_user" %}"
-      hx-target="#modal_form"
-      hx-swap="innerHtml"
-      data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" 
-      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-      font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-      dark:focus:ring-blue-800 my-3" type="button">
-      Add Employee
-    </button>
-
-    <!-- Main modal -->
-    <div id="authentication-modal" tabindex="-1" aria-hidden="true" 
-      class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50
-      justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-      <div class="relative p-4 w-full max-w-md max-h-full">
-        <!-- Modal content -->
-        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-          <!-- Modal header -->
-          <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-              Create User Account
-            </h3>
-            <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200
-              hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center
-              items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="authentication-modal">
-              <i class="text-2xl fa-solid fa-xmark"></i>
-              <span class="sr-only">Close modal</span>
-            </button>
-          </div>
-          <!-- Modal body -->
-          <div id="modal_form" class="p-4 md:p-5">
-          </div>
-        </div>
+    <!-- Main Modal -->
+    <div
+      id="modal_div"
+      class="hidden fixed left-0 top-0 bg-black bg-opacity-50 w-screen h-screen flex justify-center items-center z-50">
+      <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-600 dark:border-gray-700">
+        <div id="modal_form"> </div>
       </div>
-    </div> 
+    </div>
 
     <!-- Table -->
     <div 
