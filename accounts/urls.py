@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import SignUpView, employee_view, employee_detail_view, create_user, table_refresh, user_profile, cards,  user_update_view, user_update_profile, info_refresh, reset_password, create_deduction_view, deduction_refresh, permission_view
+from .views import SignUpView, employee_view, employee_detail_view, create_user, table_refresh, user_profile, cards,  user_update_view, user_update_profile, info_refresh, reset_password, create_deduction_view, deduction_refresh, permission_view, EmployeeView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('employee_list/', employee_view, name="employee_list"),
+    path('employee_list/', EmployeeView.as_view(), name="employee_list"),
     path('employee_list/<int:pk>', employee_detail_view, name="employee_detail"),
 
 

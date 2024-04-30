@@ -205,6 +205,9 @@ def employee_view(request):
     }
     return render(request, "settings/employee/employee.html", context) 
 
+class EmployeeView(TemplateView):
+    template_name = "settings/employee/employee.html"
+
 @permission_required("accounts.view_userprofile")
 def employee_detail_view(request, pk):
     user = UserProfile.objects.get(id=pk)
