@@ -1,59 +1,7 @@
-<style>
-    #contact select {
-        height: 100%; /* Adjust the height as needed */
-        width: 100%; /* Adjust the height as needed */
-    }
-</style>
-<ul class="nav nav-tabs" id="myTab" role="tablist" >
-    <li class="nav-item" role="presentation">
-        <button
-          style='color: #6c7293;'
-          class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" 
-          type="button" role="tab" aria-controls="home" aria-selected="true">Info</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button
-          style='color: #6c7293;'
-          class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" 
-          type="button" role="tab" aria-controls="profile" aria-selected="false">Login</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button
-          style='color: #6c7293;'
-          class="nav-link" id="deduction-tab" data-bs-toggle="tab" data-bs-target="#deduction" 
-          type="button" role="tab" aria-controls="deduction" aria-selected="false">Deduction</button>
-    </li>
-
-    {% if perms.accounts.change_userprofile %}
-      <li class="nav-item" role="presentation">
-          <button 
-            hx-get="{% url "permissions" user.user.id%}"
-            hx-target="#permissions"
-            hx-trigger="click"
-            hx-swap="innerHtml"
-            style='color: #6c7293;'
-            class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#permissions" 
-            type="button" role="tab" aria-controls="contact" aria-selected="false">Permissions</button>
-      </li>
-    {% endif %}
-</ul>
-<div class="tab-content h-100" id="myTabContent">
-    <div
-      hx-trigger="load, info from:body" hx-get="{% url 'info_refresh' user.user.id %}" hx-target="this"
-      class="tab-pane fade show active  h-100" id="home" role="tabpanel" aria-labelledby="home-tab">
+<div class="p-4 sm:ml-64">
+  <div class="p-4 rounded-lg mt-14">
+    <div class="grid md:grid-cols-2">
+      
     </div>
-    <div
-      class="tab-pane fade  h-75" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-      {% include "settings/employee/tabs/log.html" %}
-    </div>
-    <div
-      hx-trigger="load, deduction_refresh from:body" hx-get="{% url 'deduction_refresh' user.user.id %}" hx-target="this"
-      class="tab-pane fade  h-75" id="deduction" role="tabpanel" aria-labelledby="deduction-tab">
-    </div>
-    {% if perms.accounts.change_userprofile %}
-      <div
-        hx-trigger="load, permissions_refresh from:body" hx-get="{% url 'permissions' user.user.id %}" hx-target="this"
-        class="tab-pane fade h-75 " id="permissions" role="tabpanel" aria-labelledby="contact-tab">
-      </div>
-    {% endif %}
+  </div>
 </div>

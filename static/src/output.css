@@ -1143,6 +1143,10 @@ input:checked + .toggle-bg {
   margin: 0.75rem;
 }
 
+.m-20 {
+  margin: 5rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -1166,6 +1170,16 @@ input:checked + .toggle-bg {
 .my-6 {
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+.mx-20 {
+  margin-left: 5rem;
+  margin-right: 5rem;
+}
+
+.mx-10 {
+  margin-left: 2.5rem;
+  margin-right: 2.5rem;
 }
 
 .mb-1 {
@@ -1356,6 +1370,18 @@ input:checked + .toggle-bg {
   width: 100vw;
 }
 
+.min-w-20 {
+  min-width: 5rem;
+}
+
+.min-w-32 {
+  min-width: 8rem;
+}
+
+.min-w-40 {
+  min-width: 10rem;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -1492,6 +1518,14 @@ input:checked + .toggle-bg {
 
 .gap-32 {
   gap: 8rem;
+}
+
+.gap-28 {
+  gap: 7rem;
+}
+
+.gap-10 {
+  gap: 2.5rem;
 }
 
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1860,6 +1894,11 @@ input:checked + .toggle-bg {
 .py-40 {
   padding-top: 10rem;
   padding-bottom: 10rem;
+}
+
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
 }
 
 .pb-4 {
@@ -2238,8 +2277,17 @@ input:checked + .toggle-bg {
     inset: 0px;
   }
 
+  .md\:my-5 {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
   .md\:me-24 {
     margin-inline-end: 6rem;
+  }
+
+  .md\:mt-5 {
+    margin-top: 1.25rem;
   }
 
   .md\:grid-cols-4 {
@@ -2248,6 +2296,14 @@ input:checked + .toggle-bg {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:gap-20 {
+    gap: 5rem;
+  }
+
+  .md\:gap-10 {
+    gap: 2.5rem;
   }
 
   .md\:p-12 {

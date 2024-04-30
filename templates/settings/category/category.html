@@ -1,9 +1,9 @@
 <div class="p-4 sm:ml-64 h-modal">
-  <div class="p-4 pt-10 rounded-lg mt-14 h-modal">
-    <div class="grid md:grid-cols-2 gap-32 h-modal">
+  <div class="p-4 pt-10 rounded-lg mt-14 h-modal px-10">
+    <div class="grid md:grid-cols-2 gap-10 h-modal ">
       <div
         id="category_list"
-        class="bg-gray-800 rounded-lg p-10 h-full ml-20">
+        class="bg-gray-800 rounded-lg p-10 h-full mx-10 min-w-40 md:my-5">
         <form class="input-group mb-3" action="" 
            hx-post="{% url 'create' %}"
            hx-trigger="submit"
@@ -25,7 +25,7 @@
       </div>
       <div
         id="sub_category_list"
-        class="bg-gray-800 rounded-lg p-10 h-full mr-20">
+        class="bg-gray-800 rounded-lg p-10 h-full mx-10 min-w-40">
         <form class="input-group mb-3" action="" 
            hx-post="{% url 'create' %}"
            hx-trigger="submit"
