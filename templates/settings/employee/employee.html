@@ -16,15 +16,18 @@
       class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
       font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
       dark:focus:ring-blue-800 my-3" type="button">
-    Click Me
+      Add Employee
     </button>
 
     <!-- Main Modal -->
     <div
       id="modal_div"
-      class="hidden fixed left-0 top-0 bg-black bg-opacity-50 w-screen h-screen flex justify-center items-center z-50">
-      <div class="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-600 dark:border-gray-700">
-        <div id="modal_form"> </div>
+      class="hidden overflow-y-auto overflow-x-hidden fixed left-0 top-0 bg-black 
+      bg-opacity-50 w-screen h-screen flex justify-center items-center z-50 md:inset-0 ">
+      <div class="relative p-4 w-full max-w-lg max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 p-6 my-6">
+          <div id="modal_form"> </div>
+        </div>
       </div>
     </div>
 
