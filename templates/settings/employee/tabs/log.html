@@ -1,6 +1,19 @@
-<div class="grid md:grid-cols-2 md:gap-20 gap-5">
-  <div class="h-10 bg-gray-800 rounded-lg p-10">
+<div class="grid xl:grid-cols-3 gap-10 mt-10">
+  <div class=" bg-gray-800 rounded-lg md:min-w-80">
+    <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
+      <p class="text-white text-lg m-2"> Login History </p>
+    </div>
+    <div class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="max-height: 33rem">
+      {% include "settings/employee/tables/login_table.html" %}
+    </div>
   </div>
-  <div class="h-10 bg-gray-800 rounded-lg p-10">
+  <div class="xl:col-span-2 bg-gray-800 rounded-lg md:min-w-80">
+    <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
+      <p class="text-white text-lg m-2"> Actions History </p>
+    </div>
+    <div class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="max-height: 33rem">
+      {% include "settings/employee/tables/actions_table.html" %}
+    </div>
   </div>
 </div>
+

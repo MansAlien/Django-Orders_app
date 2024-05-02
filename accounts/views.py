@@ -8,6 +8,7 @@ from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
 
 from login_history.models import LoginHistory
+from easyaudit.models import CRUDEvent
 
 from .forms import (
     DeductionForm,
@@ -261,8 +262,10 @@ def deduction(request, pk):
 def log(request, pk):
     user = UserProfile.objects.get(id=pk)
     login_history = LoginHistory.objects.filter(user=user.user)
+    actions = CRUDEvent.objects.filter(user=user.user)
     context = {
         "user": user,
         "login_history": login_history,
+        "actions": actions,
     }
-    return render(request, "settings/employee/tabs/log.html")
+    return render(request, "settings/employee/tabs/log.html", context)
