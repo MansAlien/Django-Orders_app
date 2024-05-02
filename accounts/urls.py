@@ -29,7 +29,7 @@ urlpatterns = [
     path( "reset/<uidb64>/<token>/", auth_views.PasswordResetConfirmView.as_view(), name="password_reset_confirm",),
     path( "reset/done/", auth_views.PasswordResetCompleteView.as_view(), name="password_reset_complete",),
     # for the admin
-    path("reset_password/<int:user_id>/", reset_password, name="reset_password"),
+    path("reset_password/<int:pk>/", reset_password, name="reset_password"),
 ]
 
 htmx_urlpatterns = [

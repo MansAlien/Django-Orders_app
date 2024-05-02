@@ -55,7 +55,7 @@ def user_update_view(request, pk):
     else:
         form = UserUpdateForm(instance=user_instance)
 
-    return render(request, "settings/employee/modals/edit_user.html", {"form": form})
+    return render(request, "settings/employee/modals/edit_user.html", {"form": form, "pk": pk})
 
 
 @permission_required("accounts.add_userprofile")
@@ -66,17 +66,12 @@ def user_profile(request, pk):
         form = UserProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
-            return HttpResponse(
-                status=204, headers={"HX-Trigger": "table_refresh, cards"}
-            )
+            return HttpResponse( status=204, headers={"HX-Trigger": "table_refresh, cards"})
             # Redirect or do whatever you need after the update
     else:
         form = UserProfileForm(instance=profile)
     return render(
-        request,
-        "settings/employee/modals/create_user_profile.html",
-        {"form": form, "pk": pk},
-    )
+        request, "settings/employee/modals/create_user_profile.html", {"form": form, "pk": pk},)
 
 
 @permission_required("accounts.change_userprofile")
@@ -90,12 +85,12 @@ def user_update_profile(request, pk):
             return HttpResponse(status=204, headers={"HX-Trigger": "info"})
     else:
         form = UserProfileForm(instance=profile)
-    return render(request, "settings/employee/modals/edit_user.html", {"form": form})
+    return render(request, "settings/employee/modals/edit_user_profile.html", {"form": form, "pk": pk})
 
 
 @permission_required("accounts.change_userprofile")
-def reset_password(request, user_id):
-    user = User.objects.get(pk=user_id)
+def reset_password(request, pk):
+    user = User.objects.get(pk=pk)
     if request.method == "POST":
         form = PasswordResetForm(request.POST)
         if form.is_valid():
@@ -107,7 +102,7 @@ def reset_password(request, user_id):
             return HttpResponse(status=204)
     else:
         form = PasswordResetForm()
-    return render(request, "settings/employee/modals/edit_user.html", {"form": form})
+    return render(request, "settings/employee/modals/edit_user.html", {"form": form, "pk": pk})
 
 
 @permission_required("accounts.change_userprofile")

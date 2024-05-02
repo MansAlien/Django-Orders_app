@@ -1,20 +1,18 @@
-<h5 class="card-title">Job Title History</h5>
-<table class="table table-dark table-striped" id="sortable-table">
-  <thead>
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <th class="sortable">Job Title</th>
-      <th class="sortable">Start</th>
-      <th class="sortable">End</th>
+      <th scope="col" class="px-6 py-3">Job Title</th>
+      <th scope="col" class="px-6 py-3">Start</th>
+      <th scope="col" class="px-6 py-3">End</th>
     </tr>
   </thead>
   <tbody>
     {% for job_title in job_title_history %}
-    <tr>
-      <td>{{ job_title.job_title }}</td>
-      <td>{{ job_title.start|date:"Y-m-d" }}</td>
-      <td>{{ job_title.end|date:"Y-m-d" }}</td>
+    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
+      <td class="px-6 py-4 text-base">{{ job_title.job_title }}</td>
+      <td class="px-6 py-4 text-base">{{ job_title.start|date:"Y-m-d" }}</td>
+      <td class="px-6 py-4 text-base">{{ job_title.end|date:"Y-m-d" }}</td>
     </tr>
     {% endfor %}
   </tbody>
 </table>
-

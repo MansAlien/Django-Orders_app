@@ -52,6 +52,7 @@ class UserCreationForm(UserCreationForm):
             'email': None,
             'password1': None,
             'password2': None,
+            "is_active": None,
         }
 
 class UserProfileForm(forms.ModelForm):
@@ -67,7 +68,12 @@ class DeductionForm(forms.ModelForm):
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'email', 'is_active']
+        fields = ['username', 'first_name', 'last_name', 'email', 'is_active']
+        help_texts = {
+            'username': None,
+            'email': None,
+            "is_active": None,
+        }
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
