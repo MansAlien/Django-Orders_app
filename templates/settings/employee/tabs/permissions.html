@@ -1,27 +1,32 @@
-
 {% load crispy_forms_tags %}
-
-<div class="container" >
-  <div class="row">
-    <div class="col-md-3"></div>
-    <div class="col-md-6">
-      <div class="bg-white p-4 mt-4 rounded " style="height: 95%">
-        <h5 class="">User Permission</h5>
-        <form method="post" action="{% url 'permissions' user.id %}" >
-          <div class="h-75 bg-dark text-white p-4 mb-3 rounded">
-            {% csrf_token %}
-            {% for checkbox in form.user_permissions %}
-              <div class="form-check">
-                  {{ checkbox }}
-              </div>
-              {% if forloop.counter|divisibleby:3 and not forloop.last %}
-                <br>
-              {% endif %}
-            {% endfor %}
-          </div>
-          <button class="btn btn-primary" type="submit">Save</button>
-        </form>
-      </div>
+<div
+  class="mt-10">
+  <div class=" bg-gray-800 rounded-lg md:min-w-80">
+    <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
+      <p class="text-white text-lg m-2"> Permissions </p>
+    </div>
+    <div class="flex justify-center lg:gap-32 gap-5 mt-10 mx-3">
+      <form hx-post="{% url 'permissions' pk=pk %}" class="text-white">
+        <div class="py-3">
+          {% csrf_token %}
+          {% for checkbox in form.user_permissions %}
+            <div class="form-check">
+                {{ checkbox }}
+            </div>
+            {% if forloop.counter|divisibleby:3 and not forloop.last %}
+              <br>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="flex justify-between mt-2 px-5">
+        <button 
+          class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+          font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-800 
+          dark:focus:ring-blue-800 my-3" type="submit">
+          save
+        </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>
