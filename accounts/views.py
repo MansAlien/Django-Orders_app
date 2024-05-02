@@ -120,7 +120,7 @@ def create_deduction_view(request, pk):
     else:
         form = DeductionForm()
     return render(
-        request, "settings/employee/modals/create_deduction.html", {"form": form}
+        request, "settings/employee/modals/create_deduction.html", {"form": form, "pk":pk}
     )
 
 
@@ -142,7 +142,7 @@ def permission_view(request, pk):
         form = PermissionForm(instance=user, permissions=permissions)
 
     return render(
-        request, "settings/employee/tabs/permissions.html", {"form": form, "user": user}
+        request, "settings/employee/tabs/permissions.html", {"form": form, "user": user, "pk":pk}
     )
 
 
