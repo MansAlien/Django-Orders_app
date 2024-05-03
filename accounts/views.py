@@ -275,7 +275,8 @@ def deduction(request, pk):
 def log(request, pk):
     user = UserProfile.objects.get(id=pk)
     login_history = LoginHistory.objects.filter(user=user.user)
-    actions = CRUDEvent.objects.filter(user=user.user, event_type__in=["1", "2", "3"]).exclude(content_type__model__endswith="history")
+    actions = CRUDEvent.objects.filter(user=user.user, event_type__in=["1", "2", "3"]).exclude(
+        content_type__model__endswith="history").exclude(content_type__model__startswith="logged")
     context = {
         "user": user,
         "login_history": login_history,
