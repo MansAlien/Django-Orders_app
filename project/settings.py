@@ -74,6 +74,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     "django_htmx.middleware.HtmxMiddleware",
     'accounts.middleware.OneSessionPerUserMiddleware',
+    'django_auto_logout.middleware.auto_logout',
 ]
 
 ROOT_URLCONF = 'project.urls'
@@ -179,6 +180,12 @@ LOGOUT_REDIRECT_URL = 'home'
 #crispy settings
 CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
 CRISPY_TEMPLATE_PACK = "tailwind"
+
+# auto logout
+AUTO_LOGOUT = {
+    'IDLE_TIME': 600,
+    'MESSAGE': 'The session has expired. Please login again to continue.',
+}
 
 #EMAIL_HOST = env.str("EMAIL_HOST")
 #EMAIL_HOST_USER = env.str("EMAIL_HOST_USER")
