@@ -10,6 +10,7 @@
     <div class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="max-height: 33rem">
       {% include "settings/employee/tables/deduction_table.html" %}
     </div>
+    {% if perms.accounts.change_userprofile %}
     <div class="flex justify-center lg:gap-32 gap-5 mt-10 mx-3">
       <button 
         hx-get="{% url 'create_deduction' user.user.id %}"
@@ -22,6 +23,7 @@
         Edit
       </button>
     </div>
+    {% endif %}
   </div>
   <!-- Main Modal -->
   <div

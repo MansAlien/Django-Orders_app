@@ -29,6 +29,7 @@
     </div>
 
     <!-- Toggle Modal -->
+    {% if perms.accounts.add_userprofile %}
     <button 
       hx-get="{% url "create_user" %}"
       hx-target="#modal_form"
@@ -39,6 +40,7 @@
       dark:focus:ring-blue-800 my-3" type="button">
       Add Employee
     </button>
+    {% endif %}
 
     <!-- Main Modal -->
     <div

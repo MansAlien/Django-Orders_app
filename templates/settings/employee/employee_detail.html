@@ -58,12 +58,14 @@
         _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
         deduction
       </button>
+      {% if perms.accounts.change_userprofile %}
       <button role="tab" aria-controls="tab-contents" aria-selected="false"
         hx-get="{% url 'permissions' user.user.id %}"
         class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
         _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
         permissions
       </button>
+      {% endif %}
     </div>
     <div id="tab-contents" role="tabpanel" hx-get="{% url 'info' user.user.id %}" hx-trigger="load" class="mt-5" ></div>
   </div>

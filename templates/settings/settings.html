@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block sidecontent %}
+  {% if perms.accounts %} 
   <li class="item">
     <a
       id="s_employee"
@@ -17,6 +18,7 @@
         <span class="ms-5 text-gray-300 text-lg">Employee</span>
     </a>
   </li>
+  {% endif %}
   <li class="item">
     <a
       id="s_category"
@@ -37,6 +39,8 @@
 
 {% block content %} 
   <div id="settings_content" class="max-h-full">
+    {% if perms.accounts %} 
     {% include 'settings/employee/employee.html' %}
+    {% endif %}
   </div>
 {% endblock %}

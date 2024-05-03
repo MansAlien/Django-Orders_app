@@ -40,7 +40,7 @@
           </tbody>
         </table>
       </div>
-
+      {% if perms.accounts.change_userprofile %}
       <div class="flex justify-center lg:gap-32 gap-5 mt-10 mx-3">
         <button 
           hx-get="{% url 'edit_user' user.user.id %}"
@@ -63,6 +63,7 @@
           Reset Password
         </button>
       </div>
+      {% endif %}
     </div>
     <div class=" bg-gray-800 rounded-lg ">
       <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
@@ -106,7 +107,7 @@
           </tbody>
         </table>
       </div>
-
+      {% if perms.accounts.change_userprofile %}
       <div class="flex justify-center my-2">
         <button 
           hx-get="{% url 'edit_user_profile' user.user.id %}"
@@ -119,6 +120,7 @@
           Edit
         </button>
       </div>
+      {% endif %}
     </div>
   </div>
   <div class="grid lg:grid-cols-2 md:gap-20 gap-5 mt-10">

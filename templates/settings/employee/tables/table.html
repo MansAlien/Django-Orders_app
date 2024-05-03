@@ -14,41 +14,81 @@
       </tr>
     </thead>
     <tbody>
-      {% for user in userprofile_list %}
-      <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
-        <th scope="row" class="px-6 py-4 text-base">{{ user.user.id }}</th>
-        <td  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-lg">
-          <div 
-            hx-get="{% url "employee_detail" user.id %}"
-            hx-target="#settings_content"
-            hx-trigger="click"
-            hx-swap="innerHtml"
-            style="cursor: pointer;">{{ user.user.username }}
-          </div>
-        </td>
-        <td class="px-6 py-4 text-base">{{ user.user.first_name }} {{ user.user.last_name }}</td>
-        <td class="px-6 py-4 text-base">{{ user.age }}</td>
-        <td class="px-6 py-4 text-base">{{ user.get_gender_display }}</td>
-        <td class="px-6 py-4 text-base">{{ user.salary }}</td>
-        <td class="px-6 py-4 text-base">{{ user.job_title }}</td>
-        <td class="px-6 py-4 text-base">
-          <div class="flex items-center">
-            {% if user.user.username in login_history %}
-            <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+      {% if request.user.is_superuser %}
+        {% for user in userprofile_list %}
+        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <th scope="row" class="px-6 py-4 text-base">{{ user.user.id }}</th>
+          <td  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-lg">
+            <div 
+              hx-get="{% url "employee_detail" user.id %}"
+              hx-target="#settings_content"
+              hx-trigger="click"
+              hx-swap="innerHtml"
+              style="cursor: pointer;">{{ user.user.username }}
+            </div>
+          </td>
+          <td class="px-6 py-4 text-base">{{ user.user.first_name }} {{ user.user.last_name }}</td>
+          <td class="px-6 py-4 text-base">{{ user.age }}</td>
+          <td class="px-6 py-4 text-base">{{ user.get_gender_display }}</td>
+          <td class="px-6 py-4 text-base">{{ user.salary }}</td>
+          <td class="px-6 py-4 text-base">{{ user.job_title }}</td>
+          <td class="px-6 py-4 text-base">
+            <div class="flex items-center">
+              {% if user.user.username in login_history %}
+              <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+              {% else %}
+              <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
+              {% endif %}
+            </div>
+          </td>
+          <td class="px-6 py-4 text-base">
+            {% if user.user.is_active %}
+            <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
             {% else %}
-            <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
+            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
             {% endif %}
-          </div>
-        </td>
-        <td class="px-6 py-4 text-base">
-          {% if user.user.is_active %}
-          <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
-          {% else %}
-          <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+          </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        {% for user in userprofile_list %}
+          {% if not user.user.is_superuser %}
+          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+            <th scope="row" class="px-6 py-4 text-base">{{ user.user.id }}</th>
+            <td  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-lg">
+              <div 
+                hx-get="{% url "employee_detail" user.id %}"
+                hx-target="#settings_content"
+                hx-trigger="click"
+                hx-swap="innerHtml"
+                style="cursor: pointer;">{{ user.user.username }}
+              </div>
+            </td>
+            <td class="px-6 py-4 text-base">{{ user.user.first_name }} {{ user.user.last_name }}</td>
+            <td class="px-6 py-4 text-base">{{ user.age }}</td>
+            <td class="px-6 py-4 text-base">{{ user.get_gender_display }}</td>
+            <td class="px-6 py-4 text-base">{{ user.salary }}</td>
+            <td class="px-6 py-4 text-base">{{ user.job_title }}</td>
+            <td class="px-6 py-4 text-base">
+              <div class="flex items-center">
+                {% if user.user.username in login_history %}
+                <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2"></div> Online
+                {% else %}
+                <div class="h-2.5 w-2.5 rounded-full bg-red-500 me-2"></div> Offline
+                {% endif %}
+              </div>
+            </td>
+            <td class="px-6 py-4 text-base">
+              {% if user.user.is_active %}
+              <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
+              {% else %}
+              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+              {% endif %}
+            </td>
+          </tr>
           {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
+        {% endfor %}
+      {% endif %}
     </tbody>
   </table>
 </div>

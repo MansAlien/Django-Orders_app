@@ -5,7 +5,9 @@
       <th scope="col" class="px-6 py-3">Amount</th>
       <th scope="col" class="px-6 py-3">Discription</th>
       <th scope="col" class="px-6 py-3">Date</th>
+      {% if perms.accounts.change_userprofile %}
       <th scope="col" class="px-6 py-3">Action</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -15,6 +17,7 @@
       <td class="px-6 py-4 text-base">{{ deduction.amount }}</td>
       <td class="px-6 py-4 text-base">{{ deduction.discription }}</td>
       <td class="px-6 py-4 text-base">{{ deduction.date|date:"Y-m-d" }}</td>
+      {% if perms.accounts.change_userprofile %}
       <td class="px-6 py-4 text-base space-x-2">
         <div class="flex gap-5">
           <a 
@@ -33,6 +36,7 @@
           </a>
         </div>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>
