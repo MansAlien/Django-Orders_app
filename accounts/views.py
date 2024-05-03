@@ -195,7 +195,6 @@ def cards(request):
 
     admin_online = ( LoginHistory.objects.filter(is_logged_in=True).values_list("user__username", flat=True).distinct().count())
     online = (LoginHistory.objects.filter(is_logged_in=True, user__is_superuser=False).values_list("user__username", flat=True).distinct().count())
-    print(online)
 
     admin_offline = admin_active - admin_online
     offline = active - online

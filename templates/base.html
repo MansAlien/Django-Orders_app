@@ -78,8 +78,10 @@
           </div>
       </aside>
     {% endif %}
+    <div id="base">
     {% block content %}
     {% endblock content %}
+    </div>
 
     <script src="{% static 'js/all.min.js' %}"></script>
     <script src="{% static 'js/htmx.min.js' %}"></script>
