@@ -17,6 +17,8 @@ from .views import (
     user_profile,
     user_update_profile,
     user_update_view,
+    edit_deduction_view,
+    delete_deduction_view,
 )
 
 urlpatterns = [
@@ -44,6 +46,8 @@ htmx_urlpatterns = [
     path("deduction/<int:pk>", create_deduction_view, name="create_deduction"),
     path("permissions/<int:pk>", permission_view, name="permissions"),
     path("deduction_refresh/<int:pk>/", deduction, name="deduction"),
+    path("edit_deduction/<int:pk>/", edit_deduction_view, name="edit_deduction"),
+    path("delete_deduction/<int:pk>/", delete_deduction_view, name="delete_deduction"),
 
     path("table_refresh/", table_refresh, name="table_refresh"),
     path("cards/", cards, name="cards"),

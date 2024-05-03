@@ -6,12 +6,14 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView
 from django.views.generic.edit import CreateView, UpdateView
+from django.utils import timezone
 
 from login_history.models import LoginHistory
 from easyaudit.models import CRUDEvent
 
 from .forms import (
     DeductionForm,
+    DeductionEditForm,
     PasswordResetForm,
     PermissionForm,
     UserCreationForm,
@@ -26,10 +28,8 @@ from .models import Deduction, JobTitleHistory, SalaryHistory, UserProfile
 ##########################################################
 class SignUpView(CreateView):
     form_class = UserCreationForm
-
-
-success_url = reverse_lazy("admin:index")
-template_name = "registration/signup.html"
+    success_url = reverse_lazy("admin:index")
+    template_name = "registration/signup.html"
 
 
 @permission_required("accounts.add_userprofile")
@@ -115,6 +115,7 @@ def create_deduction_view(request, pk):
         if form.is_valid():
             deduction = form.save(commit=False)
             deduction.user_profile = profile
+            deduction.date = timezone.now()
             deduction.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "deduction_refresh"})
     else:
@@ -122,6 +123,26 @@ def create_deduction_view(request, pk):
     return render(
         request, "settings/employee/modals/create_deduction.html", {"form": form, "pk":pk}
     )
+
+@permission_required("accounts.change_userprofile")
+def edit_deduction_view(request, pk):
+    deduction = Deduction.objects.get(id=pk)
+    if request.method == "POST":
+        form = DeductionEditForm(request.POST,  instance=deduction)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "deduction_refresh"})
+    else:
+        form = DeductionEditForm(instance=deduction)
+    return render(
+        request, "settings/employee/modals/create_deduction.html", {"form": form, "pk":pk}
+    )
+
+@permission_required("accounts.change_userprofile")
+def delete_deduction_view(request, pk):
+    deduction = Deduction.objects.get(id=pk)
+    deduction.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "deduction_refresh"})
 
 
 @permission_required("accounts.change_userprofile")
@@ -262,7 +283,7 @@ def deduction(request, pk):
 def log(request, pk):
     user = UserProfile.objects.get(id=pk)
     login_history = LoginHistory.objects.filter(user=user.user)
-    actions = CRUDEvent.objects.filter(user=user.user)
+    actions = CRUDEvent.objects.filter(user=user.user, event_type__in=["1", "2", "3"]).exclude(content_type__model__endswith="history")
     context = {
         "user": user,
         "login_history": login_history,

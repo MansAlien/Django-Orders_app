@@ -65,6 +65,11 @@ class DeductionForm(forms.ModelForm):
         model = Deduction
         fields = ['name', 'amount', 'discription']
 
+class DeductionEditForm(forms.ModelForm):
+    class Meta:
+        model = Deduction
+        fields = ['name', 'amount', 'discription', 'date']
+
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
