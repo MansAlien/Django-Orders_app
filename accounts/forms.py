@@ -2,44 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import UserProfile, Deduction
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Row, Column, Field
-from django.contrib.auth.models import Permission
-
-
-# class UserCreationForm(UserCreationForm):
-#     username = forms.CharField(label='Username', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'username'}))
-#     email = forms.EmailField(label='Email', max_length=100, widget=forms.EmailInput(attrs={'autocomplete': 'email'}))
-#     first_name = forms.CharField(label='First Name', max_length=100, widget=forms.TextInput(attrs={'autocomplete': 'given-name'}))
-#     last_name = forms.CharField(max_length=30, required=True)
-#     is_active = forms.BooleanField(required=False, initial=True)
-#
-#     class Meta:
-#         model = User
-#         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'is_active']
-#         help_texts = {
-#             'username': None,
-#             'email': None,
-#             'password1': None,
-#             'password2': None,
-#         }
-#
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.helper = FormHelper()
-#         self.helper.layout = Layout(
-#             Row(
-#                 Column('first_name', css_class='form-group col-md-6 mb-0'),
-#                 Column('last_name', css_class='form-group col-md-6 mb-0'),
-#                 css_class='form-row'
-#             ),
-#             'username',
-#             'email',
-#             'password1',
-#             'password2',
-#             Field('is_active', css_class='form-check-input', template='your_app/custom_checkbox.html'),
-#         )
-
 
 class UserCreationForm(UserCreationForm):
     is_active = forms.BooleanField(required=False, initial=True)

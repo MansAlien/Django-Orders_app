@@ -21,8 +21,7 @@
   {% endif %}
   <li class="item">
     <a
-      id="s_category"
-      hx-get="{% url "category_list" %}"
+      hx-get="{% url "inventory" %}"
       hx-target="#settings_content"
       hx-swap="innerHTML"
       _="on click remove .bg-gray-700 from .group in .item then add .bg-gray-700 .text-white to me"
@@ -32,7 +31,7 @@
         dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
         <i class="text-xl fa-solid fa-circle-plus"></i>
       </span>
-        <span class="ms-5 text-gray-300 text-lg">Category</span>
+        <span class="ms-5 text-gray-300 text-lg">Inventory</span>
     </a>
   </li>
 {% endblock sidecontent %}

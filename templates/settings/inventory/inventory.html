@@ -1,0 +1,59 @@
+<div class="p-4 sm:ml-64">
+  <!-- Breadcrumb -->
+  <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+        <i class=" fas fa-home"></i>
+        <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium">
+          Home
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li> <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+        <a href="{% url 'settings' %}" class="inline-flex items-center text-sm font-medium">
+          Settings
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+        <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
+          Inventory
+        </span>
+      </li>
+    </ol>
+  </nav>
+  <div class="p-4 pt-10 rounded-lg h-modal px-10 min-w-min">
+    <div
+      id="tabs" hx-target="#tab-contents" role="tablist"
+      class="flex space-x-4 border-b border-gray-500">
+
+      <button
+        hx-get="{% url 'category'%}"
+        role="tab" aria-controls="tab-contents" aria-selected="true"
+        class="px-4 py-2 rounded-lg text-white hover:bg-gray-500 rounded-b-none bg-gray-500 "
+        _="on click remove .bg-gray-500 from <button/> in tabs then add .bg-gray-500 on me" >
+        Category
+      </button>
+      <button
+        role="tab" aria-controls="tab-contents" aria-selected="false"
+        class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
+        _="on click remove .bg-gray-500 from <button/> in tabs then add .bg-gray-500 on me" >
+        login
+      </button>
+      <button
+        role="tab" aria-controls="tab-contents" aria-selected="false"
+        class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
+        deduction
+      </button>
+      <button role="tab" aria-controls="tab-contents" aria-selected="false"
+        class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
+        _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
+        permissions
+      </button>
+    </div>
+    <div id="tab-contents" hx-get="{% url 'category'%}" hx-trigger="load, category_refresh" hx-swap="innerHTML" role="tabpanel" class="mt-5" >
+        {% include "settings/inventory/tabs/category.html" %}
+    </div>
+  </div>
+</div>
+
