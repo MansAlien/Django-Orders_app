@@ -34,25 +34,31 @@
         Category
       </button>
       <button
+        hx-get="{% url 'attributes'%}"
         role="tab" aria-controls="tab-contents" aria-selected="false"
         class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
         _="on click remove .bg-gray-500 from <button/> in tabs then add .bg-gray-500 on me" >
-        login
+        Attributes
       </button>
       <button
+        hx-get="{% url 'product'%}"
         role="tab" aria-controls="tab-contents" aria-selected="false"
         class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
         _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
-        deduction
+        Product
       </button>
-      <button role="tab" aria-controls="tab-contents" aria-selected="false"
+      <button
+        hx-get="{% url 'product_line'%}"
+        role="tab" aria-controls="tab-contents" aria-selected="false"
         class="px-4 py-2 rounded-lg text-white rounded-b-none hover:bg-gray-500"
         _="on click remove .bg-gray-500 from .rounded-b-none in tabs then add .bg-gray-500 to me" >
-        permissions
+        Product_Line
       </button>
     </div>
-    <div id="tab-contents" hx-get="{% url 'category'%}" hx-trigger="load, category_refresh" hx-swap="innerHTML" role="tabpanel" class="mt-5" >
-        {% include "settings/inventory/tabs/category.html" %}
+    <div id="tab-contents"
+      hx-get="{% url 'category'%}"
+      hx-trigger="load"
+      role="tabpanel" class="mt-5" >
     </div>
   </div>
 </div>

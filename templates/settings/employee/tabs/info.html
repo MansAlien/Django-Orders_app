@@ -1,7 +1,6 @@
 <div
   hx-get="{% url 'info' user.user.id %}"
   hx-trigger="info"
-  _="on htmx:afterRequest reload() me"
   id="info" class="m-0 p-0">
   <div class="grid lg:grid-cols-2 md:gap-20 gap-5">
     <div class=" bg-gray-800 rounded-lg md:min-w-80">
