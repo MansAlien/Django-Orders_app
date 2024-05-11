@@ -1,6 +1,6 @@
 
 from django import forms
-from orders.models import Category, Sub_Category, Attribute
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine
 
 
 class CategoryForm(forms.ModelForm):
@@ -17,3 +17,8 @@ class AttributeForm(forms.ModelForm):
     class Meta:
         model = Attribute
         fields = ['name', 'description']
+
+class ProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ['sub_category', 'name', 'description', 'is_active', 'is_countable']

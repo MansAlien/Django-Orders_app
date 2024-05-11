@@ -25,6 +25,10 @@ htmx_urlpatterns = [
     # Attribute
     path("settings/inventory/attribute/create", views.create_attribute, name="create_attribute"),
     path("settings/inventory/attribute/<int:pk>/edit", views.edit_attribute, name="edit_attribute"),
+
+    # Product
+    path("settings/inventory/product/create", views.create_product, name="create_product"),
+    path("settings/inventory/prodcut/<int:pk>/edit", views.edit_product, name="edit_product"),
 ]
 
 urlpatterns += htmx_urlpatterns

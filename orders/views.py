@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, SubCategoryForm , AttributeForm
+from orders.forms import CategoryForm, SubCategoryForm , AttributeForm, ProductForm
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -81,7 +81,7 @@ def edit_sub_category(request, pk):
         form = SubCategoryForm(instance=sub_category)
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
 
-# Attributes
+# Attributes & Products
 def attributes_view(request):
     attribute_list = Attribute.objects.all()
     product_list = Product.objects.all()
@@ -112,9 +112,31 @@ def edit_attribute(request, pk):
         form = AttributeForm(instance=attribute)
     return render(request, "settings/inventory/modals/edit_attribute.html", {"form": form, "pk":pk})
 
+def create_product(request):
+    if request.method == "POST":
+        form = ProductForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    else:
+        form = ProductForm()
+    return render(request, "settings/inventory/modals/create_product.html", {"form": form})
+
+def edit_product(request, pk):
+    product = Product.objects.get(id=pk)
+    if request.method == "POST":
+        form = ProductForm(request.POST,  instance=product)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    else:
+        form = ProductForm(instance=product)
+    return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
+
 # product
 def product_view(request):
     return render(request, "settings/inventory/tabs/product.html")
+
 
 # product line
 def product_line_view(request):

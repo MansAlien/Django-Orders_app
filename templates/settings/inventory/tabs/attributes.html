@@ -3,9 +3,9 @@
   hx-trigger="attribute_refresh">
   <div
     class="p-4 pt-10 rounded-lg h-modal">
-    <div class="grid md:grid-cols-2 gap-10 h-modal ">
+    <div class="grid xl:grid-cols-3 gap-10">
       <div
-        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        class=" bg-gray-800 rounded-lg md:min-w-80">
         <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
           <p class="text-white text-lg m-2"> Attributes </p>
         </div>
@@ -27,13 +27,13 @@
         </div>
       </div>
       <div
-        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        class="xl:col-span-2 min-w-full bg-gray-800 rounded-lg ">
         <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
           <p class="text-white text-lg m-2"> Products </p>
         </div>
         <div class="flex justify-center my-2">
           <button 
-            hx-get="{% url 'create_sub_category' %}"
+            hx-get="{% url 'create_product' %}"
             hx-target="#modal_form"
             hx-swap="innerHtml"
             _="on click remove .hidden from modal_div " 
@@ -42,6 +42,10 @@
             dark:focus:ring-blue-800 my-3" type="button">
             Add
           </button>
+        </div>
+        <div
+          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg ">
+          {% include "settings/inventory/tables/product_table.html" %}
         </div>
     </div>
   </div>
