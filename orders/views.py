@@ -1,10 +1,10 @@
 from django.views.generic import ListView, TemplateView
-from .models import Attribute, Category, Sub_Category, Product, ProductLine
+from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, SubCategoryForm , AttributeForm, ProductForm
+from orders.forms import CategoryForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -133,11 +133,33 @@ def edit_product(request, pk):
         form = ProductForm(instance=product)
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
 
-# product
-def product_view(request):
-    return render(request, "settings/inventory/tabs/product.html")
-
-
-# product line
+# Attribute value & product line
 def product_line_view(request):
-    return render(request, "settings/inventory/tabs/product_line.html")
+    value_list = AttributeValue.objects.all() 
+    product_line_list = ProductLine.objects.all()
+    context = {
+        "value_list":value_list,
+        "product_line_list":product_line_list,
+    }
+    return render(request, "settings/inventory/tabs/product_line.html", context)
+
+def create_attribute_value(request):
+    if request.method == "POST":
+        form = AttributeValueForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    else:
+        form = AttributeValueForm()
+    return render(request, "settings/inventory/modals/create_attribute_value.html", {"form": form})
+
+def edit_attribute_value(request, pk):
+    attribute_value = AttributeValue.objects.get(id=pk)
+    if request.method == "POST":
+        form = AttributeValueForm(request.POST,  instance=attribute_value)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+    else:
+        form = AttributeValueForm(instance=attribute_value)
+    return render(request, "settings/inventory/modals/edit_attribute_value.html", {"form": form, "pk":pk})

@@ -35,7 +35,6 @@ class Product(models.Model):
     def __str__(self) -> str:
         return self.name
 
-
 class AttributeValue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     attribute = models.ForeignKey(Attribute, on_delete=models.CASCADE)
