@@ -1,0 +1,61 @@
+<div
+  hx-get="{% url 'attribute'%}"
+  hx-trigger="attribute_refresh">
+  <div
+    class="p-4 pt-10 rounded-lg h-modal">
+    <div class="grid md:grid-cols-2 gap-10 h-modal ">
+      <div
+        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
+          <p class="text-white text-lg m-2"> Attributes </p>
+        </div>
+        <div class="flex justify-center my-2">
+          <button 
+            hx-get="{% url 'create_attribute' %}"
+            hx-target="#modal_form"
+            hx-swap="innerHtml"
+            _="on click remove .hidden from modal_div " 
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+            font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
+            dark:focus:ring-blue-800 my-3" type="button">
+            Add
+          </button>
+        </div>
+        <div
+          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg ">
+          {% include "settings/inventory/tables/attribute_table.html" %}
+        </div>
+      </div>
+      <div
+        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
+          <p class="text-white text-lg m-2"> Products </p>
+        </div>
+        <div class="flex justify-center my-2">
+          <button 
+            hx-get="{% url 'create_sub_category' %}"
+            hx-target="#modal_form"
+            hx-swap="innerHtml"
+            _="on click remove .hidden from modal_div " 
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+            font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
+            dark:focus:ring-blue-800 my-3" type="button">
+            Add
+          </button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Main Modal -->
+  <div
+    id="modal_div"
+    class="hidden overflow-y-auto overflow-x-hidden fixed left-0 top-0 bg-black 
+    bg-opacity-50 w-screen h-screen flex justify-center items-center z-50 md:inset-0 ">
+    <div class="relative p-4 w-full max-w-lg max-h-full">
+      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 p-6 my-6">
+        <div id="modal_form"> </div>
+      </div>
+    </div>
+  </div>
+</div>
+

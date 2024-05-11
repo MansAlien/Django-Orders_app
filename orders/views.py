@@ -1,10 +1,10 @@
 from django.views.generic import ListView, TemplateView
-from .models import Category, Sub_Category 
+from .models import Attribute, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, SubCategoryForm 
+from orders.forms import CategoryForm, SubCategoryForm , AttributeForm
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -83,8 +83,34 @@ def edit_sub_category(request, pk):
 
 # Attributes
 def attributes_view(request):
-    return render(request, "settings/inventory/tabs/attributes.html")
+    attribute_list = Attribute.objects.all()
+    product_list = Product.objects.all()
+    context = {
+        "attribute_list":attribute_list,
+        "product_list":product_list,
+    }
+    return render(request, "settings/inventory/tabs/attributes.html", context)
 
+def create_attribute(request):
+    if request.method == "POST":
+        form = AttributeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    else:
+        form = AttributeForm()
+    return render(request, "settings/inventory/modals/create_attribute.html", {"form": form})
+
+def edit_attribute(request, pk):
+    attribute = Attribute.objects.get(id=pk)
+    if request.method == "POST":
+        form = AttributeForm(request.POST,  instance=attribute)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    else:
+        form = AttributeForm(instance=attribute)
+    return render(request, "settings/inventory/modals/edit_attribute.html", {"form": form, "pk":pk})
 
 # product
 def product_view(request):
