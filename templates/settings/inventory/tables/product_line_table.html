@@ -1,0 +1,35 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">Procut</th>
+      <th scope="col" class="px-3 py-3">Sub_Category</th>
+      <th scope="col" class="px-3 py-3">Price</th>
+      <th scope="col" class="px-3 py-3">Stock</th>
+      <th scope="col" class="px-3 py-3">Low Stock</th>
+      <th scope="col" class="px-3 py-3">Active</th>
+      <th scope="col" class="px-3 py-3">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product_line in product_line_list %}
+    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
+      <td class="px-3 py-4 text-base">{{ product_line.product.name }} ({{ product_line.values }})</td>
+      <td class="px-3 py-4 text-base">{{ product_line.product.sub_category }}</td>
+      <td class="px-3 py-4 text-base">{{ product_line.price }}</td>
+      <td class="px-3 py-4 text-base">{{ product_line.stock_qty }}</td>
+      <td class="px-3 py-4 text-base">{{ product_line.min_stock_qty }}</td>
+      <td class="px-3 py-4 text-base">{{ product_line.is_active }}</td>
+      <td class="px-3 py-4 text-base">
+        <a 
+          hx-get="{% url 'edit_product_line' product_line.id %}"
+          hx-target="#modal_form"
+          hx-swap="innerHtml"
+          _="on click remove .hidden from modal_div"
+          class="cursor-pointer hover:text-blue-700">
+          <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

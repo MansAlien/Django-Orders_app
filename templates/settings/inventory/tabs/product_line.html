@@ -33,6 +33,7 @@
         </div>
         <div class="flex justify-center my-2">
           <button 
+            hx-get="{% url 'create_product_line' %}"
             hx-target="#modal_form"
             hx-swap="innerHtml"
             _="on click remove .hidden from modal_div " 
@@ -44,7 +45,7 @@
         </div>
         <div
           class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg ">
-          <!--{% include "settings/inventory/tables/product_table.html" %}-->
+          {% include "settings/inventory/tables/product_line_table.html" %}
         </div>
     </div>
   </div>

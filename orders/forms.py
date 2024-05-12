@@ -27,3 +27,8 @@ class AttributeValueForm(forms.ModelForm):
     class Meta:
         model = AttributeValue
         fields = ['product', 'attribute', 'attribute_value']
+
+class ProductLineForm(forms.ModelForm):
+    class Meta:
+        model = ProductLine
+        fields = ['product', 'attribute_values', 'price', 'stock_qty', 'min_stock_qty', 'is_active']

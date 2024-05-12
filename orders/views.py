@@ -4,7 +4,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
+from orders.forms import CategoryForm, ProductLineForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -26,6 +26,7 @@ def inventory_view(request):
         "category_list" : category_list
     }
     return render(request, "settings/inventory/inventory.html", context)
+
 
 # Category
 @login_required
@@ -59,6 +60,7 @@ def edit_category(request, pk):
         form = CategoryForm(instance=category)
     return render( request, "settings/inventory/modals/edit_category.html", {"form": form, "pk":pk})
 
+
 # SubCategory
 def create_sub_category(request):
     if request.method == "POST":
@@ -80,6 +82,7 @@ def edit_sub_category(request, pk):
     else:
         form = SubCategoryForm(instance=sub_category)
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
+
 
 # Attributes & Products
 def attributes_view(request):
@@ -133,7 +136,7 @@ def edit_product(request, pk):
         form = ProductForm(instance=product)
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
 
-# Attribute value & product line
+# Attribute value
 def product_line_view(request):
     value_list = AttributeValue.objects.all() 
     product_line_list = ProductLine.objects.all()
@@ -148,7 +151,7 @@ def create_attribute_value(request):
         form = AttributeValueForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+            return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
     else:
         form = AttributeValueForm()
     return render(request, "settings/inventory/modals/create_attribute_value.html", {"form": form})
@@ -163,3 +166,25 @@ def edit_attribute_value(request, pk):
     else:
         form = AttributeValueForm(instance=attribute_value)
     return render(request, "settings/inventory/modals/edit_attribute_value.html", {"form": form, "pk":pk})
+
+# product line
+def create_product_line(request):
+    if request.method == "POST":
+        form = ProductLineForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+    else:
+        form = ProductLineForm()
+    return render(request, "settings/inventory/modals/create_product_line.html", {"form": form})
+
+def edit_product_line(request, pk):
+    product_line = ProductLine.objects.get(id=pk)
+    if request.method == "POST":
+        form = ProductLineForm(request.POST,  instance=product_line)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+    else:
+        form = ProductLineForm(instance=product_line)
+    return render(request, "settings/inventory/modals/edit_product_line.html", {"form": form, "pk":pk})

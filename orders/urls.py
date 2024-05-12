@@ -6,9 +6,9 @@ urlpatterns = [
     path("settings/", views.SettingsTemplateView.as_view(), name="settings"),
 
     path("settings/inventory/", views.inventory_view, name="inventory"),
-    path("settings/inventory/category", views.category_view, name="category"),
-    path("settings/inventory/attribute", views.attributes_view, name="attribute"),
-    path("settings/inventory/product_line", views.product_line_view, name="product_line"),
+    path("settings/inventory/category", views.category_view, name="category"), # category & sub_category
+    path("settings/inventory/attribute", views.attributes_view, name="attribute"), # attributes & products
+    path("settings/inventory/product_line", views.product_line_view, name="product_line"), # attribute_value & product_line
 ]
 
 
@@ -32,6 +32,10 @@ htmx_urlpatterns = [
     # Attribute Value
     path("settings/inventory/attribute_value/create", views.create_attribute_value, name="create_attribute_value"),
     path("settings/inventory/attribute_value/<int:pk>/edit", views.edit_attribute_value, name="edit_attribute_value"),
+
+    # Product_line
+    path("settings/inventory/product_line/create", views.create_product_line, name="create_product_line"),
+    path("settings/inventory/prodcut_line/<int:pk>/edit", views.edit_product_line, name="edit_product_line"),
 ]
 
 urlpatterns += htmx_urlpatterns

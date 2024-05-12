@@ -46,10 +46,15 @@ class AttributeValue(models.Model):
 class ProductLine(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     attribute_values = models.ManyToManyField(AttributeValue, related_name="attribute_values")
-    price = models.DecimalField(decimal_places=2, max_digits=5)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
     stock_qty = models.IntegerField(default=0)
     min_stock_qty = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
+
+    def values(self):
+        attribute_values_str = ', '.join(str(attr_value.attribute_value) for attr_value in self.attribute_values.all())
+        return attribute_values_str
+
 
     def __str__(self):
         attribute_values_str = ', '.join(str(attr_value) for attr_value in self.attribute_values.all())
