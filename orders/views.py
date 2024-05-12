@@ -87,8 +87,12 @@ def edit_sub_category(request, pk):
         form = SubCategoryForm(instance=sub_category)
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
 
+def delete_sub_category(request, pk):
+    sub_category = Sub_Category.objects.get(id=pk)
+    sub_category.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
-# Attributes & Products
+# Attributes
 def attributes_view(request):
     attribute_list = Attribute.objects.all()
     product_list = Product.objects.all()
@@ -119,6 +123,12 @@ def edit_attribute(request, pk):
         form = AttributeForm(instance=attribute)
     return render(request, "settings/inventory/modals/edit_attribute.html", {"form": form, "pk":pk})
 
+def delete_attribute(request, pk):
+    attribute = Attribute.objects.get(id=pk)
+    attribute.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+
+# Product
 def create_product(request):
     if request.method == "POST":
         form = ProductForm(request.POST)
@@ -139,6 +149,11 @@ def edit_product(request, pk):
     else:
         form = ProductForm(instance=product)
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
+
+def delete_product(request, pk):
+    product = Product.objects.get(id=pk)
+    product.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
 
 # Attribute value
 def product_line_view(request):
@@ -171,6 +186,11 @@ def edit_attribute_value(request, pk):
         form = AttributeValueForm(instance=attribute_value)
     return render(request, "settings/inventory/modals/edit_attribute_value.html", {"form": form, "pk":pk})
 
+def delete_attribute_value(request, pk):
+    attribute_value = AttributeValue.objects.get(id=pk)
+    attribute_value.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+
 # product line
 def create_product_line(request):
     if request.method == "POST":
@@ -192,3 +212,8 @@ def edit_product_line(request, pk):
     else:
         form = ProductLineForm(instance=product_line)
     return render(request, "settings/inventory/modals/edit_product_line.html", {"form": form, "pk":pk})
+
+def delete_product_line(request, pk):
+    product_line = ProductLine.objects.get(id=pk)
+    product_line.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})

@@ -21,22 +21,27 @@ htmx_urlpatterns = [
     # sub_category
     path("settings/inventory/sub_category/create", views.create_sub_category, name="create_sub_category"),
     path("settings/inventory/sub_category/<int:pk>/edit", views.edit_sub_category, name="edit_sub_category"),
+    path("settings/inventory/sub_category/<int:pk>/delete", views.delete_sub_category, name="delete_sub_category"),
 
     # Attribute
     path("settings/inventory/attribute/create", views.create_attribute, name="create_attribute"),
     path("settings/inventory/attribute/<int:pk>/edit", views.edit_attribute, name="edit_attribute"),
+    path("settings/inventory/attribute/<int:pk>/delete", views.delete_attribute, name="delete_attribute"),
 
     # Product
     path("settings/inventory/product/create", views.create_product, name="create_product"),
     path("settings/inventory/prodcut/<int:pk>/edit", views.edit_product, name="edit_product"),
+    path("settings/inventory/product/<int:pk>/delete", views.delete_product, name="delete_product"),
 
     # Attribute Value
     path("settings/inventory/attribute_value/create", views.create_attribute_value, name="create_attribute_value"),
     path("settings/inventory/attribute_value/<int:pk>/edit", views.edit_attribute_value, name="edit_attribute_value"),
+    path("settings/inventory/attribute_value/<int:pk>/delete", views.delete_attribute_value, name="delete_attribute_value"),
 
     # Product_line
     path("settings/inventory/product_line/create", views.create_product_line, name="create_product_line"),
     path("settings/inventory/prodcut_line/<int:pk>/edit", views.edit_product_line, name="edit_product_line"),
+    path("settings/inventory/product_line/<int:pk>/delete", views.delete_product_line, name="delete_product_line"),
 ]
 
 urlpatterns += htmx_urlpatterns

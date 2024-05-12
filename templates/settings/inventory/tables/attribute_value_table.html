@@ -14,14 +14,22 @@
       <td class="px-3 py-4 text-base">{{ value.attribute }}</td>
       <td class="px-3 py-4 text-base">{{ value.product }}</td>
       <td class="px-3 py-4 text-base">
-        <a 
-          hx-get="{% url 'edit_attribute_value' value.id %}"
-          hx-target="#modal_form"
-          hx-swap="innerHtml"
-          _="on click remove .hidden from modal_div"
-          class="cursor-pointer hover:text-blue-700">
-          <i class="fa-solid fa-pen-to-square"></i>
-        </a>
+        <div class="flex gap-5">
+          <a 
+            hx-get="{% url 'edit_attribute_value' value.id %}"
+            hx-target="#modal_form"
+            hx-swap="innerHtml"
+            _="on click remove .hidden from modal_div"
+            class="cursor-pointer hover:text-blue-700">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+          <a 
+            hx-post="{% url 'delete_attribute_value' value.id %}"
+            hx-confirm="Are you sure you want to delete this deduction?"
+            class="cursor-pointer hover:text-red-700 ">
+            <i class="fa-solid fa-trash"></i>
+          </a>
+        </div>
       </td>
     </tr>
     {% endfor %}

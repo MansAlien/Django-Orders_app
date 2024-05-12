@@ -18,7 +18,7 @@
       <td class="px-6 py-4 text-base">{{ deduction.discription }}</td>
       <td class="px-6 py-4 text-base">{{ deduction.date|date:"Y-m-d" }}</td>
       {% if perms.accounts.change_userprofile %}
-      <td class="px-6 py-4 text-base space-x-2">
+      <td class="px-6 py-4 text-base">
         <div class="flex gap-5">
           <a 
             hx-get="{% url 'edit_deduction' deduction.id %}"
