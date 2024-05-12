@@ -8,6 +8,18 @@ class Category(models.Model):
     def __str__(self) -> str:
         return self.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.sub_category_set.update(is_active=self.is_active)
+
+        for sub_category in self.sub_category_set.all():
+            sub_category.product_set.update(is_active=self.is_active)
+
+            for product in sub_category.product_set.all():
+                product.productline_set.update(is_active=self.is_active)
+                    
+
+
 class Sub_Category(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
     name = models.CharField(max_length=200, unique=True)
@@ -15,6 +27,13 @@ class Sub_Category(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.product_set.update(is_active=self.is_active)
+
+        for product in self.product_set.all():
+            product.productline_set.update(is_active=self.is_active)
 
 class Attribute(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -34,6 +53,10 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.productline_set.update(is_active=self.is_active)
 
 class AttributeValue(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
