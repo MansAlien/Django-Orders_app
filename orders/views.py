@@ -1,3 +1,4 @@
+from django.db.models import ProtectedError
 from django.views.generic import ListView, TemplateView
 from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
@@ -5,6 +6,7 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import CategoryForm, ProductLineForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
+from django.contrib import messages
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -61,9 +63,13 @@ def edit_category(request, pk):
     return render( request, "settings/inventory/modals/edit_category.html", {"form": form, "pk":pk})
 
 def delete_category(request, pk):
-    category = Category.objects.get(id=pk)
-    category.delete()
-    return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+    try:
+        category = Category.objects.get(id=pk)
+        category.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
 # SubCategory
 def create_sub_category(request):
@@ -88,9 +94,13 @@ def edit_sub_category(request, pk):
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
 
 def delete_sub_category(request, pk):
-    sub_category = Sub_Category.objects.get(id=pk)
-    sub_category.delete()
-    return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+    try:
+        sub_category = Sub_Category.objects.get(id=pk)
+        sub_category.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
 # Attributes
 def attributes_view(request):
@@ -151,9 +161,13 @@ def edit_product(request, pk):
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
 
 def delete_product(request, pk):
-    product = Product.objects.get(id=pk)
-    product.delete()
-    return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    try:
+        product = Product.objects.get(id=pk)
+        product.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
 
 # Attribute value
 def product_line_view(request):
@@ -214,6 +228,10 @@ def edit_product_line(request, pk):
     return render(request, "settings/inventory/modals/edit_product_line.html", {"form": form, "pk":pk})
 
 def delete_product_line(request, pk):
-    product_line = ProductLine.objects.get(id=pk)
-    product_line.delete()
-    return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+    try:
+        product_line = ProductLine.objects.get(id=pk)
+        product_line.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
