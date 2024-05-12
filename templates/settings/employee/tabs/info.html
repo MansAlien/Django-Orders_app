@@ -2,8 +2,9 @@
   hx-get="{% url 'info' user.user.id %}"
   hx-trigger="info"
   id="info" class="m-0 p-0">
-  <div class="grid lg:grid-cols-2 md:gap-20 gap-5">
-    <div class=" bg-gray-800 rounded-lg md:min-w-80">
+  <div class="grid lg:grid-cols-2 gap-10">
+    <div
+      class=" bg-gray-800 rounded-lg h-auto max-w-full">
       <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
         <p class="text-white text-lg m-2"> User Information</p>
       </div>
@@ -64,7 +65,8 @@
       </div>
       {% endif %}
     </div>
-    <div class=" bg-gray-800 rounded-lg ">
+    <div
+      class=" bg-gray-800 rounded-lg h-auto max-w-full">
       <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
         <p class="text-white text-lg m-2"> Profile Information</p>
       </div>
@@ -122,8 +124,9 @@
       {% endif %}
     </div>
   </div>
-  <div class="grid lg:grid-cols-2 md:gap-20 gap-5 mt-10">
-    <div class=" bg-gray-800 rounded-lg md:min-w-80">
+  <div class="grid lg:grid-cols-2 gap-10 mt-10">
+    <div
+      class=" bg-gray-800 rounded-lg h-auto max-w-full">
       <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
         <p class="text-white text-lg m-2"> Job Title History </p>
       </div>
@@ -131,7 +134,8 @@
         {% include "settings/employee/tables/job_title_table.html" %}
       </div>
     </div>
-    <div class=" bg-gray-800 rounded-lg md:min-w-80">
+    <div
+      class=" bg-gray-800 rounded-lg h-auto max-w-full">
       <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
         <p class="text-white text-lg m-2"> Salary History </p>
       </div>

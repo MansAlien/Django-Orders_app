@@ -2,11 +2,11 @@
   hx-get="{% url 'category'%}"
   hx-trigger="category_refresh">
   <div
-    class="p-4 pt-10 rounded-lg h-modal">
-    <div class="grid md:grid-cols-2 gap-10 h-modal ">
+    class="p-4 rounded-lg h-modal">
+    <div class="grid xl:grid-cols-2 gap-5 h-modal ">
       <div
         id="category_list"
-        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        class=" bg-gray-800 rounded-lg h-auto max-w-full">
         <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
           <p class="text-white text-lg m-2"> Category </p>
         </div>
@@ -18,17 +18,17 @@
             _="on click remove .hidden from modal_div " 
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
             font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-            dark:focus:ring-blue-800 my-3" type="button">
+            dark:focus:ring-blue-800" type="button">
             Add
           </button>
         </div>
         <div
-          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg ">
+          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="max-height: 30rem">
           {% include "settings/inventory/tables/category_table.html" %}
         </div>
       </div>
       <div
-        class="bg-gray-800 rounded-lg h-full min-w-40 md:my-0 my-5">
+        class=" bg-gray-800 rounded-lg h-auto max-w-full">
         <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
           <p class="text-white text-lg m-2"> SubCategory </p>
         </div>
@@ -40,12 +40,12 @@
             _="on click remove .hidden from modal_div " 
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
             font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-            dark:focus:ring-blue-800 my-3" type="button">
+            dark:focus:ring-blue-800" type="button">
             Add
           </button>
         </div>
         <div
-          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg ">
+          class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="max-height: 30rem">
           {% include "settings/inventory/tables/sub_category_table.html" %}
         </div>
       </div>
