@@ -17,7 +17,13 @@
       <td class="px-3 py-4 text-base">{{ product.name }}</td>
       <td class="px-3 py-4 text-base">{{ product.sub_category }}</td>
       <td class="px-3 py-4 text-base">{{ product.description }}</td>
-      <td class="px-3 py-4 text-base">{{ product.is_active }}</td>
+      <td class="px-6 py-4 text-base">
+        {% if product.is_active %}
+        <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
+        {% else %}
+        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+        {% endif %}
+      </td>
       <td class="px-3 py-4 text-base">{{ product.is_countable }}</td>
       <td class="px-3 py-4 text-base">{{ product.created_at }}</td>
       <td class="px-3 py-4 text-base">{{ product.updated_at }}</td>
