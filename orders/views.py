@@ -1,4 +1,5 @@
 from django.db.models import ProtectedError
+from django.db import IntegrityError
 from django.views.generic import ListView, TemplateView
 from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
@@ -47,6 +48,9 @@ def create_category(request):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "category_refresh"})
     else:
         form = CategoryForm()
     return render(request, "settings/inventory/modals/create_category.html", {"form": form})
@@ -58,6 +62,9 @@ def edit_category(request, pk):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "category_refresh"})
     else:
         form = CategoryForm(instance=category)
     return render( request, "settings/inventory/modals/edit_category.html", {"form": form, "pk":pk})
@@ -78,6 +85,9 @@ def create_sub_category(request):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "category_refresh"})
     else:
         form = SubCategoryForm()
     return render(request, "settings/inventory/modals/create_sub_category.html", {"form": form})
@@ -89,6 +99,9 @@ def edit_sub_category(request, pk):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "category_refresh"})
     else:
         form = SubCategoryForm(instance=sub_category)
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
@@ -118,6 +131,9 @@ def create_attribute(request):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "attribute_refresh"})
     else:
         form = AttributeForm()
     return render(request, "settings/inventory/modals/create_attribute.html", {"form": form})
@@ -129,6 +145,9 @@ def edit_attribute(request, pk):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "attribute_refresh"})
     else:
         form = AttributeForm(instance=attribute)
     return render(request, "settings/inventory/modals/edit_attribute.html", {"form": form, "pk":pk})
@@ -145,6 +164,9 @@ def create_product(request):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "attribute_refresh"})
     else:
         form = ProductForm()
     return render(request, "settings/inventory/modals/create_product.html", {"form": form})
@@ -156,6 +178,9 @@ def edit_product(request, pk):
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
+        else:
+            messages.error(request, "Item with this name already exists.")
+            return HttpResponse(status=400, headers={"HX-Trigger": "attribute_refresh"})
     else:
         form = ProductForm(instance=product)
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})

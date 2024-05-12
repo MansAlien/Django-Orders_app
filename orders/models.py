@@ -10,14 +10,14 @@ class Category(models.Model):
 
 class Sub_Category(models.Model):
     category = models.ForeignKey(Category, on_delete=models.PROTECT)
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     is_active = models.BooleanField(default=False)
 
     def __str__(self) -> str:
         return self.name
 
 class Attribute(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
