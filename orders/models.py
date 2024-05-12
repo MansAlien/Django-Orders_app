@@ -74,6 +74,11 @@ class ProductLine(models.Model):
     min_stock_qty = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
 
+    def save(self, *args, **kwargs):
+        if self.stock_qty == 0:
+            self.is_active = False
+        super().save(*args, **kwargs)
+
     def values(self):
         attribute_values_str = ', '.join(str(attr_value.attribute_value) for attr_value in self.attribute_values.all())
         return attribute_values_str
