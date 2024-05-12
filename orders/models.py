@@ -9,7 +9,7 @@ class Category(models.Model):
         return self.name
 
 class Sub_Category(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=False)
 
@@ -24,7 +24,7 @@ class Attribute(models.Model):
         return self.name
 
 class Product(models.Model):
-    sub_category = models.ForeignKey(Sub_Category, on_delete=models.SET_NULL, null=True)
+    sub_category = models.ForeignKey(Sub_Category, on_delete=models.PROTECT)
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(null=True, blank=True)
     is_active = models.BooleanField(default=False)

@@ -16,6 +16,7 @@ htmx_urlpatterns = [
     # category
     path("settings/inventory/category/create", views.create_category, name="create_category"),
     path("settings/inventory/category/<int:pk>/edit", views.edit_category, name="edit_category"),
+    path("settings/inventory/category/<int:pk>/delete", views.delete_category, name="delete_category"),
 
     # sub_category
     path("settings/inventory/sub_category/create", views.create_sub_category, name="create_sub_category"),

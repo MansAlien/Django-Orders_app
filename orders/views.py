@@ -60,6 +60,10 @@ def edit_category(request, pk):
         form = CategoryForm(instance=category)
     return render( request, "settings/inventory/modals/edit_category.html", {"form": form, "pk":pk})
 
+def delete_category(request, pk):
+    category = Category.objects.get(id=pk)
+    category.delete()
+    return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
 # SubCategory
 def create_sub_category(request):
