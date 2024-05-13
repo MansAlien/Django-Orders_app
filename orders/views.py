@@ -22,6 +22,14 @@ class SettingsTemplateView(TemplateView):
 ######### Inventory Databases ############
 ##########################################
 
+# Dashboard
+def inventory_dashboard_view(request):
+    product_line_list = ProductLine.objects.all()
+    context = {
+        "product_line_list":product_line_list,
+    }
+    return render(request, "settings/dashboard/inventory.html", context)
+
 # Inventory
 def inventory_view(request):
     category_list = Category.objects.all()

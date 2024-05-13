@@ -8,10 +8,10 @@
       hx-get="{% url "employee_list" %}"
       hx-target="#settings_content"
       hx-swap="innerHtml"
-      _="on click remove .bg-gray-700 from .group in .item then add .bg-gray-700 to me"
+      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
       class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
       dark:hover:bg-gray-700 group cursor-pointer">
-      <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+      <span class="inline-block text-gray-500 transition duration-75 
         dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
         <i class="text-xl fa-solid fa-circle-plus"></i>
       </span>
@@ -24,10 +24,10 @@
       hx-get="{% url "inventory" %}"
       hx-target="#settings_content"
       hx-swap="innerHTML"
-      _="on click remove .bg-gray-700 from .group in .item then add .bg-gray-700 .text-white to me"
+      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
       class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
       dark:hover:bg-gray-700 group cursor-pointer max-h-full">
-      <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+      <span class="inline-block text-gray-500 transition duration-75 
         dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
         <i class="text-xl fa-solid fa-circle-plus"></i>
       </span>

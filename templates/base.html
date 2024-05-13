@@ -29,21 +29,51 @@
         bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-900 dark:border-gray-800" 
         aria-label="Sidebar">
           <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-900 flex flex-col justify-between ">
-            <ul class="space-y-2 font-medium">
+            <ul class="space-y-2 font-medium ul_items">
               <li>
                 <a
                   href="{% url 'home' %}"
-                  class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
-                  dark:hover:bg-gray-700 group">
-                  <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
+                  _="on click remove .bg-gray-700 from <a/> in .ul_items"
+                  class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
+                  dark:hover:bg-gray-700 group cursor-pointer">
+                  <span class="inline-block text-gray-500 transition duration-75 
                     dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
                     <i class="text-xl fas fa-home"></i>
                   </span>
                     <span class="ms-5 text-gray-300 text-lg ">Home</span>
                 </a>
               </li>
+              <li>
+                <a
+                  _="on click remove .bg-gray-700 from <a/> in .ul_items then toggle .hidden on #dropdown"
+                  class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+                  dark:hover:bg-gray-700 group cursor-pointer max-h-full">
+                  <span class="inline-block text-gray-500 transition duration-75 text-xl
+                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <i class="fa-solid fa-chart-pie"></i>
+                  </span>
+                  <span class="ms-5 text-gray-300 text-lg "> Dashboard </span>
+                  <span class="inline-block ms-2 text-gray-500 transition duration-75 pt-1
+                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                    <i class="text-lg fa-solid fa-caret-down"></i>
+                  </span>
+                </a>
+                <ul id="dropdown" class="hidden py-2 space-y-2 .ul_items ms-5 ">
+                  <li>
+                    <a
+                      hx-get="{% url "inventory_dashboard" %}"
+                      hx-target="#base"
+                      hx-swap="innerHtml"
+                      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
+                      class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
+                      dark:hover:bg-gray-700 group cursor-pointer">
+                      Inventory
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
-            <ul class="space-y-2 font-medium">
+            <ul class="space-y-2 font-medium ul_items">
               {% block sidecontent %}
               {% endblock sidecontent %}
             </ul>
@@ -51,6 +81,7 @@
               <li>
                 <a 
                   href="{% url 'settings' %}"
+                  _="on click remove .bg-gray-700 from <a/> in .ul_items"
                   class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
                   dark:hover:bg-gray-700 group">
                   <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 

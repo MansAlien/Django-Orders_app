@@ -4,6 +4,7 @@ from orders import views
 urlpatterns = [
     path("", views.HomeListView.as_view(), name="home"),
     path("settings/", views.SettingsTemplateView.as_view(), name="settings"),
+    path("dashboard/inventory", views.inventory_dashboard_view, name="inventory_dashboard"),
 
     path("settings/inventory/", views.inventory_view, name="inventory"),
     path("settings/inventory/category", views.category_view, name="category"), # category & sub_category
