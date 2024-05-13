@@ -1,5 +1,5 @@
 from django.db.models import ProtectedError
-from django.db import IntegrityError
+from django.db.models import F
 from django.views.generic import ListView, TemplateView
 from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
@@ -24,8 +24,10 @@ class SettingsTemplateView(TemplateView):
 
 # Dashboard
 def inventory_dashboard_view(request):
-    product_line_list = ProductLine.objects.all()
+    to_buy_list = ProductLine.objects.filter(product__is_countable=True).exclude(stock_qty__gt=F('min_stock_qty'))
+    product_line_list = ProductLine.objects.filter(product__is_countable=True)
     context = {
+        "to_buy_list":to_buy_list,
         "product_line_list":product_line_list,
     }
     return render(request, "settings/dashboard/inventory.html", context)
