@@ -1,6 +1,6 @@
 from pathlib import Path
+from environs import Env
 import os 
-import environ
 import dj_database_url
 
 # Environment Variables
