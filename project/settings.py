@@ -3,15 +3,12 @@ from environs import Env
 import os 
 import dj_database_url
 
-# Environment Variables
-env = Env()
-env.read_env()
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(DEBUG=(bool, False))
 BASE_DIR = Path(__file__).resolve().parent.parent
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('SECRET_KEY')
-DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
+DEBUG = env('DEBUG')
 ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
