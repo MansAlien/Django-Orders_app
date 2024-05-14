@@ -75,7 +75,7 @@ class ProductLine(models.Model):
     is_active = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
-        if self.stock_qty == 0:
+        if self.stock_qty == 0 and self.product.is_countable:
             self.is_active = False
         super().save(*args, **kwargs)
 
