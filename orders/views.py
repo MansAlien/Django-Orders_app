@@ -6,7 +6,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, ProductLineForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
+from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
 from django.contrib import messages
 
 @method_decorator(login_required, name='dispatch')
@@ -242,14 +242,24 @@ def delete_attribute_value(request, pk):
 
 # product line
 def create_product_line(request):
+    product_list = Product.objects.all()
     if request.method == "POST":
-        form = ProductLineForm(request.POST)
+        form = ProductLineCreateForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
     else:
-        form = ProductLineForm()
-    return render(request, "settings/inventory/modals/create_product_line.html", {"form": form})
+        form = ProductLineCreateForm()
+    context = {
+        "product_list":product_list,
+        "form":form,
+    }
+    return render(request, "settings/inventory/modals/create_product_line.html", context)
+
+def load_product_values(request):
+    product_id = request.GET.get("product")
+    value_list = AttributeValue.objects.filter(product=product_id)
+    return render(request, "settings/inventory/modals/product_values.html", {"value_list":value_list})
 
 def edit_product_line(request, pk):
     product_line = ProductLine.objects.get(id=pk)

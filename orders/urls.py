@@ -41,6 +41,7 @@ htmx_urlpatterns = [
 
     # Product_line
     path("settings/inventory/product_line/create", views.create_product_line, name="create_product_line"),
+    path("settings/load_product_values/", views.load_product_values, name="load_product_values"),
     path("settings/inventory/prodcut_line/<int:pk>/edit", views.edit_product_line, name="edit_product_line"),
     path("settings/inventory/product_line/<int:pk>/delete", views.delete_product_line, name="delete_product_line"),
 ]

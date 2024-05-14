@@ -37,9 +37,7 @@
 {% endblock sidecontent %}
 
 {% block content %} 
-  <div id="settings_content" class="max-h-full">
     {% if perms.accounts %} 
     {% include 'settings/employee/employee.html' %}
     {% endif %}
-  </div>
 {% endblock %}

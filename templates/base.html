@@ -62,7 +62,7 @@
                   <li>
                     <a
                       hx-get="{% url "inventory_dashboard" %}"
-                      hx-target="#base"
+                      hx-target="#settings_content"
                       hx-swap="innerHtml"
                       _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
                       class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
@@ -109,7 +109,7 @@
           </div>
       </aside>
     {% endif %}
-    <div id="base">
+    <div id="settings_content" class="max-h-full">
     {% block content %}
     {% endblock content %}
     </div>

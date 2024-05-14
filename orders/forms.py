@@ -32,3 +32,38 @@ class ProductLineForm(forms.ModelForm):
     class Meta:
         model = ProductLine
         fields = ['product', 'attribute_values', 'price', 'stock_qty', 'min_stock_qty', 'is_active']
+
+class ProductLineCreateForm(forms.Form):
+    product = forms.ModelChoiceField(queryset=Product.objects.all(),
+        widget=forms.Select(attrs={"hx-get":"load_product_values/", "hx-target":"#id_attribute_values"}))
+    attribute_values = forms.ModelMultipleChoiceField(queryset=AttributeValue.objects.none())
+    price = forms.DecimalField(decimal_places=2, max_digits=10)
+    stock_qty = forms.IntegerField(initial=0)
+    min_stock_qty = forms.IntegerField(initial=1)
+    is_active = forms.BooleanField()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if "product" in self.data:
+            product_id = int(self.data.get("product"))
+            self.fields["attribute_values"].queryset =AttributeValue.objects.filter(product=product_id) 
+
+
+    def clean_stock_qty(self):
+        stock_qty = self.cleaned_data['stock_qty']
+        if stock_qty < 0:
+            raise forms.ValidationError("Stock quantity cannot be negative.")
+        return stock_qty
+
+    def save(self):
+        product_line = ProductLine(
+            product=self.cleaned_data['product'],
+            price=self.cleaned_data['price'],
+            stock_qty=self.cleaned_data['stock_qty'],
+            min_stock_qty=self.cleaned_data['min_stock_qty'],
+            is_active=self.cleaned_data['is_active']
+        )
+        product_line.save()
+        product_line.attribute_values.set(self.cleaned_data['attribute_values'])
+        return product_line
+
