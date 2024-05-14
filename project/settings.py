@@ -1,6 +1,6 @@
 from pathlib import Path
-from environs import Env
 import os 
+import environ
 import dj_database_url
 
 env = environ.Env(DEBUG=(bool, False))
@@ -87,8 +87,11 @@ DATABASES = {
     }
 }
 
-database_url = os.environ.get("DATABASE_URL")
+database_url = env('DATABASE_URL') 
 DATABASES["default"] = dj_database_url.parse(database_url)
+
+# Password validation
+# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
