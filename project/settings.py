@@ -10,29 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 from pathlib import Path
-from environs import Env
+import os 
 
-# Environment Variables
-env = Env()
-env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
-
-# SECRET_KEY = os.environ.get("SECRET_KEY")
 SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
-# SECRET_KEY = env.str("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-# DEBUG = os.environ.get("DEBUG", "False").lower() == "True"
-# ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "192.168.1.16"]
-# ALLOWED_HOSTS = ['.vercel.app','now.sh','127.0.0.1','localhost']
 
 
 
@@ -107,28 +94,14 @@ STATICFILES_FINDERS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get("P_NAME"),
+        'USER': os.environ.get("P_NAME"),
+        'PASSWORD': os.environ.get("P_NAME"),
+        'HOST': os.environ.get("P_NAME"),
+        'PORT': os.environ.get("P_NAME"),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'studio_vision',
-#         'USER': "studio_vision_user",
-#         'PASSWORD': "yQlhMrQuIGEDArgfVWRfHiDUqWPS69IV",
-#         'HOST': "dpg-coj7r2f79t8c738t14kg-a",
-#         'PORT': "5432",
-#     }
-# }
-
-# database_url = os.environ.get("DATABASE_URL")
-# DATABASES["default"] = dj_database_url.parse(database_url)
-# DATABASES["default"] = dj_database_url.parse("postgres://studio_vision_user:yQlhMrQuIGEDArgfVWRfHiDUqWPS69IV@dpg-coj7r2f79t8c738t14kg-a.oregon-postgres.render.com/studio_vision")
-
-# Password validation
-# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
