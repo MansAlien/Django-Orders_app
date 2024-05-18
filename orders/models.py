@@ -1,3 +1,4 @@
+from functools import wraps
 from django.db import models
 
 
@@ -88,3 +89,64 @@ class ProductLine(models.Model):
         attribute_values_str = ', '.join(str(attr_value) for attr_value in self.attribute_values.all())
         return f"{self.product.name} - {attribute_values_str}"
 
+
+class Customer(models.Model):
+    GENDER = {
+        "M":"Male",
+        "F":"Female",
+    }
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=12)
+    whatsapp = models.CharField(max_length=12)
+    gender = models.CharField(max_length=1, choices=GENDER, default="M")
+
+    def __str__(self) -> str:
+        return f"{self.first_name} {self.last_name}"
+
+
+class Order(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+    delivered = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self) -> str:
+        return f"{self.customer} ({self.created_at})"
+
+
+class OrderDetail(models.Model):
+    DELIVER_TYPE = {
+        "N":"Normal",
+        "F":"Fawry",
+    }
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    product_line = models.ForeignKey(ProductLine, on_delete=models.PROTECT)
+    deliver_type = models.CharField(max_length=1, choices=DELIVER_TYPE, default="N")
+    delivered = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+    amount = models.PositiveIntegerField(default=1)
+    customer_comment = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    updated_at = models.DateTimeField(auto_now=True, editable=False)
+
+    def __str__(self) -> str:
+        return f"{self.product_line}"
+
+class Payment(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.PROTECT)
+    discount = models.DecimalField(decimal_places=1, max_digits=4)
+    total = models.DecimalField(decimal_places=2, max_digits=10)
+    paid = models.DecimalField(decimal_places=2, max_digits=10)
+
+    def __str__(self) -> str:
+        return f"Total:{self.total}- Paid:{self.paid}"
+
+class Comment(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return self.content
