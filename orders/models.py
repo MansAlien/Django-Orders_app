@@ -74,6 +74,7 @@ class ProductLine(models.Model):
     stock_qty = models.IntegerField(default=0)
     min_stock_qty = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
+    deliver_date = models.IntegerField(null=True)
 
     def save(self, *args, **kwargs):
         if self.stock_qty == 0 and self.product.is_countable:
