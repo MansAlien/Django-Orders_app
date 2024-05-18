@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
 from django.contrib import messages
+from django.contrib.auth.decorators import permission_required
 
 @method_decorator(login_required, name='dispatch')
 class HomeListView(ListView):
@@ -23,6 +24,7 @@ class SettingsTemplateView(TemplateView):
 ##########################################
 
 # Dashboard
+@permission_required("orders.view_product")
 def inventory_dashboard_view(request):
     to_buy_list = ProductLine.objects.filter(product__is_countable=True).exclude(stock_qty__gt=F('min_stock_qty'))
     product_line_list = ProductLine.objects.filter(product__is_countable=True)
@@ -33,6 +35,7 @@ def inventory_dashboard_view(request):
     return render(request, "settings/dashboard/inventory.html", context)
 
 # Inventory
+@permission_required("orders.view_product")
 def inventory_view(request):
     category_list = Category.objects.all()
     context = {
@@ -42,7 +45,7 @@ def inventory_view(request):
 
 
 # Category
-@login_required
+@permission_required("orders.view_product")
 def category_view(request):
     category_list = Category.objects.all()
     sub_category_list = Sub_Category.objects.all()
@@ -52,6 +55,7 @@ def category_view(request):
     }
     return render(request, "settings/inventory/tabs/category.html", context)
 
+@permission_required("orders.add_product")
 def create_category(request):
     if request.method == "POST":
         form = CategoryForm(request.POST)
@@ -65,6 +69,7 @@ def create_category(request):
         form = CategoryForm()
     return render(request, "settings/inventory/modals/create_category.html", {"form": form})
 
+@permission_required("orders.change_product")
 def edit_category(request, pk):
     category = Category.objects.get(id=pk)
     if request.method == "POST":
@@ -79,6 +84,7 @@ def edit_category(request, pk):
         form = CategoryForm(instance=category)
     return render( request, "settings/inventory/modals/edit_category.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_category(request, pk):
     try:
         category = Category.objects.get(id=pk)
@@ -89,6 +95,7 @@ def delete_category(request, pk):
         return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
 # SubCategory
+@permission_required("orders.add_product")
 def create_sub_category(request):
     if request.method == "POST":
         form = SubCategoryForm(request.POST)
@@ -102,6 +109,7 @@ def create_sub_category(request):
         form = SubCategoryForm()
     return render(request, "settings/inventory/modals/create_sub_category.html", {"form": form})
 
+@permission_required("orders.change_product")
 def edit_sub_category(request, pk):
     sub_category = Sub_Category.objects.get(id=pk)
     if request.method == "POST":
@@ -116,6 +124,7 @@ def edit_sub_category(request, pk):
         form = SubCategoryForm(instance=sub_category)
     return render( request, "settings/inventory/modals/edit_sub_category.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_sub_category(request, pk):
     try:
         sub_category = Sub_Category.objects.get(id=pk)
@@ -126,6 +135,7 @@ def delete_sub_category(request, pk):
         return HttpResponse(status=204, headers={"HX-Trigger": "category_refresh"})
 
 # Attributes
+@permission_required("orders.view_product")
 def attributes_view(request):
     attribute_list = Attribute.objects.all()
     product_list = Product.objects.all()
@@ -135,6 +145,7 @@ def attributes_view(request):
     }
     return render(request, "settings/inventory/tabs/attributes.html", context)
 
+@permission_required("orders.add_product")
 def create_attribute(request):
     if request.method == "POST":
         form = AttributeForm(request.POST)
@@ -148,6 +159,7 @@ def create_attribute(request):
         form = AttributeForm()
     return render(request, "settings/inventory/modals/create_attribute.html", {"form": form})
 
+@permission_required("orders.change_product")
 def edit_attribute(request, pk):
     attribute = Attribute.objects.get(id=pk)
     if request.method == "POST":
@@ -162,12 +174,14 @@ def edit_attribute(request, pk):
         form = AttributeForm(instance=attribute)
     return render(request, "settings/inventory/modals/edit_attribute.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_attribute(request, pk):
     attribute = Attribute.objects.get(id=pk)
     attribute.delete()
     return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
 
 # Product
+@permission_required("orders.add_product")
 def create_product(request):
     if request.method == "POST":
         form = ProductForm(request.POST)
@@ -181,6 +195,7 @@ def create_product(request):
         form = ProductForm()
     return render(request, "settings/inventory/modals/create_product.html", {"form": form})
 
+@permission_required("orders.change_product")
 def edit_product(request, pk):
     product = Product.objects.get(id=pk)
     if request.method == "POST":
@@ -195,6 +210,7 @@ def edit_product(request, pk):
         form = ProductForm(instance=product)
     return render(request, "settings/inventory/modals/edit_product.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_product(request, pk):
     try:
         product = Product.objects.get(id=pk)
@@ -205,6 +221,7 @@ def delete_product(request, pk):
         return HttpResponse(status=204, headers={"HX-Trigger": "attribute_refresh"})
 
 # Attribute value
+@permission_required("orders.view_product")
 def product_line_view(request):
     value_list = AttributeValue.objects.all() 
     product_line_list = ProductLine.objects.all()
@@ -214,6 +231,7 @@ def product_line_view(request):
     }
     return render(request, "settings/inventory/tabs/product_line.html", context)
 
+@permission_required("orders.add_product")
 def create_attribute_value(request):
     if request.method == "POST":
         form = AttributeValueForm(request.POST)
@@ -224,6 +242,7 @@ def create_attribute_value(request):
         form = AttributeValueForm()
     return render(request, "settings/inventory/modals/create_attribute_value.html", {"form": form})
 
+@permission_required("orders.change_product")
 def edit_attribute_value(request, pk):
     attribute_value = AttributeValue.objects.get(id=pk)
     if request.method == "POST":
@@ -235,12 +254,14 @@ def edit_attribute_value(request, pk):
         form = AttributeValueForm(instance=attribute_value)
     return render(request, "settings/inventory/modals/edit_attribute_value.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_attribute_value(request, pk):
     attribute_value = AttributeValue.objects.get(id=pk)
     attribute_value.delete()
     return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
 
 # product line
+@permission_required("orders.add_product")
 def create_product_line(request):
     product_list = Product.objects.all()
     if request.method == "POST":
@@ -261,6 +282,7 @@ def load_product_values(request):
     value_list = AttributeValue.objects.filter(product=product_id)
     return render(request, "settings/inventory/modals/product_values.html", {"value_list":value_list})
 
+@permission_required("orders.change_product")
 def edit_product_line(request, pk):
     product_line = ProductLine.objects.get(id=pk)
     if request.method == "POST":
@@ -272,6 +294,7 @@ def edit_product_line(request, pk):
         form = ProductLineForm(instance=product_line)
     return render(request, "settings/inventory/modals/edit_product_line.html", {"form": form, "pk":pk})
 
+@permission_required("orders.change_product")
 def delete_product_line(request, pk):
     try:
         product_line = ProductLine.objects.get(id=pk)

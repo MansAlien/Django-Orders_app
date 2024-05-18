@@ -60,6 +60,7 @@
                 </a>
                 <ul id="dropdown" class="hidden py-2 space-y-2 .ul_items ms-5 ">
                   <li>
+                    {% if perms.orders %} 
                     <a
                       hx-get="{% url "inventory_dashboard" %}"
                       hx-target="#settings_content"
@@ -69,6 +70,7 @@
                       dark:hover:bg-gray-700 group cursor-pointer">
                       Inventory
                     </a>
+                    {% endif %}
                   </li>
                 </ul>
               </li>

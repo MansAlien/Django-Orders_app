@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import permission_required
 from django.contrib.auth.models import Permission, User
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
-from django.views.generic import ListView, TemplateView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import TemplateView
+from django.views.generic.edit import CreateView
 from django.utils import timezone
 
 from login_history.models import LoginHistory
