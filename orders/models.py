@@ -1,5 +1,5 @@
-from functools import wraps
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -108,7 +108,7 @@ class Customer(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
     delivered = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self) -> str:
@@ -124,7 +124,7 @@ class OrderDetail(models.Model):
     product_line = models.ForeignKey(ProductLine, on_delete=models.PROTECT)
     deliver_type = models.CharField(max_length=1, choices=DELIVER_TYPE, default="N")
     delivered = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     amount = models.PositiveIntegerField(default=1)
     customer_comment = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
@@ -135,15 +135,15 @@ class OrderDetail(models.Model):
 
 class Payment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    discount = models.DecimalField(decimal_places=1, max_digits=4)
-    total = models.DecimalField(decimal_places=2, max_digits=10)
-    paid = models.DecimalField(decimal_places=2, max_digits=10)
+    discount = models.DecimalField(decimal_places=1, max_digits=4, null=True, blank=True)
+    total = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    paid = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"Total:{self.total}- Paid:{self.paid}"
 
 class Comment(models.Model):
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
