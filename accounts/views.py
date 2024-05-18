@@ -149,23 +149,19 @@ def delete_deduction_view(request, pk):
 def permission_view(request, pk):
     user = User.objects.get(id=pk)
     permissions = Permission.objects.filter(
-        content_type__app_label="accounts", codename__endswith="_userprofile"
+        (Q(content_type__app_label="accounts") | Q(content_type__app_label="orders")) &
+        (Q(codename__endswith="_userprofile") | Q(codename__endswith="_product"))
     ).exclude(codename__startswith="delete")
 
     if request.method == "POST":
         form = PermissionForm(request.POST, instance=user, permissions=permissions)
         if form.is_valid():
             form.save()
-            return HttpResponse(
-                status=204, headers={"HX-Trigger": "permissions_refresh"}
-            )
+            return HttpResponse(status=204, headers={"HX-Trigger": "permissions_refresh"})
     else:
         form = PermissionForm(instance=user, permissions=permissions)
 
-    return render(
-        request, "settings/employee/tabs/permissions.html", {"form": form, "user": user, "pk":pk}
-    )
-
+    return render(request, "settings/employee/tabs/permissions.html", {"form": form, "user": user, "pk": pk})
 
 ##########################################################
 #######                Refresh              ##############
