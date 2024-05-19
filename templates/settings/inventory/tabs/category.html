@@ -29,6 +29,7 @@
           <p class="text-white text-lg m-2"> Category </p>
         </div>
         <div class="flex justify-center my-2">
+          {% if perms.orders.add_product %}
           <button 
             hx-get="{% url 'create_category' %}"
             hx-target="#modal_form"
@@ -39,6 +40,7 @@
             dark:focus:ring-blue-800" type="button">
             Add
           </button>
+          {% endif %}
         </div>
         <div
           class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="height: 30rem">
@@ -51,6 +53,7 @@
           <p class="text-white text-lg m-2"> SubCategory </p>
         </div>
         <div class="flex justify-center my-2">
+          {% if perms.orders.add_product %}
           <button 
             hx-get="{% url 'create_sub_category' %}"
             hx-target="#modal_form"
@@ -61,6 +64,7 @@
             dark:focus:ring-blue-800" type="button">
             Add
           </button>
+          {% endif %}
         </div>
         <div
           class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="height: 30rem">
