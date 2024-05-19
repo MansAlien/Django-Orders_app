@@ -3,7 +3,9 @@
     <tr>
       <th scope="col" class="px-3 py-3">Category</th>
       <th scope="col" class="px-3 py-3">Active</th>
+      {% if perms.orders.change_product %}
       <th scope="col" class="px-3 py-3">Action</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -17,6 +19,7 @@
         <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
         {% endif %}
       </td>
+      {% if perms.orders.change_product %}
       <td class="px-3 py-3 text-base">
         <div class="flex gap-5">
           <a 
@@ -35,6 +38,7 @@
           </a>
         </div>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>
