@@ -8,7 +8,9 @@
       <th scope="col" class="px-3 py-3">Count</th>
       <th scope="col" class="px-3 py-3">Created</th>
       <th scope="col" class="px-3 py-3">Updated</th>
+      {% if perms.orders.change_product %}
       <th scope="col" class="px-3 py-3">Action</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -33,6 +35,7 @@
       </td>
       <td class="px-3 py-4 text-base break-words">{{ product.created_at|date }}</td>
       <td class="px-3 py-4 text-base break-words">{{ product.updated_at|date }}</td>
+      {% if perms.orders.change_product %}
       <td class="px-3 py-4 text-base">
         <div class="flex gap-5">
           <a 
@@ -51,6 +54,7 @@
           </a>
         </div>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

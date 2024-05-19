@@ -3,7 +3,9 @@
     <tr>
       <th scope="col" class="px-3 py-3">Name</th>
       <th scope="col" class="px-3 py-3">Desc</th>
+      {% if perms.orders.change_product %}
       <th scope="col" class="px-3 py-3">Action</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -11,6 +13,7 @@
     <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
       <td class="px-3 py-4 text-base">{{ attribute.name }}</td>
       <td class="px-3 py-4 text-base text-ellipsis">{{ attribute.description|slice:"5" }}{% if attribute.description|length > 5 %}...{% endif %}</td>
+      {% if perms.orders.change_product %}
       <td class="px-3 py-4 text-base">
         <div class="flex gap-5">
           <a 
@@ -29,6 +32,7 @@
           </a>
         </div>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>

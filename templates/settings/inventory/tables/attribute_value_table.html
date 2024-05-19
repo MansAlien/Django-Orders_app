@@ -4,7 +4,9 @@
       <th scope="col" class="px-3 py-3">Value</th>
       <th scope="col" class="px-3 py-3">Attribute</th>
       <th scope="col" class="px-3 py-3">Product</th>
+      {% if perms.orders.change_product %}
       <th scope="col" class="px-3 py-3">Action</th>
+      {% endif %}
     </tr>
   </thead>
   <tbody>
@@ -13,6 +15,7 @@
       <td class="px-3 py-4 text-base">{{ value.attribute_value }}</td>
       <td class="px-3 py-4 text-base">{{ value.attribute }}</td>
       <td class="px-3 py-4 text-base">{{ value.product }}</td>
+      {% if perms.orders.change_product %}
       <td class="px-3 py-4 text-base">
         <div class="flex gap-5">
           <a 
@@ -31,6 +34,7 @@
           </a>
         </div>
       </td>
+      {% endif %}
     </tr>
     {% endfor %}
   </tbody>
