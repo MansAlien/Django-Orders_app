@@ -1,19 +1,30 @@
 {% extends 'base.html' %}
-
 {% block content %} 
-<div class="p-4 md:ml-64">
-  <!-- Breadcrumb -->
-  <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
-    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-      <li class="inline-flex items-center space-x-1 text-gray-700 dark:text-gray-400">
-        <i class="fas fa-home"></i>
-        <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-          Home
-        </span>
-      </li>
-    </ol>
-  </nav>
-  <div class="p-4 rounded-lg">
-  </div>
-</div>
+  {% if user_profile.job_title.name == "Cashier" %}
+  {% include "cashier/home.html" %}
+  {% elif user_profile.job_title.name == "Manager" %}
+  {% include "settings/dashboard/inventory.html" %}
+  {% endif %}
 {% endblock %}
+
+
+{% block sidecontent %}
+  {% if user_profile.job_title.name == "Cashier" %}
+  {% for category in category_list %}
+    {% if category.is_active %}
+    <li class="item">
+    <a
+      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
+      class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+      dark:hover:bg-gray-700 group cursor-pointer max-h-full">
+      <span class="inline-block text-gray-500 transition duration-75 
+        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+        <i class="text-xl fa-solid fa-circle-plus"></i>
+      </span>
+      <span class="ms-5 text-gray-300 text-lg">{{ category.name }}</span>
+    </a>
+    </li>
+    {% endif %}
+  {% endfor %}
+  {% endif %}
+{% endblock sidecontent %}

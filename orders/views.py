@@ -1,6 +1,7 @@
-from django.db.models import ProtectedError
-from django.db.models import F
-from django.views.generic import ListView, TemplateView
+from django.db.models import ProtectedError, F
+from django.views.generic import TemplateView
+
+from accounts.models import UserProfile
 from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
 from django.shortcuts import render
@@ -10,10 +11,15 @@ from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, S
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 
-@method_decorator(login_required, name='dispatch')
-class HomeListView(ListView):
-    model = Category
-    template_name = "home.html"
+@login_required
+def home_view(request):
+    category_list = Category.objects.all()
+    user_profile = UserProfile.objects.get(user=request.user)
+    context = {
+        "category_list" : category_list,
+        "user_profile" : user_profile,
+    }
+    return render(request, "home.html", context)
 
 @method_decorator(login_required, name='dispatch')
 class SettingsTemplateView(TemplateView):

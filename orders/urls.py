@@ -2,7 +2,7 @@ from django.urls import path
 from orders import views
 
 urlpatterns = [
-    path("", views.HomeListView.as_view(), name="home"),
+    path("", views.home_view, name="home"),
     path("settings/", views.SettingsTemplateView.as_view(), name="settings"),
     path("dashboard/inventory", views.inventory_dashboard_view, name="inventory_dashboard"),
 
