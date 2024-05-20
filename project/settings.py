@@ -78,14 +78,21 @@ STATICFILES_FINDERS = [
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'vision_db',
-        'USER': 'alien',
-        'PASSWORD': 'AAsd01203394542',
-        'HOST': 'vision.cj2g2i08e29f.eu-north-1.rds.amazonaws.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'vision_db',
+#         'USER': 'alien',
+#         'PASSWORD': 'AAsd01203394542',
+#         'HOST': 'vision.cj2g2i08e29f.eu-north-1.rds.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
