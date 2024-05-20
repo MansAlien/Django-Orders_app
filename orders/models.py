@@ -70,11 +70,13 @@ class AttributeValue(models.Model):
 class ProductLine(models.Model):
     product = models.ForeignKey(Product, on_delete=models.PROTECT)
     attribute_values = models.ManyToManyField(AttributeValue, related_name="attribute_values")
-    price = models.DecimalField(decimal_places=2, max_digits=10)
+    normal_price = models.DecimalField(decimal_places=2, max_digits=10)
+    fawry_price = models.DecimalField(decimal_places=2, max_digits=10)
     stock_qty = models.IntegerField(default=0)
     min_stock_qty = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
     deliver_date = models.IntegerField(null=True)
+    admin_comment = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.stock_qty == 0 and self.product.is_countable:
@@ -92,28 +94,27 @@ class ProductLine(models.Model):
 
 
 class Customer(models.Model):
-    GENDER = {
-        "M":"Male",
-        "F":"Female",
-    }
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    name_one = models.CharField(max_length=100)
+    name_two = models.CharField(max_length=100)
     phone = models.CharField(max_length=12)
     whatsapp = models.CharField(max_length=12)
-    gender = models.CharField(max_length=1, choices=GENDER, default="M")
 
     def __str__(self) -> str:
-        return f"{self.first_name} {self.last_name}"
+        return f"{self.name_one} ({self.name_two})"
 
 
 class Order(models.Model):
+    STATUS = {
+        "P":"Printing",
+        "D":"Delivered",
+    }
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
-    delivered = models.BooleanField(default=False)
+    delivery_status = models.CharField(max_length=1, choices=STATUS, default="P")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self) -> str:
-        return f"{self.customer} ({self.created_at})"
+        return f"{self.customer} --> ({self.get_delivery_status_display()})"
 
 
 class OrderDetail(models.Model):
@@ -121,24 +122,36 @@ class OrderDetail(models.Model):
         "N":"Normal",
         "F":"Fawry",
     }
+    STATUS = {
+        "P":"Printing",
+        "D":"Delivered",
+    }
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     product_line = models.ForeignKey(ProductLine, on_delete=models.PROTECT)
     deliver_type = models.CharField(max_length=1, choices=DELIVER_TYPE, default="N")
-    delivered = models.BooleanField(default=False)
+    delivery_Status = models.CharField(max_length=1, choices=STATUS, default="P")
     is_active = models.BooleanField(default=True)
     amount = models.PositiveIntegerField(default=1)
     customer_comment = models.TextField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    location = models.CharField(max_length=200, null=True, blank=True)
+    created_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
+    deliver_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.product_line}"
 
 class Payment(models.Model):
+    PAYMENT_METHOD = {
+        "C":"Cash",
+        "O":"Online",
+        "V":"Visa",
+    }
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
     discount = models.DecimalField(decimal_places=1, max_digits=4, null=True, blank=True)
     total = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
     paid = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    payment_method = models.CharField(max_length=1, choices=PAYMENT_METHOD, default="C")
 
     def __str__(self) -> str:
         return f"Total:{self.total}- Paid:{self.paid}"

@@ -31,16 +31,18 @@ class AttributeValueForm(forms.ModelForm):
 class ProductLineForm(forms.ModelForm):
     class Meta:
         model = ProductLine
-        fields = ['product', 'attribute_values', 'price', 'stock_qty', 'min_stock_qty', 'is_active']
+        fields = ['product', 'attribute_values', 'normal_price', 'stock_qty', 'min_stock_qty', 'is_active']
 
 class ProductLineCreateForm(forms.Form):
     product = forms.ModelChoiceField(queryset=Product.objects.all(),
         widget=forms.Select(attrs={"hx-get":"load_product_values/", "hx-target":"#id_attribute_values"}))
     attribute_values = forms.ModelMultipleChoiceField(queryset=AttributeValue.objects.none())
-    price = forms.DecimalField(decimal_places=2, max_digits=10)
+    normal_price = forms.DecimalField(decimal_places=2, max_digits=10)
+    fawry_price = forms.DecimalField(decimal_places=2, max_digits=10)
     stock_qty = forms.IntegerField(initial=0)
     min_stock_qty = forms.IntegerField(initial=1)
     is_active = forms.BooleanField()
+    admin_comment = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -58,7 +60,8 @@ class ProductLineCreateForm(forms.Form):
     def save(self):
         product_line = ProductLine(
             product=self.cleaned_data['product'],
-            price=self.cleaned_data['price'],
+            normal_price=self.cleaned_data['normal_price'],
+            fawry_price=self.cleaned_data['fawry_price'],
             stock_qty=self.cleaned_data['stock_qty'],
             min_stock_qty=self.cleaned_data['min_stock_qty'],
             is_active=self.cleaned_data['is_active']

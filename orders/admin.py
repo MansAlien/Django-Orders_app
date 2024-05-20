@@ -20,7 +20,7 @@ class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ('name',)
 
 class ProductLineAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('id', 'product_with_attributes', 'price', 'stock_qty', 'is_active')
+    list_display = ('id', 'product_with_attributes', 'normal_price', 'stock_qty', 'is_active')
     search_fields = ('name',)
 
     def product_with_attributes(self, obj):
