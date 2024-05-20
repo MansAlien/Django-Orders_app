@@ -18,16 +18,19 @@ class UserCreationForm(UserCreationForm):
         }
 
 class UserProfileForm(forms.ModelForm):
+    address = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = UserProfile
         fields = ['job_title', 'city', 'date_of_birth', 'start', 'address', 'gender', 'age', 'salary']
 
 class DeductionForm(forms.ModelForm):
+    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Deduction
         fields = ['name', 'amount', 'discription']
 
 class DeductionEditForm(forms.ModelForm):
+    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Deduction
         fields = ['name', 'amount', 'discription', 'date']

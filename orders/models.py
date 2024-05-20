@@ -38,7 +38,7 @@ class Sub_Category(models.Model):
 
 class Attribute(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(null=True, blank=True)
+    discription = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
         return self.name
@@ -46,7 +46,7 @@ class Attribute(models.Model):
 class Product(models.Model):
     sub_category = models.ForeignKey(Sub_Category, on_delete=models.PROTECT)
     name = models.CharField(max_length=100, unique=True)
-    description = models.TextField(null=True, blank=True)
+    discription = models.TextField(null=True, blank=True)
     is_active = models.BooleanField(default=False)
     is_countable = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)

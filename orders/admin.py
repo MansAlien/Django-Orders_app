@@ -15,8 +15,8 @@ class Sub_CategoryAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ('name',)
 
 class ProductAdmin(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ('id', 'sub_category', 'name', 'description', 'is_active', 'is_countable', 'created_at', 'updated_at')
-    list_filter = ('id', 'sub_category', 'name', 'description', 'is_active', 'is_countable', 'created_at', 'updated_at')
+    list_display = ('id', 'sub_category', 'name', 'discription', 'is_active', 'is_countable', 'created_at', 'updated_at')
+    list_filter = ('id', 'sub_category', 'name', 'discription', 'is_active', 'is_countable', 'created_at', 'updated_at')
     search_fields = ('name',)
 
 class ProductLineAdmin(ImportExportModelAdmin, admin.ModelAdmin):

@@ -14,14 +14,16 @@ class SubCategoryForm(forms.ModelForm):
         fields = ['category', 'name', 'is_active']
 
 class AttributeForm(forms.ModelForm):
+    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Attribute
-        fields = ['name', 'description']
+        fields = ['name', 'discription']
 
 class ProductForm(forms.ModelForm):
+    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Product
-        fields = ['sub_category', 'name', 'description', 'is_active', 'is_countable']
+        fields = ['sub_category', 'name', 'discription', 'is_active', 'is_countable']
 
 class AttributeValueForm(forms.ModelForm):
     class Meta:
