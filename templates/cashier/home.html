@@ -1,4 +1,4 @@
-<div class="p-4 md:ml-64">
+<div class="p-4 md:ml-64 h-screen">
   <!-- Breadcrumb -->
   <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -16,7 +16,23 @@
       </li>
     </ol>
   </nav>
-  <div class="p-4 rounded-lg">
-    Cashier
+  <div class="p-4 rounded-lg " style="height: 86dvh">
+    <div class="grid grid-rows-7 h-full gap-3">
+      <div class="row-span-2">
+        <div class="grid grid-cols-4 gap-3 h-full">
+          <div class="col-span-3 h-full bg-gray-700 ">sdf </div>
+          <div class="flex h-full bg-gray-700 justify-center items-center rounded-tr-lg">
+            <div>
+              <input type="text" id="first_name" 
+              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
+              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
+              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
+              dark:focus:border-blue-500" placeholder="Order Id" required />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row-span-5 "></div>
+    </div>
   </div>
 </div>
