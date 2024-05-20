@@ -3,7 +3,11 @@
     <tr>
       <th scope="col" class="px-3 py-3">Procut</th>
       <th scope="col" class="px-3 py-3">Sub_Category</th>
-      <th scope="col" class="px-3 py-3">Price</th>
+      <th scope="col" class="px-3 py-3">Normal Price</th>
+      <th scope="col" class="px-3 py-3">Fawry Price</th>
+      {% if request.user.is_superuser %}
+      <th scope="col" class="px-3 py-3">Admin Note</th>
+      {% endif %}
       <th scope="col" class="px-3 py-3">Stock</th>
       <th scope="col" class="px-3 py-3">Low Stock</th>
       <th scope="col" class="px-3 py-3">Active</th>
@@ -18,6 +22,10 @@
       <td class="px-3 py-4 text-base">{{ product_line.product.name }} ({{ product_line.values }})</td>
       <td class="px-3 py-4 text-base">{{ product_line.product.sub_category }}</td>
       <td class="px-3 py-4 text-base">{{ product_line.normal_price }}</td>
+      <td class="px-3 py-4 text-base">{{ product_line.fawry_price }}</td>
+      {% if request.user.is_superuser %}
+      <td class="px-3 py-4 text-base">{{ product_line.admin_comment |slice:"5" }}{% if product_line.admin_comment|length > 5 %}...{% endif %}</td>
+      {% endif %}
       <td class="px-3 py-4 text-base">
         {% if product_line.product.is_countable %}
         {{ product_line.stock_qty }}
