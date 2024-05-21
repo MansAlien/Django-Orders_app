@@ -82,10 +82,30 @@ class ProductLineCreateForm(forms.Form):
 
 
 class CustomerForm(forms.ModelForm):
-    name_one = forms.CharField(widget=forms.TextInput(attrs={'class':"bg-red"}))
-    name_two = forms.CharField()
-    phone = forms.CharField()
-    whatsapp = forms.CharField()
+    phone = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Phone',
+            'class': 'py-1 px-3 text-sm bg-gray-700 border-gray-600 focus:ring-blue-500 focus:border-blue-500 text-white rounded-lg'
+        })
+    )
+    name_one = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Name One',
+            'class': 'py-1 px-3 text-sm bg-gray-700 border-gray-600 focus:ring-blue-500 focus:border-blue-500 text-white rounded-lg'
+        })
+    )
+    name_two = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Name Two',
+            'class': 'py-1 px-3 text-sm bg-gray-700 border-gray-600 focus:ring-blue-500 focus:border-blue-500 text-white rounded-lg'
+        })
+    )
+    whatsapp = forms.CharField(
+        widget=forms.TextInput(attrs={
+            'placeholder': 'WhatsApp',
+            'class': 'py-1 px-3 text-sm bg-gray-700 border-gray-600 focus:ring-blue-500 focus:border-blue-500 text-white rounded-lg'
+        })
+    )
 
     class Meta:
         model = Customer

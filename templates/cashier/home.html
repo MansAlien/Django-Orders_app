@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 {% block content %} 
+<style>
+ form label {
+    display: none;
+  }
+</style>
 <div class="p-4 md:ml-64">
   <!-- Breadcrumb -->
-  <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
+  <nav class="flex mt-12 p-4" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
       <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
         <i class=" fas fa-home"></i>
@@ -18,24 +23,72 @@
       </li>
     </ol>
   </nav>
-  <div class="p-4 rounded-lg " style="height: 86dvh">
-    <div class="grid grid-rows-7 h-full gap-3">
-      <div class="row-span-2">
-        <div class="grid grid-cols-4 gap-3 h-full">
-          <div class="col-span-3 h-full bg-gray-700 ">
-          </div>
-          <div class="flex h-full bg-gray-700 justify-center items-center rounded-tr-lg">
-            <div>
-              <input type="text" id="first_name" 
-              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg 
-              focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700
-              dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500
-              dark:focus:border-blue-500" placeholder="Order Id" required />
+  <div class="px-4 rounded-lg h-full">
+    <!--Customer Section-->
+    <div class="grid grid-cols-4 gap-3 h-full">
+      <div class="col-span-3 h-full bg-gray-800 rounded-tl-lg py-2 px-5">
+        <div class="flex justify-center "> 
+          <div class="flex items-center gap-1 mr-auto">
+            <input type="text" id="customer_id" 
+            class="border text-sm rounded-lg block w-24 mt-1.5 p-2.5 dark:bg-gray-700 dark:border-gray-600
+            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            placeholder="Customer ID" required />
+            <button data-tooltip-target="tooltip-right" data-tooltip-placement="right">
+              <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
+            </button>
+            <div 
+              id="tooltip-right" role="tooltip" 
+              class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
+              text-white rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-500">
+              <p> - Write the Customer ID </p>
+              <p> - press "Enter" from the keyboard </p>
+              <p> - If the user is exist the next form will be filled with the user data </p>
+              <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
           </div>
+          <form class="text-white mr-auto">
+            <div class="px-2 pb-2 space-y-2">
+              {% csrf_token %}
+              {{ form }}
+            </div>
+          </form>
         </div>
       </div>
-      <div class="row-span-5 "></div>
+      <div class="flex h-full bg-gray-800 justify-center gap-1 items-center rounded-tr-lg p-10">
+        <div>
+          <input type="text" id="order_id" 
+          class="border text-sm rounded-lg block w-24 p-2.5 dark:bg-gray-700 dark:border-gray-600
+          dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Order ID" required />
+        </div>
+        <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
+          <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
+        </button>
+        <div 
+          id="tooltip-bottom" role="tooltip"
+          class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
+          text-white rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-500">
+          <p> - Write the Order ID </p>
+          <p> - press "Enter" from the keyboard </p>
+          <p> - If the order is exist it will get the order data </p>
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
+      </div>
+    </div>
+
+    <!--Order Section-->
+    <div class="grid grid-cols-4 gap-3 mt-3" style="height: 35rem">
+      <!--Products list-->
+      <div class=" bg-gray-800 rounded-bl-lg"> </div>
+
+      <!--Order Details-->
+      <div class="col-span-3">
+        <div class="grid grid-rows-7 h-full gap-y-3">
+          <div class="row-span-4 bg-gray-800 h-full"></div>
+          <div class="row-span-2 bg-gray-800 h-full"></div>
+          <div class="row-span-1 bg-gray-800 h-full rounded-br-lg"></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

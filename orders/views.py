@@ -7,7 +7,7 @@ from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm
+from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm, CustomerForm
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 
@@ -315,7 +315,15 @@ def delete_product_line(request, pk):
 @login_required
 def cashier_view(request):
     category_list = Category.objects.all()
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204)
+    else:
+        form = CustomerForm()
     context = {
         "category_list" : category_list,
+        "form" : form,
     }
     return render(request, "cashier/home.html", context)

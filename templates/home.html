@@ -13,11 +13,12 @@
       </ol>
     </nav>
     <div class="flex justify-center items-center" style="height: 84dvh">
-      <div class="grid grid-cols-2 gap-10 h-52 w-full px-20">
+      <!--<div class="grid grid-cols-2 h-52 w-full px-20">-->
+      <div class="flex justify-center h-52 w-full gap-10">
         <!--Cashier-->
         {% if user_profile.job_title.name == "Cashier" or request.user.is_superuser %}
         <div 
-          class="flex justify-center items-center bg-gray-800 text-white text-2xl font-bold
+          class="flex justify-center items-center bg-gray-800 text-white text-2xl font-bold w-96
           rounded-lg p-4 hover:bg-gray-700 hover:scale-105 hover:shadow-lg hover:rotate-1
           transition duration-300 transform shadow-md hover:text-yellow-300 hover:-translate-y-1 hover:text-shadow">
           <a
@@ -31,7 +32,7 @@
         <!--Editor-->
         {% if user_profile.job_title.name == "Editor" or request.user.is_superuser %}
         <div 
-          class="flex justify-center items-center bg-gray-800 text-white text-2xl font-bold 
+          class="flex justify-center items-center bg-gray-800 text-white text-2xl font-bold w-96
           rounded-lg p-4 hover:bg-gray-700 hover:scale-105 hover:shadow-lg hover:rotate-1 transition 
           duration-300 transform shadow-md hover:text-yellow-300 hover:-translate-y-1 hover:text-shadow">
           <a
