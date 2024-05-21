@@ -1,4 +1,6 @@
-<div class="p-4 md:ml-64 h-screen">
+{% extends 'base.html' %}
+{% block content %} 
+<div class="p-4 md:ml-64">
   <!-- Breadcrumb -->
   <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -20,7 +22,8 @@
     <div class="grid grid-rows-7 h-full gap-3">
       <div class="row-span-2">
         <div class="grid grid-cols-4 gap-3 h-full">
-          <div class="col-span-3 h-full bg-gray-700 ">sdf </div>
+          <div class="col-span-3 h-full bg-gray-700 ">
+          </div>
           <div class="flex h-full bg-gray-700 justify-center items-center rounded-tr-lg">
             <div>
               <input type="text" id="first_name" 
@@ -36,3 +39,23 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block sidecontent %}
+  {% for category in category_list %}
+    {% if category.is_active %}
+    <li class="item">
+    <a
+      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
+      class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
+      dark:hover:bg-gray-700 group cursor-pointer max-h-full">
+      <span class="inline-block text-gray-500 transition duration-75 
+        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+        <i class="text-xl fa-solid fa-circle-plus"></i>
+      </span>
+      <span class="ms-5 text-gray-300 text-lg">{{ category.name }}</span>
+    </a>
+    </li>
+    {% endif %}
+  {% endfor %}
+{% endblock sidecontent %}

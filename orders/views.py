@@ -309,3 +309,13 @@ def delete_product_line(request, pk):
     except ProtectedError:
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+
+
+#Cashier
+@login_required
+def cashier_view(request):
+    category_list = Category.objects.all()
+    context = {
+        "category_list" : category_list,
+    }
+    return render(request, "cashier/home.html", context)

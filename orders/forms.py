@@ -1,6 +1,6 @@
 
 from django import forms
-from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer
 
 
 class CategoryForm(forms.ModelForm):
@@ -77,3 +77,16 @@ class ProductLineCreateForm(forms.Form):
         product_line.attribute_values.set(self.cleaned_data['attribute_values'])
         return product_line
 
+
+
+
+
+class CustomerForm(forms.ModelForm):
+    name_one = forms.CharField(widget=forms.TextInput(attrs={'class':"bg-red"}))
+    name_two = forms.CharField()
+    phone = forms.CharField()
+    whatsapp = forms.CharField()
+
+    class Meta:
+        model = Customer
+        fields = ['phone', 'name_one', 'name_two', 'whatsapp']
