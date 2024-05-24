@@ -333,11 +333,11 @@ def product_list(request, pk):
     subcategory_products = {}
     for sub in sub_category_list:
         product_list = Product.objects.filter(sub_category=sub, is_active=True)
-        product_line_list = {product: ProductLine.objects.filter(product=product, is_active=True) for product in products}
+        product_line_list = {product: ProductLine.objects.filter(product=product, is_active=True) for product in product_list}
         subcategory_products[sub] = product_line_list
     context = {
-        "sub_category_list": sub_category_list,
-        "product_list": product_list,
+        "category": category,
+        "subcategory_products": subcategory_products,
     }
     return render(request, "cashier/product_list.html", context)
 

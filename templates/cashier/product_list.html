@@ -1,3 +1,33 @@
-{% for product in product_list %}
-  {{ product }}
-{% endfor %}
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+  <thead class="sticky top-10 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">Product</th>
+      <th scope="col" class="px-3 py-3">Price</th>
+      <th scope="col" class="px-3 py-3">Fawry</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subcategory, products in subcategory_products.items %}
+      <tr class="bg-gray-50 dark:bg-gray-700 border-b">
+        <td colspan="4" class="px-3 py-3 text-xl font-bold text-gray-800 dark:text-gray-200">
+          {{ subcategory.name }}
+        </td>
+      </tr>
+      <!-- Product Lines -->
+      {% for product, product_lines in products.items %}
+        {% for product_line in product_lines %}
+          <tr 
+            class="text-lg text-gray-300 odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800
+            dark:hover:bg-gray-600 cursor-pointer">
+            <td class="px-3 py-3 ">
+              <p>{{ product.name }}</p>
+              <p>({{ product_line.values }})</p>
+            </td>
+            <td class="px-3 py-3">{{ product_line.normal_price }}</td>
+            <td class="px-3 py-3">{{ product_line.fawry_price }}</td>
+          </tr>
+        {% endfor %}
+      {% endfor %}
+    {% endfor %}
+  </tbody>
+</table>

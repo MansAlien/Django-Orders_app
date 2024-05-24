@@ -14,16 +14,16 @@ class SubCategoryForm(forms.ModelForm):
         fields = ['category', 'name', 'is_active']
 
 class AttributeForm(forms.ModelForm):
-    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Attribute
-        fields = ['name', 'discription']
+        fields = ['name', 'description']
+        widgets = { "description":forms.Textarea(attrs={"rows": 3}) }
 
 class ProductForm(forms.ModelForm):
-    discription = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = Product
-        fields = ['sub_category', 'name', 'discription', 'is_active', 'is_countable']
+        fields = ['sub_category', 'name', 'description', 'is_active', 'is_countable']
+        widgets = { "description":forms.Textarea(attrs={"rows": 3}) }
 
 class AttributeValueForm(forms.ModelForm):
     class Meta:
@@ -31,10 +31,10 @@ class AttributeValueForm(forms.ModelForm):
         fields = ['product', 'attribute', 'attribute_value']
 
 class ProductLineForm(forms.ModelForm):
-    admin_comment = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     class Meta:
         model = ProductLine
         fields = ['product', 'attribute_values', 'normal_price', 'fawry_price', 'stock_qty', 'admin_comment', 'min_stock_qty','deliver_date', 'is_active']
+        widgets = { "description":forms.Textarea(attrs={"rows": 3}) }
 
 class ProductLineCreateForm(forms.Form):
     product = forms.ModelChoiceField(queryset=Product.objects.all(),
@@ -45,7 +45,7 @@ class ProductLineCreateForm(forms.Form):
     )
     normal_price = forms.DecimalField(decimal_places=2, max_digits=10)
     fawry_price = forms.DecimalField(decimal_places=2, max_digits=10)
-    admin_comment = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
+    admin_comment = forms.CharField(required=False, widget=forms.Textarea(attrs={"rows": 3}))
     stock_qty = forms.IntegerField(initial=0)
     min_stock_qty = forms.IntegerField(initial=1)
     deliver_date = forms.IntegerField()
