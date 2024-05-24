@@ -1,10 +1,9 @@
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
-
 from accounts.models import UserProfile
 from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
 from django.http.response import HttpResponse 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm, CustomerForm
@@ -327,3 +326,18 @@ def cashier_view(request):
         "form" : form,
     }
     return render(request, "cashier/home.html", context)
+
+def product_list(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    sub_category_list = Sub_Category.objects.filter(category=category, is_active=True)
+    subcategory_products = {}
+    for sub in sub_category_list:
+        product_list = Product.objects.filter(sub_category=sub, is_active=True)
+        product_line_list = {product: ProductLine.objects.filter(product=product, is_active=True) for product in products}
+        subcategory_products[sub] = product_line_list
+    context = {
+        "sub_category_list": sub_category_list,
+        "product_list": product_list,
+    }
+    return render(request, "cashier/product_list.html", context)
+

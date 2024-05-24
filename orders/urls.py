@@ -47,6 +47,7 @@ htmx_urlpatterns = [
 
     # Cashier
     path("cashier/", views.cashier_view, name="cashier"),
+    path("product_list/<int:pk>", views.product_list, name="product_list"),
 ]
 
 urlpatterns += htmx_urlpatterns
