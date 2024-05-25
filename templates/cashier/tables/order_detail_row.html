@@ -1,8 +1,11 @@
-<tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 text-xs">
-  <td class="px-2 py-4 text-base">{{ product_line.product }}</td>
+<tr
+  class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 text-xs ">
+  <td
+    _="on click toggle .hidden on #extend-{% now "G:i:s" %}"
+    class="px-2 py-4 text-base dark:hover:text-white cursor-pointer"
+  >{{ product_line.product }}</td>
   <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
-  <!--<td class="px-2 py-4 text-base"></td>-->
-  <td class="px-2 py-4 text-base">{{ product_line.normal_price }}</td>
+  <!--<td class="px-2 py-4 text-base"></td>--> <td class="px-2 py-4 text-base">{{ product_line.normal_price }}</td>
   <td class="px-2 py-4 text-base">
     <div class="relative flex items-center">
       <button
@@ -33,10 +36,6 @@
     </div>
   </td> <!--amount-->
   <td class="px-2 py-4 text-base" id="total-price-{% now "G:i:s" %}">{{ product_line.normal_price }}</td>
-  <!--<td class="px-2 py-4 text-base" title="{% now "M d, Y g:i a" %}">-->
-  <!--  <p>{% now "m-d-y" %}</p>-->
-  <!--  <p>{% now "g:i a" %}</p>-->
-  <!--</td>-->
   <td class="px-2 py-4 text-base">
     <select 
       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500
@@ -72,3 +71,28 @@
     </div>
   </td>
 </tr>
+<tr id="extend-{% now "G:i:s" %}" class="hidden dark:bg-gray-800 text-xs">
+  <td colspan="8" class=" text-base">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
+      <tbody>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> comment </th>
+          <td class="px-6 py-2"> </td>
+        </tr>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Date </th>
+          <td class="px-2 py-2 text-base" title="{% now "M d, Y g:i a" %}"> {% now "m-d-y g:i a" %} </td>
+        </tr>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Deliver Date </th>
+          <td class="px-6 py-2"> {{ user.user.last_name }} </td>
+        </tr>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> location </th>
+          <td class="px-6 py-2"> {{ user.user.email }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+
