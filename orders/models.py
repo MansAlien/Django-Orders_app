@@ -87,7 +87,6 @@ class ProductLine(models.Model):
         attribute_values_str = ', '.join(str(attr_value.attribute_value) for attr_value in self.attribute_values.all())
         return attribute_values_str
 
-
     def __str__(self):
         attribute_values_str = ', '.join(str(attr_value) for attr_value in self.attribute_values.all())
         return f"{self.product.name} - {attribute_values_str}"

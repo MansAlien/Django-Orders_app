@@ -339,5 +339,12 @@ def product_list(request, pk):
         "category": category,
         "subcategory_products": subcategory_products,
     }
-    return render(request, "cashier/product_list.html", context)
+    return render(request, "cashier/tables/product_list.html", context)
+
+def order_detail_row(request, pk):
+    product_line = ProductLine.objects.get(id=pk)
+    context = {
+        "product_line": product_line,
+    }
+    return render(request, "cashier/tables/order_detail_row.html", context)
 
