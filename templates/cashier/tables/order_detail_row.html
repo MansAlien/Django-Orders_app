@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <tr
   class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 text-xs ">
   <td
@@ -81,11 +82,16 @@
         </tr>
         <tr class="border-b border-gray-200 dark:border-gray-600">
           <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Date </th>
-          <td class="px-2 py-2 text-base" title="{% now "M d, Y g:i a" %}"> {% now "m-d-y g:i a" %} </td>
+          <td class="px-2 py-2 text-base"> {% now "M d, Y g:i a" %} </td>
         </tr>
         <tr class="border-b border-gray-200 dark:border-gray-600">
           <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Deliver Date </th>
-          <td class="px-6 py-2"> {{ user.user.last_name }} </td>
+          <td class="px-2 py-2 text-base" id="new_date">
+            {% now "Y-m-d H:i:s" as current_datetime %}
+            {% with current_datetime|add_days:product_line.deliver_date as new_datetime %}
+              {{ new_datetime|date:"M d, Y g:i a" }}
+            {% endwith %}
+          </td>
         </tr>
         <tr class="border-b border-gray-200 dark:border-gray-600">
           <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> location </th>
@@ -95,4 +101,3 @@
     </table>
   </td>
 </tr>
-
