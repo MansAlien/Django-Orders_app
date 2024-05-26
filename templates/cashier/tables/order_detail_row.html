@@ -86,7 +86,7 @@
         </tr>
         <tr class="border-b border-gray-200 dark:border-gray-600">
           <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Deliver Date </th>
-          <td class="px-2 py-2 text-base" id="new_date">
+          <td class="px-2 py-2 text-base">
             {% now "Y-m-d H:i:s" as current_datetime %}
             {% with current_datetime|add_days:product_line.deliver_date as new_datetime %}
               {{ new_datetime|date:"M d, Y g:i a" }}
