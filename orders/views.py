@@ -1,12 +1,14 @@
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine
+from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine, Customer
 from django.http.response import HttpResponse 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm, CustomerForm
+from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 
@@ -309,21 +311,54 @@ def delete_product_line(request, pk):
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
 
-
-#Cashier
-@login_required
-def cashier_view(request):
-    category_list = Category.objects.all()
+def create_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=204)
+            return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
+            # return JsonResponse({"status": "success", "customer_id": customer_id}, status=204)
     else:
         form = CustomerForm()
     context = {
-        "category_list" : category_list,
-        "form" : form,
+        "form":form,
+    }
+    return render(request, "cashier/modals/create_customer.html", context)
+
+def customer_info(request):
+    customer = Customer.objects.last()
+    context = {
+        "customer":customer,
+    }
+    return render(request, "cashier/forms/customer_info.html", context)
+
+def customer_with_id(request):
+    customer_id = request.POST.get('customer_id')
+    customer = Customer.objects.get(id=customer_id)
+    context = {
+        "customer":customer,
+    }
+    return render(request, "cashier/forms/customer_info.html", context)
+
+def clear_customer_info(request):
+    return render(request, "cashier/forms/customer_info.html")
+
+def edit_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    if request.method == "POST":
+        form = CustomerForm(request.POST,  instance=customer)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204)
+    else:
+        form = CustomerForm(instance=customer)
+    return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
+
+@login_required
+def cashier_view(request):
+    category_list = Category.objects.all()
+    context = {
+        "category_list": category_list,
     }
     return render(request, "cashier/home.html", context)
 
@@ -348,3 +383,13 @@ def order_detail_row(request, pk):
     }
     return render(request, "cashier/tables/order_detail_row.html", context)
 
+@login_required
+def edit_order_detail(request):
+    if request.method == "POST":
+        form = OrderDetailForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204)
+    else:
+        form = OrderDetailForm()
+    return render(request, "cashier/modals/edit_order_detail.html", { "form":form })

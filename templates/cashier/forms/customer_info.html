@@ -1,0 +1,38 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200 rounded-lg overflow-hidden shadow">
+  <tbody>
+    <tr class="border-b border-gray-200 dark:border-gray-600">
+      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+        dark:font-bold dark:bg-gray-700 w-20"> Name One </th>
+      <td class="px-4 py-2.5 dark:text-white dark:font-bold"> {{ customer.name_one }} </td>
+    </tr>
+    <tr class="border-b border-gray-200 dark:border-gray-600">
+      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+        dark:font-bold dark:bg-gray-700 w-20"> Name Two</th>
+      <td class="px-4 py-2.5 dark:text-white dark:font-bold"> {{ customer.name_two }} </td>
+    </tr>
+    <tr class="border-b border-gray-200 dark:border-gray-600">
+      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+        dark:font-bold dark:bg-gray-700 w-20"> Phone </th>
+      <td class="px-4 py-2.5"> {{ customer.phone }} </td>
+    </tr>
+    <tr>
+      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+        dark:font-bold dark:bg-gray-700 w-20"> Whatsapp </th>
+      <td class="px-4 py-2.5"> {{ customer.whatsapp }} </td>
+    </tr>
+  </tbody>
+</table>
+
+{% if customer.id %}
+<button
+  hx-get="{% url 'edit_customer' customer.id %}"
+  hx-target="#modal_form"
+  hx-swap="innerHTML"
+  _="on click remove .hidden from modal_div " 
+  id="cusomter_edit_button"
+  class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none
+  focus:ring-green-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-green-600
+  dark:hover:bg-green-700 dark:focus:ring-green-800 my-3" type="button">
+  Update
+</button>
+{% endif %}

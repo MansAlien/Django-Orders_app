@@ -33,6 +33,9 @@ class AttributeAdmin(ImportExportModelAdmin, admin.ModelAdmin):
 class AttributeValueAdmin(ImportExportModelAdmin, admin.ModelAdmin):
     search_fields = ('attribute_value',)
 
+class CustomerAdmin(ImportExportModelAdmin, admin.ModelAdmin):
+    list_display = ("id", "name_one")
+
 def _register(model, admin_class):
     admin.site.register(model, admin_class)
 
@@ -42,8 +45,8 @@ _register(models.Product, ProductAdmin)
 _register(models.ProductLine, ProductLineAdmin)
 _register(models.Attribute, AttributeAdmin)
 _register(models.AttributeValue, AttributeValueAdmin)
+_register(models.Customer, CustomerAdmin)
 
-admin.site.register(models.Customer)
 admin.site.register(models.Order)
 admin.site.register(models.OrderDetail)
 admin.site.register(models.Payment)

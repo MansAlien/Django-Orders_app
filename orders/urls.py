@@ -10,6 +10,8 @@ urlpatterns = [
     path("settings/inventory/category", views.category_view, name="category"), # category & sub_category
     path("settings/inventory/attribute", views.attributes_view, name="attribute"), # attributes & products
     path("settings/inventory/product_line", views.product_line_view, name="product_line"), # attribute_value & product_line
+
+    path("cashier/", views.cashier_view, name="cashier"),
 ]
 
 
@@ -46,9 +48,15 @@ htmx_urlpatterns = [
     path("settings/inventory/product_line/<int:pk>/delete", views.delete_product_line, name="delete_product_line"),
 
     # Cashier
-    path("cashier/", views.cashier_view, name="cashier"),
+    path("cashier/create_customer/", views.create_customer, name="create_customer"),
+    path("cashier/edit_customer/<int:pk>", views.edit_customer, name="edit_customer"),
+    path("cashier/customer_info/", views.customer_info, name="customer_info"),
+    path("cashier/customer_with_id/", views.customer_with_id, name="customer_with_id"),
+    path("cashier/clear_customer_info/", views.clear_customer_info, name="clear_customer_info"),
+
     path("product_list/<int:pk>", views.product_list, name="product_list"),
     path("order_detail_row/<int:pk>", views.order_detail_row, name="order_detail_row"),
+    path("edit_order_detail/", views.edit_order_detail, name="edit_order_detail"),
 ]
 
 urlpatterns += htmx_urlpatterns

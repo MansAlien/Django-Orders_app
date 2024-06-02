@@ -94,9 +94,9 @@ class ProductLine(models.Model):
 
 class Customer(models.Model):
     name_one = models.CharField(max_length=100)
-    name_two = models.CharField(max_length=100)
-    phone = models.CharField(max_length=12)
-    whatsapp = models.CharField(max_length=12)
+    name_two = models.CharField(max_length=100, blank=True, null=True)
+    phone = models.CharField(max_length=12, unique=True)
+    whatsapp = models.CharField(max_length=12, unique=True)
 
     def __str__(self) -> str:
         return f"{self.name_one} ({self.name_two})"
