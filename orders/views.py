@@ -332,16 +332,27 @@ def customer_info(request):
     }
     return render(request, "cashier/forms/customer_info.html", context)
 
-def customer_with_id(request):
-    customer_id = request.POST.get('customer_id')
-    customer = Customer.objects.get(id=customer_id)
-    context = {
-        "customer":customer,
-    }
-    return render(request, "cashier/forms/customer_info.html", context)
-
 def clear_customer_info(request):
     return render(request, "cashier/forms/customer_info.html")
+
+def customer_with_id(request):
+    customer_id = request.POST.get('customer_id')
+    customer = None
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        try:
+            customer = Customer.objects.get(phone=customer_id)
+        except Customer.DoesNotExist:
+            customer = None
+    if customer:
+        context = {
+            "customer": customer,
+        }
+        return render(request, "cashier/forms/customer_info.html", context)
+    else:
+        messages.error(request, "This customer does not exist.")
+        return clear_customer_info(request)
 
 def edit_customer(request, pk):
     customer = Customer.objects.get(id=pk)

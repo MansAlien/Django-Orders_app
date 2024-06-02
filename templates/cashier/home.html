@@ -37,15 +37,14 @@
                   hx-boost="keyup:Enter"
                   hx-target="#customer"
                   hx-swap="innerHTML"
-                  _="on keyup if (event.key == 'Enter') then set #cusomter_edit_button.@hx-get to '{% url 'create_customer' %}'"
                   name="customer_id"
                   type="number" 
                   aria-describedby="helper-text-explanation" 
                   id="customer_id"
                   type="number" aria-describedby="helper-text-explanation" id="customer_id" 
-                  class="border text-sm rounded-lg block w-28 mt-1.5 p-2.5 dark:bg-gray-700 dark:border-gray-600
+                class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 dark:bg-gray-700 dark:border-gray-600
                   dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="Customer ID" required />
+                  placeholder="Search" required />
               <form>
             </div>
             <button data-tooltip-target="tooltip-right" data-tooltip-placement="right">
@@ -60,7 +59,7 @@
               <div class="tooltip-arrow" data-popper-arrow></div>
             </div>
           </div>
-          <div class="grid grid-cols-7 col-span-2 gap-5"> 
+          <div class="col-span-2"> 
             <div 
               hx-get="{% url "customer_info" %}"
               hx-trigger="customer_info from:body" 
@@ -69,28 +68,6 @@
               id="customer"
               class=" col-span-5">
               {% include "cashier/forms/customer_info.html" %}
-            </div>
-            <div class="col-span-2 place-self-center">
-              <button
-                hx-get="{% url "create_customer" %}"
-                hx-target="#modal_form"
-                hx-swap="innerHtml"
-                _="on click remove .hidden from modal_div " 
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
-                focus:ring-blue-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-blue-600
-                dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-3" type="button">
-                New
-              </button>
-              <button
-                hx-get="{% url "clear_customer_info" %}"
-                hx-target="#customer"
-                hx-swap="innerHtml"
-                _="on click reset() the #customer_id_form"
-                class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none
-                focus:ring-gray-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-gray-600
-                dark:hover:bg-gray-700 dark:focus:ring-gray-800 my-3" type="button">
-                Clear
-              </button>
             </div>
           </div>
         </div>

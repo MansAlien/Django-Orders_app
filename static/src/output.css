@@ -1476,6 +1476,14 @@ input:checked + .toggle-bg {
   width: 100vw;
 }
 
+.w-\[12rem\] {
+  width: 12rem;
+}
+
+.w-\[11rem\] {
+  width: 11rem;
+}
+
 .min-w-min {
   min-width: -moz-min-content;
   min-width: min-content;

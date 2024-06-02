@@ -1,38 +1,104 @@
-<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200 rounded-lg overflow-hidden shadow">
-  <tbody>
-    <tr class="border-b border-gray-200 dark:border-gray-600">
-      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
-        dark:font-bold dark:bg-gray-700 w-20"> Name One </th>
-      <td class="px-4 py-2.5 dark:text-white dark:font-bold"> {{ customer.name_one }} </td>
-    </tr>
-    <tr class="border-b border-gray-200 dark:border-gray-600">
-      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
-        dark:font-bold dark:bg-gray-700 w-20"> Name Two</th>
-      <td class="px-4 py-2.5 dark:text-white dark:font-bold"> {{ customer.name_two }} </td>
-    </tr>
-    <tr class="border-b border-gray-200 dark:border-gray-600">
-      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
-        dark:font-bold dark:bg-gray-700 w-20"> Phone </th>
-      <td class="px-4 py-2.5"> {{ customer.phone }} </td>
-    </tr>
-    <tr>
-      <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
-        dark:font-bold dark:bg-gray-700 w-20"> Whatsapp </th>
-      <td class="px-4 py-2.5"> {{ customer.whatsapp }} </td>
-    </tr>
-  </tbody>
-</table>
+{% for message in messages %}
+<div class="fixed top-16 right-0 w-1/4">
+  {% if message.tags == "error" %}
+  <div class="alert flex items-center p-4 mb-4 text-red-800 rounded-lg rounded-t-none
+    bg-red-50 dark:bg-gray-800 dark:text-red-400 border-t-4 border-red-500" role="alert">
+    <div class="ml-3 text-sm font-medium">
+      {{ message }}
+    </div>
+    <button 
+      type="button" 
+      _="on click add .hidden to .alert"
+      class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg 
+      focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex
+      items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  {% elif message.tags == "success" %}
+  <div class="alert flex items-center p-4 mb-4 text-green-800 rounded-lg rounded-t-none
+    bg-green-50 dark:bg-gray-800 dark:text-green-400 border-t-4 border-green-500" role="alert">
+    <div class="ml-3 text-sm font-medium">
+      {{ message }}
+    </div>
+    <button 
+      type="button" 
+      _="on click add .hidden to .alert"
+      class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg 
+      focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex
+      items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  {% endif %}
+</div>
+{% endfor %}
 
-{% if customer.id %}
-<button
-  hx-get="{% url 'edit_customer' customer.id %}"
-  hx-target="#modal_form"
-  hx-swap="innerHTML"
-  _="on click remove .hidden from modal_div " 
-  id="cusomter_edit_button"
-  class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none
-  focus:ring-green-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-green-600
-  dark:hover:bg-green-700 dark:focus:ring-green-800 my-3" type="button">
-  Update
-</button>
-{% endif %}
+<div class="grid grid-cols-7">
+  <div class="col-span-5">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200 rounded-lg overflow-hidden shadow">
+      <tbody>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+            dark:font-bold dark:bg-gray-700 w-20"> Name One </th>
+          <td class="px-4 py-2.5 dark:text-white dark:font-bold"> {{ customer.name_one }} </td>
+        </tr>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+            dark:font-bold dark:bg-gray-700 w-20"> Name Two</th>
+          <td class="px-4 py-2.5 dark:text-white dark:font-bold">
+            {% if customer.name_two %} 
+              {{ customer.name_two }}
+            {% endif %} 
+          </td>
+        </tr>
+        <tr class="border-b border-gray-200 dark:border-gray-600">
+          <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+            dark:font-bold dark:bg-gray-700 w-20"> Phone </th>
+          <td class="px-4 py-2.5"> {{ customer.phone }} </td>
+        </tr>
+        <tr>
+          <th class="px-6 py-2.5 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-gray-300
+            dark:font-bold dark:bg-gray-700 w-20"> Whatsapp </th>
+          <td class="px-4 py-2.5"> {{ customer.whatsapp }} </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="col-span-2 place-self-center">
+    {% if customer.id %}
+    <button
+      hx-get="{% url 'edit_customer' customer.id %}"
+      hx-target="#modal_form"
+      hx-swap="innerHTML"
+      _="on click remove .hidden from modal_div " 
+      id="cusomter_edit_button"
+      class="block text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none
+      focus:ring-green-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-green-600
+      dark:hover:bg-green-700 dark:focus:ring-green-800 my-3" type="button">
+      Update
+    </button>
+    {% endif %}
+    <button
+      hx-get="{% url "create_customer" %}"
+      hx-target="#modal_form"
+      hx-swap="innerHtml"
+      _="on click remove .hidden from modal_div " 
+      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none
+      focus:ring-blue-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-blue-600
+      dark:hover:bg-blue-700 dark:focus:ring-blue-800 my-3" type="button">
+      New
+    </button>
+    <button
+      hx-get="{% url "clear_customer_info" %}"
+      hx-target="#customer"
+      hx-swap="innerHtml"
+      _="on click reset() the #customer_id_form"
+      class="block text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none
+      focus:ring-gray-300 font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center dark:bg-gray-600
+      dark:hover:bg-gray-700 dark:focus:ring-gray-800 my-3" type="button">
+      Clear
+    </button>
+  </div>
+</div>
