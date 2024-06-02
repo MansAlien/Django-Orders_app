@@ -316,8 +316,8 @@ def create_customer(request):
         form = CustomerForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request,"The new Customer Successfully Created")
             return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
-            # return JsonResponse({"status": "success", "customer_id": customer_id}, status=204)
     else:
         form = CustomerForm()
     context = {
@@ -360,7 +360,8 @@ def edit_customer(request, pk):
         form = CustomerForm(request.POST,  instance=customer)
         if form.is_valid():
             form.save()
-            return HttpResponse(status=204)
+            messages.success(request,"The new Customer Successfully Updated")
+            return HttpResponse(status=204, headers={"HX-Trigger": "clear"})
     else:
         form = CustomerForm(instance=customer)
     return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
