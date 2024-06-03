@@ -1464,6 +1464,10 @@ input:checked + .toggle-bg {
   width: 24rem;
 }
 
+.w-\[11rem\] {
+  width: 11rem;
+}
+
 .w-\[2rem\] {
   width: 2rem;
 }
@@ -1474,14 +1478,6 @@ input:checked + .toggle-bg {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-\[12rem\] {
-  width: 12rem;
-}
-
-.w-\[11rem\] {
-  width: 11rem;
 }
 
 .min-w-min {
