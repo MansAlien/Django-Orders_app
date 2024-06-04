@@ -311,6 +311,16 @@ def delete_product_line(request, pk):
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
 
+
+# Cashier
+@login_required
+def cashier_view(request):
+    category_list = Category.objects.all()
+    context = {
+        "category_list": category_list,
+    }
+    return render(request, "cashier/home.html", context)
+
 def create_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
@@ -366,13 +376,6 @@ def edit_customer(request, pk):
         form = CustomerForm(instance=customer)
     return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
 
-@login_required
-def cashier_view(request):
-    category_list = Category.objects.all()
-    context = {
-        "category_list": category_list,
-    }
-    return render(request, "cashier/home.html", context)
 
 def product_list(request, pk):
     category = get_object_or_404(Category, pk=pk)

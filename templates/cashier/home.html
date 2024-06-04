@@ -35,6 +35,7 @@
                 <input
                   hx-post="{% url 'customer_with_id' %}" 
                   hx-boost="keyup:Enter"
+                  hx-trigger="keyup changed delay:1s"
                   hx-target="#customer"
                   hx-swap="innerHTML"
                   name="customer_id"
@@ -130,7 +131,7 @@
               </div>
               <div class="text-center">
                 <p class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Total</p>
-                <p class="text-white p-2">0.0 EGP</p>
+                <p class="text-white p-2"><span id="grand-total">0</span> EGP</p>
               </div>
             </div>
 
