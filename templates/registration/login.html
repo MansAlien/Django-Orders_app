@@ -5,31 +5,31 @@
   {% block content %}
   {% for message in messages %}
   <div class="fixed top-16 right-0 w-1/4">
-    <div id="alert-2" class="flex items-center p-4 mb-4 text-red-800 rounded-lg rounded-t-none 
-      bg-red-50 dark:bg-gray-800 dark:text-red-400 border-t-4 border-red-500" role="alert">
+    <div id="alert-2" class="flex items-center p-4 mb-4 rounded-lg rounded-t-none 
+       bg-gray-800 text-red-400 border-t-4 border-red-500" role="alert">
       <div class="ms-3 text-sm font-medium">
         {{ message }}
       </div>
       <button 
         type="button" 
         _="on click add .hidden to #alert-2"
-        class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg 
-        focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex
-        items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700" >
+        class="ms-auto -mx-1.5 -my-1.5 rounded-lg 
+        focus:ring-2 focus:ring-red-400 p-1.5 inline-flex
+        items-center justify-center h-8 w-8 bg-gray-800 text-red-400 hover:bg-gray-700" >
         <i class="fa-solid fa-xmark"></i>
       </button>
     </div>
   </div>
   {% endfor %}
   <content class="block max-w-3xl mx-auto md:p-12 pt-2 text-white">
-    <div class="bg-white dark:bg-gray-700 rounded-2xl md:drop-shadow-2xl shadow-black w-full p-8">
+    <div class=" bg-gray-700 rounded-2xl md:drop-shadow-2xl shadow-black w-full p-8">
       <h2>Log In</h2>
       <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none 
-          focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center 
-          me-2 mb-2 mt-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log In</button>
+        <button type="submit" class="text-white focus:outline-none 
+          focus:ring-4 font-medium rounded-full text-sm px-5 py-2.5 text-center 
+          me-2 mb-2 mt-2 bg-blue-600 hover:bg-blue-700 focus:ring-blue-800">Log In</button>
       </form>
       <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
     </div>
