@@ -1,8 +1,8 @@
 {% load custom_filters %}
-<tr class="dark:bg-gray-900 text-xs">
+<tr class="bg-gray-900 text-xs">
   <td
     _="on click toggle .hidden on #extend-{% now "G:i:s" %}"
-    class="px-2 py-4 text-base dark:hover:text-white cursor-pointer">
+    class="px-2 py-4 text-base hover:text-white cursor-pointer">
     {{ product_line.product }}
   </td>
   <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
@@ -16,14 +16,14 @@
         ((parseInt(#price-{% now "G:i:s" %}.innerText) * parseInt(#counter-input-{% now "G:i:s" %}.value)).toFixed(2))
         then call calculateTotal()"
         type="button"
-        class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600
+        class="flex-shrink-0 bg-gray-700
         hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md
-        h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+        h-5 w-5 focus:ring-gray-700 focus:ring-2 focus:outline-none">
         <i class="fa-solid fa-minus"></i>
       </button>
       <input
       type="text" id="counter-input-{% now "G:i:s" %}" 
-      class="flex-shrink-0 text-gray-900 dark:text-white border-0 bg-transparent
+      class="flex-shrink-0 text-white border-0 bg-transparent
       text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center"
       value="1"
       _="on change set #total-price-{% now "G:i:s" %}.innerText to
@@ -36,9 +36,9 @@
         ((parseInt(#price-{% now "G:i:s" %}.innerText) * parseInt(#counter-input-{% now "G:i:s" %}.value)).toFixed(2))
         then call calculateTotal()"
         type="button" id="decrement-button" 
-        class="flex-shrink-0 bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:border-gray-600
-        hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md
-        h-5 w-5 focus:ring-gray-100 dark:focus:ring-gray-700 focus:ring-2 focus:outline-none">
+        class="flex-shrink-0 bg-gray-700 border-gray-600
+        hover:bg-gray-200 inline-flex items-center justify-center rounded-md
+        h-5 w-5 focus:ring-gray-700 focus:ring-2 focus:outline-none">
         <i class="fa-solid fa-plus"></i>
       </button>
     </div>
@@ -56,18 +56,18 @@
       then set #total-price-{% now "G:i:s" %}.innerText to 
       ({{ product_line.normal_price }} * parseInt(#counter-input-{% now "G:i:s" %}.value)).toFixed(2)
       then call calculateTotal()"
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500
-      focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-      dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      class=" border text-sm rounded-full
+       block p-1 bg-gray-700 border-gray-600 placeholder-gray-400
+      text-white focus:ring-blue-500 focus:border-blue-500">
       <option value="N" selected>normal</option>
       <option value="F">fawry</option>
     </select>
   </td>
   <td class="px-2 py-4 text-base">
     <select 
-      class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-blue-500
-      focus:border-blue-500 block p-1 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400
-      dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      class=" border text-sm rounded-full
+       block p-1 bg-gray-700 border-gray-600 placeholder-gray-400
+      text-white focus:ring-blue-500 focus:border-blue-500">
       <option value="P" selected>Printing</option>
       <option value="D">Delivered</option>
     </select>
@@ -91,20 +91,20 @@
     </div>
   </td>
 </tr>
-<tr id="extend-{% now "G:i:s" %}" class="hidden dark:bg-gray-800 text-xs">
+<tr id="extend-{% now "G:i:s" %}" class="hidden bg-gray-800 text-xs">
   <td colspan="8" class=" text-base">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-200">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-200">
       <tbody>
-        <tr class="border-b border-gray-200 dark:border-gray-600">
-          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> comment </th>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700"> comment </th>
           <td class="px-6 py-2"> </td>
         </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-600">
-          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Date </th>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700"> Date </th>
           <td class="px-2 py-2 text-base"> {% now "M d, Y g:i a" %} </td>
         </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-600">
-          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> Deliver Date </th>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700"> Deliver Date </th>
           <td class="px-2 py-2 text-base">
             {% now "Y-m-d H:i:s" as current_datetime %}
             {% with current_datetime|add_days:product_line.deliver_date as new_datetime %}
@@ -112,8 +112,8 @@
             {% endwith %}
           </td>
         </tr>
-        <tr class="border-b border-gray-200 dark:border-gray-600">
-          <th scope="row" class="uppercase px-6 py-2 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-700"> location </th>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700"> location </th>
           <td class="px-6 py-2"> {{ user.user.email }} </td>
         </tr>
       </tbody>

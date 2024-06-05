@@ -9,15 +9,15 @@
   <!-- Breadcrumb -->
   <nav class="flex mt-12 p-4" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-      <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
         <i class=" fas fa-home"></i>
         <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium">
           Home
         </a> 
         <i class="fa-solid fa-angle-right"></i>
       </li>
-      <li class="inline-flex items-center space-x-1 text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-        <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <span class="ms-1 text-sm font-medium md:ms-2 text-gray-400">
           Cashier
         </span>
       </li>
@@ -43,8 +43,8 @@
                   aria-describedby="helper-text-explanation" 
                   id="customer_id"
                   type="number" aria-describedby="helper-text-explanation" id="customer_id" 
-                class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 dark:bg-gray-700 dark:border-gray-600
-                  dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                   placeholder="ID or Phone" required />
               <form>
             </div>
@@ -54,7 +54,7 @@
             <div 
               id="tooltip-right" role="tooltip" 
               class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
-              text-white rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-500">
+              text-white rounded-lg shadow-sm opacity-0 tooltip bg-gray-500">
               <p> - Write the Customer ID  or Phone</p>
               <p> - press "Enter" from the keyboard or anywhere out of the input </p>
               <p> - If the user is exist the next form will be filled with the customer data </p>
@@ -79,8 +79,8 @@
           {% csrf_token %}
           <form id="order_id_form">
             <input type="number" aria-describedby="helper-text-explanation" id="order_id" 
-            class="border text-sm rounded-lg block w-28 p-2.5 dark:bg-gray-700 dark:border-gray-600
-            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
+            placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             placeholder="Order ID" required />
           </form>
         </div>
@@ -90,7 +90,7 @@
         <div 
           id="tooltip-bottom" role="tooltip"
           class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
-          text-white rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-500">
+          text-white rounded-lg shadow-sm opacity-0 tooltip bg-gray-500">
           <p> - Write the Order ID </p>
           <p> - press "Enter" from the keyboard </p>
           <p> - If the order is exist it will get the order data </p>
@@ -123,31 +123,31 @@
           <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
             <div class="flex justify-center items-center px-5 gap-10">
               <div class="text-center">
-                <label for="discount" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Discount</label>
+                <label for="discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
                 <input type="number" aria-describedby="helper-text-explanation" id="discount" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 dark:bg-gray-700 dark:border-gray-600
-                dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="0 %" required />
               </div>
               <div class="text-center">
-                <p class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Total</p>
+                <p class="block mb-2 text-base font-medium text-gray-400">Total</p>
                 <p class="text-white p-2"><span id="grand-total">0</span> EGP</p>
               </div>
             </div>
 
             <div class="flex justify-center items-center px-5 gap-10">
               <div class="text-center">
-                <label for="paid" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Paid</label>
+                <label for="paid" class="block mb-2 text-base font-medium text-gray-400">Paid</label>
                 <input type="number" aria-describedby="helper-text-explanation" id="paid" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 dark:bg-gray-700 dark:border-gray-600
-                dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="0.0" required />
               </div>
               <div class="text-center">
-                <label for="remaining" class="block mb-2 text-base font-medium text-gray-900 dark:text-gray-400">Remaining</label>
+                <label for="remaining" class="block mb-2 text-base font-medium text-gray-400">Remaining</label>
                 <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 dark:bg-gray-700 dark:border-gray-600
-                dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
                 placeholder="0.0" required />
               </div>
             </div>
@@ -157,29 +157,29 @@
           <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
             <div class="flex justify-center items-center px-5 gap-10">
               <button 
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-                font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-                dark:focus:ring-blue-800 my-3" type="button">
+                class="block text-white focus:ring-4 focus:outline-none
+                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                focus:ring-blue-800 my-3" type="button">
                 OK
               </button>
               <button 
-                class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-                font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 
-                dark:focus:ring-blue-800 my-3" type="button">
+                class="block text-white focus:ring-4 focus:outline-none
+                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                focus:ring-blue-800 my-3" type="button">
                 OK + Print
               </button>
             </div>
 
             <div class="flex justify-center items-center px-5 gap-10">
               <button 
-                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300
-                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900" type="button">
+                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
+                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
                 Folder
               </button>
               <button 
-                class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100
-                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600
-                dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700" type="button">
+                class=" border focus:outline-none focus:ring-4
+                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
+                hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700" type="button">
                 Clear
               </button>
             </div>
@@ -194,7 +194,7 @@
     class="hidden overflow-y-auto overflow-x-hidden fixed left-0 top-0 bg-black 
     bg-opacity-50 w-screen h-screen flex justify-center items-center z-50 md:inset-0 ">
     <div class="relative p-4 w-full max-w-lg max-h-full">
-      <div class="relative bg-white rounded-lg shadow dark:bg-gray-700 p-6 my-6">
+      <div class="relative rounded-lg shadow bg-gray-700 p-6 my-6">
         <div id="modal_form"> </div>
       </div>
     </div>
@@ -210,10 +210,10 @@
       hx-get="{% url 'product_list' category.id %}"
       hx-target="#product_list"
       _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
-      class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
-      dark:hover:bg-gray-700 group cursor-pointer max-h-full">
-      <span class="inline-block text-gray-500 transition duration-75 
-        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+      class="flex items-top p-2 rounded-lg text-white 
+      hover:bg-gray-700 group cursor-pointer max-h-full">
+      <span class="inline-block transition duration-75 
+        text-gray-200 group-hover:text-white">
         <i class="text-xl fa-solid fa-circle-plus"></i>
       </span>
       <span class="ms-5 text-gray-300 text-lg">{{ category.name }}</span>
