@@ -1,6 +1,6 @@
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-    <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-400">
+    <thead class="text-sm uppercase bg-gray-700 text-gray-400">
       <tr>
         <th scope="col" class="px-6 py-3">Id</th>
         <th scope="col" class="px-6 py-3">Username</th>
@@ -16,9 +16,9 @@
     <tbody>
       {% if request.user.is_superuser %}
         {% for user in userprofile_list %}
-        <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+        <tr class=" odd:bg-gray-900 even:bg-gray-800 border-b border-gray-700">
           <th scope="row" class="px-6 py-4 text-base">{{ user.user.id }}</th>
-          <td  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-lg">
+          <td  class="px-6 py-4 font-medium whitespace-nowrap text-white text-lg">
             <div 
               hx-get="{% url "employee_detail" user.id %}"
               hx-target="#settings_content"
@@ -43,9 +43,9 @@
           </td>
           <td class="px-6 py-4 text-base">
             {% if user.user.is_active %}
-            <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
+            <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-green-600 text-gray-100">Active</span>
             {% else %}
-            <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+            <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-red-700 text-gray-100">Inactive</span>
             {% endif %}
           </td>
         </tr>
@@ -53,9 +53,9 @@
       {% else %}
         {% for user in userprofile_list %}
           {% if not user.user.is_superuser %}
-          <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+          <tr class=" odd:bg-gray-900 even:bg-gray-800 border-b border-gray-700">
             <th scope="row" class="px-6 py-4 text-base">{{ user.user.id }}</th>
-            <td  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white text-lg">
+            <td  class="px-6 py-4 font-medium whitespace-nowrap text-white text-lg">
               <div 
                 hx-get="{% url "employee_detail" user.id %}"
                 hx-target="#settings_content"
@@ -80,9 +80,9 @@
             </td>
             <td class="px-6 py-4 text-base">
               {% if user.user.is_active %}
-              <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
+              <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-green-600 text-gray-100">Active</span>
               {% else %}
-              <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+              <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-red-700 text-gray-100">Inactive</span>
               {% endif %}
             </td>
           </tr>

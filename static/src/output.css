@@ -1865,6 +1865,11 @@ input:checked + .toggle-bg {
   border-color: rgb(55 65 81 / var(--tw-border-opacity));
 }
 
+.border-gray-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(75 85 99 / var(--tw-border-opacity));
+}
+
 .border-r-gray-800 {
   --tw-border-opacity: 1;
   border-right-color: rgb(31 41 55 / var(--tw-border-opacity));

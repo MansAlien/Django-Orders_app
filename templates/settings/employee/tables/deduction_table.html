@@ -1,5 +1,5 @@
-<table class="w-full truncate text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 shadow-lg rounded-lg">
-  <thead class="text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<table class="w-full truncate text-sm text-left rtl:text-right text-gray-400 shadow-lg rounded-lg">
+  <thead class="text-sm uppercase bg-gray-700 text-gray-400">
     <tr>
       <th scope="col" class="px-6 py-3">Name</th>
       <th scope="col" class="px-6 py-3">Amount</th>
@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     {% for deduction in deduction_list %}
-    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
+    <tr class=" odd:bg-gray-900 even:bg-gray-800">
       <td class="px-6 py-4 text-base">{{ deduction.name }}</td>
       <td class="px-6 py-4 text-base">{{ deduction.amount }}</td>
       <td class="px-6 py-4 text-base">{{ deduction.discription }}</td>

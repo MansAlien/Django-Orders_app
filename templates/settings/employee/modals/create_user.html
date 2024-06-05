@@ -1,29 +1,28 @@
 <style>
-  #modal_form form label {
-    color: white;
-  }
+#modal_form form label {
+  color: white;
+}
 </style>
 
 {% load crispy_forms_tags %}
-  <form hx-post="{% url 'create_user' %}" class="text-white">
-    <div class="py-3">
-      {% csrf_token %}
-      {{ form|crispy }}
-    </div>
-    <div class="flex justify-between mt-2 px-5 border-t">
-      <button 
-        _="on click add .hidden to modal_div"
-        type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
-        focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 my-3
-        dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-700">
-        cancel
-      </button>
-      <button 
-        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
-        font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-800 
-        dark:focus:ring-blue-800 my-3" type="submit">
-        Add
-      </button>
-    </div>
-  </form>
-</div>
+<form hx-post="{% url 'create_user' %}" class="text-white">
+  <div class="py-3">
+    {% csrf_token %}
+    {{ form|crispy }}
+  </div>
+  <div class="flex justify-between mt-2 px-5 border-t">
+    <button 
+      _="on click add .hidden to modal_div"
+      type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none
+      focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 my-3
+      dark:bg-gray-600 dark:hover:bg-gray-800 dark:focus:ring-gray-700 dark:border-gray-700">
+      cancel
+    </button>
+    <button 
+      class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300
+      font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-800 
+      dark:focus:ring-blue-800 my-3" type="submit">
+      Add
+    </button>
+  </div>
+</form>

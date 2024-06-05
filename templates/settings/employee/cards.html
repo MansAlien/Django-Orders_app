@@ -1,5 +1,5 @@
 <div class="grid sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-  <div class="h-28 rounded bg-gray-50 dark:bg-gray-800 border-l-4 border-green-500 p-4">
+  <div class="h-28 rounded bg-gray-800 border-l-4 border-green-500 p-4">
     <span class="text-green-500 font-bold text-xl ">Online</span>
     <span class="flex justify-between items-center text-white  pt-4 px-2">
       {% if request.user.is_superuser %}
@@ -10,7 +10,7 @@
       <i class="text-2xl fa-solid fa-signal-bars"></i>
     </span>
   </div>
-  <div class="h-28 rounded bg-gray-50 dark:bg-gray-800 border-l-4 border-green-500 p-4">
+  <div class="h-28 rounded bg-gray-800 border-l-4 border-green-500 p-4">
     <span class="text-green-500 font-bold text-xl ">Active</span>
     <span class="flex justify-between items-center text-white  pt-4 px-2">
       {% if request.user.is_superuser %}
@@ -21,7 +21,7 @@
       <i class="text-2xl fa-solid fa-check"></i>
     </span>
   </div>
-  <div class="h-28 rounded bg-gray-50 dark:bg-gray-800 border-l-4 border-red-500 p-4">
+  <div class="h-28 rounded bg-gray-800 border-l-4 border-red-500 p-4">
     <span class="text-red-500 font-bold text-xl ">Offline</span>
     <span class="flex justify-between items-center text-white  pt-4 px-2">
       {% if request.user.is_superuser %}
@@ -32,7 +32,7 @@
       <i class="text-2xl fa-solid fa-signal-slash"></i>
     </span>
   </div>
-  <div class="h-28 rounded bg-gray-50 dark:bg-gray-800 border-l-4 border-red-500 p-4">
+  <div class="h-28 rounded bg-gray-800 border-l-4 border-red-500 p-4">
     <span class="text-red-500 font-bold text-xl ">Inactive</span>
     <span class="flex justify-between items-center text-white  pt-4 px-2">
       {% if request.user.is_superuser %}
