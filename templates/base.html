@@ -26,18 +26,18 @@
       </style>
       <aside id="logo-sidebar" 
         class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full 
-        bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-900 dark:border-gray-800" 
+        border-r-gray-800 md:translate-x-0 bg-gray-900" 
         aria-label="Sidebar">
-          <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-900 flex flex-col justify-between ">
+          <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-900 flex flex-col justify-between ">
             <ul class="space-y-2 font-medium ul_items">
               <li>
                 <a
                   href="{% url 'home' %}"
                   _="on click remove .bg-gray-700 from <a/> in .ul_items"
-                  class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
-                  dark:hover:bg-gray-700 group cursor-pointer">
-                  <span class="inline-block text-gray-500 transition duration-75 
-                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                  class="flex items-top p-2 bg-gray-700 rounded-lg text-white 
+                  hover:bg-gray-700 group cursor-pointer">
+                  <span class="inline-block transition duration-75 
+                    text-gray-200 group-hover:text-white">
                     <i class="text-xl fas fa-home"></i>
                   </span>
                     <span class="ms-5 text-gray-300 text-lg ">Home</span>
@@ -46,15 +46,15 @@
               <li>
                 <a
                   _="on click remove .bg-gray-700 from <a/> in .ul_items then toggle .hidden on #dropdown"
-                  class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
-                  dark:hover:bg-gray-700 group cursor-pointer max-h-full">
-                  <span class="inline-block text-gray-500 transition duration-75 text-xl
-                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                  class="flex items-top p-2 rounded-lg text-white 
+                  hover:bg-gray-700 group cursor-pointer max-h-full">
+                  <span class="inline-block transition duration-75 text-xl
+                    text-gray-200 group-hover:text-white">
                     <i class="fa-solid fa-chart-pie"></i>
                   </span>
                   <span class="ms-5 text-gray-300 text-lg "> Dashboard </span>
-                  <span class="inline-block ms-2 text-gray-500 transition duration-75 pt-1
-                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <span class="inline-block ms-2 transition duration-75 pt-1
+                    text-gray-200 group-hover:text-white">
                     <i class="text-lg fa-solid fa-caret-down"></i>
                   </span>
                 </a>
@@ -66,8 +66,8 @@
                       hx-target="#settings_content"
                       hx-swap="innerHtml"
                       _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
-                      class="flex items-top p-2 text-gray-900 bg-gray-700 rounded-lg dark:text-white hover:bg-gray-100 
-                      dark:hover:bg-gray-700 group cursor-pointer">
+                      class="flex items-top p-2 bg-gray-700 rounded-lg text-white 
+                      hover:bg-gray-700 group cursor-pointer">
                       Inventory
                     </a>
                     {% endif %}
@@ -84,10 +84,10 @@
                 <a 
                   href="{% url 'settings' %}"
                   _="on click remove .bg-gray-700 from <a/> in .ul_items"
-                  class="flex items-top p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 
-                  dark:hover:bg-gray-700 group">
-                  <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
-                    dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                  class="flex items-top p-2 rounded-lg text-white 
+                  hover:bg-gray-700 group">
+                  <span class="inline-block w-5 h-5 transition duration-75 
+                    text-gray-200 group-hover:text-white">
                     <i class="text-xl fa-solid fa-gear"></i>
                   </span>
                     <span class="ms-5 text-gray-300 text-lg ">Settings</span>
@@ -97,10 +97,10 @@
               <li>
                 <form action="{% url 'logout' %}" method="post" >
                   {% csrf_token %}
-                  <button type="submit" class="flex w-full items-top p-2 text-gray-900 rounded-lg 
-                    dark:text-white hover:bg-gray-100 dark:hover:bg-red-800 group">
-                      <span class="inline-block w-5 h-5 text-gray-500 transition duration-75 
-                        dark:text-gray-200 group-hover:text-gray-900 dark:group-hover:text-white">
+                  <button type="submit" class="flex w-full items-top p-2 rounded-lg 
+                    text-white hover:bg-red-800 group">
+                      <span class="inline-block w-5 h-5 transition duration-75 
+                        text-gray-200 group-hover:text-white">
                           <i class="text-xl fa-solid fa-right-from-bracket"></i>
                       </span>
                     <span class="ms-5 text-gray-300 text-lg">Logout</span>
@@ -112,41 +112,7 @@
       </aside>
     {% endif %}
     <div id="settings_content" class="max-h-full">
-      {% for message in messages %}
-      <div class="fixed top-16 right-0 w-1/4">
-        {% if message.tags == "error" %}
-        <div class="alert flex items-center p-4 mb-4 text-red-800 rounded-lg rounded-t-none
-          bg-red-50 dark:bg-gray-800 dark:text-red-400 border-t-4 border-red-500" role="alert">
-          <div class="ml-3 text-sm font-medium">
-            {{ message }}
-          </div>
-          <button 
-            type="button" 
-            _="on click add .hidden to .alert"
-            class="ms-auto -mx-1.5 -my-1.5 bg-red-50 text-red-500 rounded-lg 
-            focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 inline-flex
-            items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-red-400 dark:hover:bg-gray-700">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        {% elif message.tags == "success" %}
-        <div class="alert flex items-center p-4 mb-4 text-green-800 rounded-lg rounded-t-none
-          bg-green-50 dark:bg-gray-800 dark:text-green-400 border-t-4 border-green-500" role="alert">
-          <div class="ml-3 text-sm font-medium">
-            {{ message }}
-          </div>
-          <button 
-            type="button" 
-            _="on click add .hidden to .alert"
-            class="ms-auto -mx-1.5 -my-1.5 bg-green-50 text-green-500 rounded-lg 
-            focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 inline-flex
-            items-center justify-center h-8 w-8 dark:bg-gray-800 dark:text-green-400 dark:hover:bg-gray-700">
-            <i class="fa-solid fa-xmark"></i>
-          </button>
-        </div>
-        {% endif %}
-      </div>
-      {% endfor %}
+      {% include "includes/messages.html" %}
       {% block content %}
     {% endblock content %}
     </div>

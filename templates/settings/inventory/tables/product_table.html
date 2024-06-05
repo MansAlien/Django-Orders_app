@@ -1,5 +1,5 @@
-<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-  <thead class="sticky top-0 text-sm text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+<table class="w-full text-sm text-left rtl:text-right text-gray-400">
+  <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">
     <tr>
       <th scope="col" class="px-3 py-3">Procut</th>
       <th scope="col" class="px-3 py-3">Sub_Category</th>
@@ -15,15 +15,15 @@
   </thead>
   <tbody>
     {% for product in product_list %}
-    <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800">
+    <tr class=" odd:bg-gray-900 even:bg-gray-800">
       <td class="px-3 py-4 text-base">{{ product.name }}</td>
       <td class="px-3 py-4 text-base">{{ product.sub_category }}</td>
       <td class="px-3 py-4 text-base">{{ product.description|slice:"5" }}{% if product.description|length > 5 %}...{% endif %}</td>
       <td class="px-3 py-4 text-base">
         {% if product.is_active %}
-        <span class="bg-red-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-green-600 dark:text-gray-100">Active</span>
+        <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-green-600 text-gray-100">Active</span>
         {% else %}
-        <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-red-700 dark:text-gray-100">Inactive</span>
+        <span class=" text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-red-700 text-gray-100">Inactive</span>
         {% endif %}
       </td>
       <td class="px-3 py-4 text-base">
