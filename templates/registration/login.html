@@ -6,7 +6,7 @@
   {% for message in messages %}
   <div class="fixed top-16 right-0 w-1/4">
     <div id="alert-2" class="flex items-center p-4 mb-4 rounded-lg rounded-t-none 
-       bg-gray-800 text-red-400 border-t-4 border-red-500" role="alert">
+      bg-gray-800 text-red-400 border-t-4 border-red-500" role="alert">
       <div class="ms-3 text-sm font-medium">
         {{ message }}
       </div>
@@ -21,7 +21,12 @@
     </div>
   </div>
   {% endfor %}
-  <content class="block max-w-3xl mx-auto md:p-12 pt-2 text-white">
+  <style>
+  form input {
+    color: black;
+  }
+  </style>
+  <content class="h-screen flex justify-center items-center max-w-3xl mx-auto md:p-12 pt-2 text-white">
     <div class=" bg-gray-700 rounded-2xl md:drop-shadow-2xl shadow-black w-full p-8">
       <h2>Log In</h2>
       <form method="post">
