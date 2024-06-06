@@ -147,9 +147,9 @@ class Payment(models.Model):
         "V":"Visa",
     }
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    discount = models.DecimalField(decimal_places=1, max_digits=4, null=True, blank=True)
+    discount = models.DecimalField(decimal_places=1, max_digits=4, null=True, blank=True, default=0.00)
     total = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
-    paid = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
+    paid = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
     payment_method = models.CharField(max_length=1, choices=PAYMENT_METHOD, default="C")
 
     def __str__(self) -> str:

@@ -44,7 +44,7 @@ form label {
                 type="number" aria-describedby="helper-text-explanation" id="customer_id" 
                 class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 bg-gray-700 border-gray-600
                 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="ID or Phone" required />
+                placeholder="ID or Phone" />
               </form>
             </div>
             <button data-tooltip-target="tooltip-right" data-tooltip-placement="right">
@@ -82,7 +82,7 @@ form label {
             type="number" aria-describedby="helper-text-explanation" id="order_id" 
             class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
             placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Order ID" required />
+            placeholder="Order ID" />
           </form>
         </div>
         <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
@@ -113,7 +113,7 @@ form label {
 
       <!--Order Details-->
       <div class="col-span-3">
-        <form id="order_form" class="h-full">
+        <form id="order_form" class="h-full" hx-post="{% url 'create_order' %}">
           <div class="grid grid-rows-7 h-full gap-y-3">
             <input type="hidden" name="customer_id" id="form_customer_id">
             <input type="hidden" name="order_id" id="form_order_id">
@@ -129,32 +129,57 @@ form label {
             <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
-                  <label for="discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
-                  <input type="number" aria-describedby="helper-text-explanation" id="discount" 
-                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                  <label for="payment_discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
+                  <input
+                  name="discount"
+                  id="payment_discount"
+                  type="number" aria-describedby="helper-text-explanation" id="discount" 
+                  class="border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
                   placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="0 %" required />
+                  placeholder="0 %" 
+                  min="0"
+                  max="100"
+                  _="on keyup call calculateTotal()" />
                 </div>
-                <div class="text-center">
-                  <p class="block mb-2 text-base font-medium text-gray-400">Total</p>
-                  <p class="text-white p-2"><span id="grand-total">0</span> EGP</p>
+                <div class="text-center text-white">
+                  <p class="block mb-2 text-base font-semibold text-gray-400">Total</p>
+                  <input
+                  name="total"
+                  class="border-none bg-gray-800 text-center text-white w-20 px-0"
+                  type="number" id="grand-total" value='0.0' readonly />EGP
                 </div>
               </div>
 
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
+                  <label for="payment_method" class="block mb-2 text-base font-medium text-gray-400">Payment</label>
+                  <select 
+                    id="payment_method"
+                    name="payment_method"
+                    class=" border text-base rounded-lg
+                    block p-2 bg-gray-700 border-gray-600 placeholder-gray-400
+                    text-white focus:ring-blue-500 focus:border-blue-500">
+                    <option value="C" selected>Cash</option>
+                    <option value="O">Online</option>
+                    <option value="V">Visa</option>
+                  </select>
+                </div>
+                <div class="text-center">
                   <label for="paid" class="block mb-2 text-base font-medium text-gray-400">Paid</label>
-                  <input type="number" aria-describedby="helper-text-explanation" id="paid" 
-                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                  <input
+                  _='on keyup call calculateTotal()'
+                  name="paid"
+                  type="number" aria-describedby="helper-text-explanation" id="paid" 
+                  class="border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
                   placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="0.0" required />
+                  placeholder="0.0" />
                 </div>
                 <div class="text-center">
                   <label for="remaining" class="block mb-2 text-base font-medium text-gray-400">Remaining</label>
                   <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
-                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="0.0" required />
+                  class="border-none text-base text-red-500 text-center rounded-lg block w-24 p-2 bg-gray-800 
+                  placeholder-gray-400"
+                  placeholder="0.0" readonly />
                 </div>
               </div>
             </div>

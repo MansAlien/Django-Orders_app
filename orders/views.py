@@ -1,14 +1,13 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine, Customer
+from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine, Customer, Order, Payment
 from django.http.response import HttpResponse 
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm , AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm
+from orders.forms import ( CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
+                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 
@@ -408,3 +407,32 @@ def edit_order_detail(request):
     else:
         form = OrderDetailForm()
     return render(request, "cashier/modals/edit_order_detail.html", { "form":form })
+
+def create_order(request):
+    if request.method == "POST":
+        customer_id = request.POST.get('customer_id')
+        order_id = request.POST.get('order_id')
+
+        # check if order is exists
+        if order_id:
+            # edit the order
+            print(order_id)
+        else:
+            # creat an order
+            customer=Customer.objects.get(id=customer_id)
+            order=Order.objects.create(customer=customer)
+            paid = request.POST.get('paid')
+            if not paid:
+                paid = 0
+            discount = request.POST.get('discount')
+            if not discount:
+                discount=0
+            payment_method = request.POST.get('payment_method')
+            total = request.POST.get('total')
+            
+            Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)
+
+
+        return HttpResponse(status=204)
+
+
