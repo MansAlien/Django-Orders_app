@@ -128,8 +128,15 @@ form label {
             <!--Order Details Payment-->
             <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
+                <div class="text-center text-white">
+                  <p class="block mb-2 text-base font-semibold text-gray-400">Befor Discount</p>
+                  <input
+                  name="total"
+                  class="border-none bg-gray-800 text-center text-white w-20 px-0"
+                  type="text" id="before_discount" value='0.0' readonly />
+                </div>
                 <div class="text-center">
-                  <label for="payment_discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
+                  <label for="payment_discount" class="block mb-2 text-base font-medium text-gray-400">Discount %</label>
                   <input
                   name="discount"
                   id="payment_discount"
@@ -142,11 +149,10 @@ form label {
                   _="on keyup call calculateTotal()" />
                 </div>
                 <div class="text-center text-white">
-                  <p class="block mb-2 text-base font-semibold text-gray-400">Total</p>
+                  <p class="block mb-2 text-base font-semibold text-gray-400">After Discount</p>
                   <input
-                  name="total"
                   class="border-none bg-gray-800 text-center text-white w-20 px-0"
-                  type="number" id="grand-total" value='0.0' readonly />EGP
+                  type="text" id="after_discount" value='0.0' readonly />
                 </div>
               </div>
 

@@ -27,6 +27,7 @@
     document.querySelectorAll('[id^="total-price-"]').forEach(function(element) {
       grandTotal += parseFloat(element.innerText);
     });
+    document.getElementById('before_discount').value = grandTotal.toFixed(2);
 
     // Check the discount value
     let discountElement = document.getElementById('payment_discount');
@@ -42,7 +43,7 @@
     grandTotal = Math.max(grandTotal, 0);
 
     // Update the grand total field
-    document.getElementById('grand-total').value = grandTotal.toFixed(2);
+    document.getElementById('after_discount').value = grandTotal.toFixed(2);
 
     // Check the paid value
     let paidElement = document.getElementById('paid');
