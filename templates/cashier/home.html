@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
-{% block content %} 
+  {% block content %} 
 <style>
- form label {
-    display: none;
-  }
+form label {
+  display: none;
+}
 </style>
 <div class="p-4 md:ml-64">
   <!-- Breadcrumb -->
@@ -33,20 +33,19 @@
               {% csrf_token %}
               <form id="customer_id_form">
                 <input
-                  hx-post="{% url 'customer_with_id' %}" 
-                  hx-boost="keyup:Enter"
-                  hx-trigger="keyup changed delay:1s"
-                  hx-target="#customer"
-                  hx-swap="innerHTML"
-                  name="customer_id"
-                  type="number" 
-                  aria-describedby="helper-text-explanation" 
-                  id="customer_id"
-                  type="number" aria-describedby="helper-text-explanation" id="customer_id" 
+                hx-post="{% url 'customer_with_id' %}" 
+                hx-trigger="keyup changed delay:1s from:input[id='customer_id']"
+                hx-target="#customer"
+                hx-swap="innerHTML"
+                name="customer_id"
+                type="number" 
+                aria-describedby="helper-text-explanation" 
+                id="customer_id"
+                type="number" aria-describedby="helper-text-explanation" id="customer_id" 
                 class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 bg-gray-700 border-gray-600
-                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="ID or Phone" required />
-              <form>
+                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                placeholder="ID or Phone" required />
+              </form>
             </div>
             <button data-tooltip-target="tooltip-right" data-tooltip-placement="right">
               <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
@@ -78,7 +77,9 @@
         <div>
           {% csrf_token %}
           <form id="order_id_form">
-            <input type="number" aria-describedby="helper-text-explanation" id="order_id" 
+            <input
+            _="on keyup set #form_order_id's value to my.value"
+            type="number" aria-describedby="helper-text-explanation" id="order_id" 
             class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
             placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
             placeholder="Order ID" required />
@@ -108,83 +109,89 @@
         </div>
         <div id="product_list" class="pt-2">
         </div>
-        
       </div>
 
       <!--Order Details-->
       <div class="col-span-3">
-        <div class="grid grid-rows-7 h-full gap-y-3">
-          <!--Order Details Table-->
-          <div class="row-span-4 bg-gray-800 h-full">
-            {% include 'cashier/tables/order_details_table.html' %}
+        <form id="order_form" class="h-full">
+          <div class="grid grid-rows-7 h-full gap-y-3">
+            <input type="hidden" name="customer_id" id="form_customer_id">
+            <input type="hidden" name="order_id" id="form_order_id">
+
+            <!--Order Details Table-->
+            <div
+              id="order_details"
+              class="row-span-4 bg-gray-800 h-full">
+              {% include 'cashier/tables/order_details_table.html' %}
+            </div>
+
+            <!--Order Details Payment-->
+            <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
+              <div class="flex justify-center items-center px-5 gap-10">
+                <div class="text-center">
+                  <label for="discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
+                  <input type="number" aria-describedby="helper-text-explanation" id="discount" 
+                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0 %" required />
+                </div>
+                <div class="text-center">
+                  <p class="block mb-2 text-base font-medium text-gray-400">Total</p>
+                  <p class="text-white p-2"><span id="grand-total">0</span> EGP</p>
+                </div>
+              </div>
+
+              <div class="flex justify-center items-center px-5 gap-10">
+                <div class="text-center">
+                  <label for="paid" class="block mb-2 text-base font-medium text-gray-400">Paid</label>
+                  <input type="number" aria-describedby="helper-text-explanation" id="paid" 
+                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0.0" required />
+                </div>
+                <div class="text-center">
+                  <label for="remaining" class="block mb-2 text-base font-medium text-gray-400">Remaining</label>
+                  <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
+                  class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0.0" required />
+                </div>
+              </div>
+            </div>
+
+            <!--Order Details buttons-->
+            <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
+              <div class="flex justify-center items-center px-5 gap-10">
+                <button 
+                  class="block text-white focus:ring-4 focus:outline-none
+                  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                  focus:ring-blue-800 my-3" type="submit">
+                  OK
+                </button>
+                <button 
+                  class="block text-white focus:ring-4 focus:outline-none
+                  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                  focus:ring-blue-800 my-3" type="button">
+                  OK + Print
+                </button>
+              </div>
+
+              <div class="flex justify-center items-center px-5 gap-10">
+                <button 
+                  class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
+                  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
+                  Open
+                </button>
+                <button 
+                  class=" border focus:outline-none focus:ring-4
+                  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
+                  hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700" type="button">
+                  Clear
+                </button>
+              </div>
+            </div>
           </div>
-
-          <!--Order Details Payment-->
-          <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
-            <div class="flex justify-center items-center px-5 gap-10">
-              <div class="text-center">
-                <label for="discount" class="block mb-2 text-base font-medium text-gray-400">Discount</label>
-                <input type="number" aria-describedby="helper-text-explanation" id="discount" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="0 %" required />
-              </div>
-              <div class="text-center">
-                <p class="block mb-2 text-base font-medium text-gray-400">Total</p>
-                <p class="text-white p-2"><span id="grand-total">0</span> EGP</p>
-              </div>
-            </div>
-
-            <div class="flex justify-center items-center px-5 gap-10">
-              <div class="text-center">
-                <label for="paid" class="block mb-2 text-base font-medium text-gray-400">Paid</label>
-                <input type="number" aria-describedby="helper-text-explanation" id="paid" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="0.0" required />
-              </div>
-              <div class="text-center">
-                <label for="remaining" class="block mb-2 text-base font-medium text-gray-400">Remaining</label>
-                <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
-                class="border text-sm text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="0.0" required />
-              </div>
-            </div>
-          </div>
-
-          <!--Order Details buttons-->
-          <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
-            <div class="flex justify-center items-center px-5 gap-10">
-              <button 
-                class="block text-white focus:ring-4 focus:outline-none
-                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-                focus:ring-blue-800 my-3" type="button">
-                OK
-              </button>
-              <button 
-                class="block text-white focus:ring-4 focus:outline-none
-                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-                focus:ring-blue-800 my-3" type="button">
-                OK + Print
-              </button>
-            </div>
-
-            <div class="flex justify-center items-center px-5 gap-10">
-              <button 
-                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
-                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
-                Folder
-              </button>
-              <button 
-                class=" border focus:outline-none focus:ring-4
-                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
-                hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700" type="button">
-                Clear
-              </button>
-            </div>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>
@@ -203,24 +210,24 @@
 {% endblock %}
 
 {% block sidecontent %}
-  {% for category in category_list %}
-    {% if category.is_active %}
-    <li class="item">
-    <a
-      hx-get="{% url 'product_list' category.id %}"
-      hx-target="#product_list"
-      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
-      class="flex items-top p-2 rounded-lg text-white 
-      hover:bg-gray-700 group cursor-pointer max-h-full">
-      <span class="inline-block transition duration-75 
-        text-gray-200 group-hover:text-white">
-        <i class="text-xl fa-solid fa-circle-plus"></i>
-      </span>
-      <span class="ms-5 text-gray-300 text-lg">{{ category.name }}</span>
-    </a>
-    </li>
-    {% endif %}
-  {% endfor %}
+{% for category in category_list %}
+{% if category.is_active %}
+<li class="item">
+  <a
+    hx-get="{% url 'product_list' category.id %}"
+    hx-target="#product_list"
+    _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
+    class="flex items-top p-2 rounded-lg text-white 
+    hover:bg-gray-700 group cursor-pointer max-h-full">
+    <span class="inline-block transition duration-75 
+      text-gray-200 group-hover:text-white">
+      <i class="text-xl fa-solid fa-circle-plus"></i>
+    </span>
+    <span class="ms-5 text-gray-300 text-lg">{{ category.name }}</span>
+  </a>
+</li>
+{% endif %}
+{% endfor %}
 {% endblock sidecontent %}
 
 <script>
