@@ -390,10 +390,11 @@ def product_list(request, pk):
     }
     return render(request, "cashier/tables/product_list.html", context)
 
-def order_detail_row(request, pk):
+def order_detail_row(request, pk, row_number):
     product_line = ProductLine.objects.get(id=pk)
     context = {
         "product_line": product_line,
+        "row_number": row_number,
     }
     return render(request, "cashier/tables/order_detail_row.html", context)
 

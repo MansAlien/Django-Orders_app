@@ -1,4 +1,4 @@
-<table class="w-full text-sm text-left rtl:text-right text-gray-400">
+<table class="w-full text-sm text-left rtl:text-right text-gray-400" ">
   <thead class="sticky top-10 text-sm uppercase bg-gray-700 text-gray-400">
     <tr>
       <th scope="col" class="px-3 py-3">Product</th>
@@ -17,11 +17,11 @@
       {% for product, product_lines in products.items %}
         {% for product_line in product_lines %}
           <tr 
-            hx-get="{% url 'order_detail_row' product_line.id %}"
+            :hx-get="`/order_detail_row/{{ product_line.id }}/${count}`"
             hx-target="#table_body"
             hx-swap="beforeend"
             hx-trigger="click delay:1s"
-            _="on click wait 1.5s call calculateTotal()"
+            x-on:htmx:after-request="count++, calculateTotal()"
             class="text-lg text-gray-300 odd:bg-gray-900 even:bg-gray-800
             hover:bg-gray-600 cursor-pointer">
             <td class="px-3 py-3 ">

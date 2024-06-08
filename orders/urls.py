@@ -55,7 +55,7 @@ htmx_urlpatterns = [
     path("cashier/clear_customer_info/", views.clear_customer_info, name="clear_customer_info"),
 
     path("product_list/<int:pk>", views.product_list, name="product_list"),
-    path("order_detail_row/<int:pk>", views.order_detail_row, name="order_detail_row"),
+    path("order_detail_row/<int:pk>/<int:row_number>/", views.order_detail_row, name="order_detail_row"),
     path("edit_order_detail/", views.edit_order_detail, name="edit_order_detail"),
     
     path("create_order/", views.create_order, name="create_order"),
