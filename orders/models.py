@@ -135,7 +135,8 @@ class OrderDetail(models.Model):
     location = models.CharField(max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
-    deliver_date = models.DateTimeField(null=True, blank=True)
+    deliver_date = models.DateField(null=True, blank=True)
+    deliver_time = models.TimeField(null=True, blank=True)
 
     def __str__(self) -> str:
         return f"{self.product_line}"

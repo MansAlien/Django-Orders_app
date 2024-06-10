@@ -392,19 +392,22 @@ def product_list(request, pk):
 
 def order_detail_row(request, pk):
     product_line = ProductLine.objects.get(id=pk)
+    print(product_line)
     if request.method == "POST":
         form = OrderDetailForm(request.POST)
-        print(form)
         if form.is_valid():
             form.save()
             return HttpResponse(status=204)
+        else:
+            print(form.cleaned_data)
+            return HttpResponse(status=204)
     else:
         form = OrderDetailForm()
-        context = {
-            "product_line": product_line,
-            "form":form,
-            "pk":pk,
-        }
+    context = {
+        "product_line": product_line,
+        "form":form,
+        "pk":pk,
+    }
     return render(request, "cashier/tables/order_detail_row.html", context)
 
 @login_required
