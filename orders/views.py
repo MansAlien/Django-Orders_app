@@ -390,12 +390,21 @@ def product_list(request, pk):
     }
     return render(request, "cashier/tables/product_list.html", context)
 
-def order_detail_row(request, pk, row_number):
+def order_detail_row(request, pk):
     product_line = ProductLine.objects.get(id=pk)
-    context = {
-        "product_line": product_line,
-        "row_number": row_number,
-    }
+    if request.method == "POST":
+        form = OrderDetailForm(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204)
+    else:
+        form = OrderDetailForm()
+        context = {
+            "product_line": product_line,
+            "form":form,
+            "pk":pk,
+        }
     return render(request, "cashier/tables/order_detail_row.html", context)
 
 @login_required
@@ -431,8 +440,6 @@ def create_order(request):
             total = request.POST.get('total')
             
             Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)
-
-
-        return HttpResponse(status=204)
+    return HttpResponse(status=204)
 
 

@@ -1,6 +1,7 @@
 from django import forms
 from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail
-from .widget import DateTimePickerInput
+from django.forms import widgets
+from datetime import datetime
 
 
 class CategoryForm(forms.ModelForm):
@@ -83,8 +84,33 @@ class CustomerForm(forms.ModelForm):
         fields = ['phone', 'name_one', 'name_two', 'whatsapp']
 
 class OrderDetailForm(forms.ModelForm):
+    location = forms.CharField(required=False,
+        widget=widgets.TextInput(attrs={
+            'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
+            'placeholder': 'location',
+            'x-show': 'input',  # Add your custom attributes here
+            ':id':"$id('location')",
+            '_': 'on keyup put my value into the next <span/>',
+        })
+    )
+    customer_comment = forms.CharField(required=False,
+        widget=widgets.TextInput(attrs={
+            'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
+            'placeholder': 'comment',
+            'x-show': 'input',  # Add your custom attributes here
+            ':id':"$id('comment')",
+            '_': 'on keyup put my value into the next <span/>',
+        })
+    )
+    amount = forms.CharField(
+        widget=widgets.TextInput(attrs={
+            'class': 'flex-shrink-0 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center',
+            'value': '1',
+            '_':"on change set me.closest('.relative').querySelector('.total-price').innerText to ((parseInt(me.closest('.relative').querySelector('.price').innerText) * parseInt(me.value)).toFixed(2))",
+        })
+    )
+    
     class Meta:
         model = OrderDetail
         fields = ['product_line', 'deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date']
-
 

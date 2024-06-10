@@ -17,10 +17,10 @@
       {% for product, product_lines in products.items %}
         {% for product_line in product_lines %}
           <tr 
-            :hx-get="`/order_detail_row/{{ product_line.id }}/${count}`"
+            hx-get="{% url 'order_detail_row' product_line.id %}"
             hx-target="#table_body"
             hx-swap="beforeend"
-            hx-trigger="click delay:1s"
+            hx-trigger="click"
             x-on:htmx:after-request="count++, calculateTotal()"
             class="text-lg text-gray-300 odd:bg-gray-900 even:bg-gray-800
             hover:bg-gray-600 cursor-pointer">
