@@ -77,10 +77,6 @@ class ProductLineCreateForm(forms.Form):
         product_line.attribute_values.set(self.cleaned_data['attribute_values'])
         return product_line
 
-
-
-
-
 class CustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
@@ -89,9 +85,6 @@ class CustomerForm(forms.ModelForm):
 class OrderDetailForm(forms.ModelForm):
     class Meta:
         model = OrderDetail
-        fields = ['created_at']
+        fields = ['product_line', 'deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date']
 
-        widgets = {
-            "created_at" : DateTimePickerInput(),
-        }
 

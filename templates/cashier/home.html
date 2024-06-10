@@ -113,21 +113,22 @@ form label {
 
       <!--Order Details-->
       <div class="col-span-3">
-        <form id="order_form" class="h-full" hx-post="{% url 'create_order' %}">
-          <div class="grid grid-rows-7 h-full gap-y-3">
-            <input type="hidden" name="customer_id" id="form_customer_id">
-            <input type="hidden" name="order_id" id="form_order_id">
+        <div class="grid grid-rows-7 h-full gap-y-3">
 
-            <!--Order Details Table-->
-            <div
-              id="order_details"
-              class="row-span-4 bg-gray-800 h-full">
-              {% include 'cashier/tables/order_details_table.html' %}
-            </div>
+          <!--Order Details Table-->
+          <div
+            id="order_details"
+            class="row-span-4 bg-gray-800 h-full">
+            {% include 'cashier/tables/order_details_table.html' %}
+          </div>
 
-            <!--Order Details Payment-->
-            <div class="row-span-2 flex justify-between items-center bg-gray-800 h-full px-5">
+          <!--Order Details Payment-->
+          <form id="payment_form" class="row-span-2 h-full" hx-post="{% url 'create_order' %}">
+            {% csrf_token %}
+            <div class=" flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
+                <input type="hidden" name="customer_id" id="form_customer_id">
+                <input type="hidden" name="order_id" id="form_order_id">
                 <div class="text-center text-white">
                   <p class="block mb-2 text-base font-semibold text-gray-400">Befor Discount</p>
                   <input
@@ -189,11 +190,14 @@ form label {
                 </div>
               </div>
             </div>
+          </form>
 
             <!--Order Details buttons-->
             <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
               <div class="flex justify-center items-center px-5 gap-10">
                 <button 
+                  id="ok_button"
+                  form="payment_form"
                   class="block text-white focus:ring-4 focus:outline-none
                   font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
                   focus:ring-blue-800 my-3" type="submit">
@@ -221,8 +225,7 @@ form label {
                 </button>
               </div>
             </div>
-          </div>
-        </form>
+        </div>
       </div>
     </div>
   </div>

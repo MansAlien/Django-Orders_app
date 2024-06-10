@@ -413,7 +413,6 @@ def create_order(request):
     if request.method == "POST":
         customer_id = request.POST.get('customer_id')
         order_id = request.POST.get('order_id')
-
         # check if order is exists
         if order_id:
             # edit the order
