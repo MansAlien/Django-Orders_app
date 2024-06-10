@@ -130,14 +130,13 @@ form label {
                 <input type="hidden" name="customer_id" id="form_customer_id">
                 <input type="hidden" name="order_id" id="form_order_id">
                 <div class="text-center text-white">
-                  <p class="block mb-2 text-base font-semibold text-gray-400">Befor Discount</p>
+                  <p class="block mb-5 text-base font-medium text-gray-400">Befor Discount</p>
                   <input
-                  name="total"
-                  class="border-none bg-gray-800 text-center text-white w-20 px-0"
+                  class="border-none bg-gray-800 text-center text-white w-20 px-0 text-base"
                   type="text" id="before_discount" value='0.0' readonly />
                 </div>
                 <div class="text-center">
-                  <label for="payment_discount" class="block mb-2 text-base font-medium text-gray-400">Discount %</label>
+                  <label for="payment_discount" class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
                   <input
                   name="discount"
                   id="payment_discount"
@@ -150,7 +149,7 @@ form label {
                   _="on keyup call calculateTotal()" />
                 </div>
                 <div class="text-center text-white">
-                  <p class="block mb-2 text-base font-semibold text-gray-400">After Discount</p>
+                  <p class="block mb-5 text-base font-medium text-gray-400">After Discount</p>
                   <input
                   class="border-none bg-gray-800 text-center text-white w-20 px-0"
                   type="text" id="after_discount" value='0.0' readonly />
@@ -159,7 +158,7 @@ form label {
 
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
-                  <label for="payment_method" class="block mb-2 text-base font-medium text-gray-400">Payment</label>
+                  <label for="payment_method" class="block mb-5 text-base font-medium text-gray-400">Payment</label>
                   <select 
                     id="payment_method"
                     name="payment_method"
@@ -172,7 +171,7 @@ form label {
                   </select>
                 </div>
                 <div class="text-center">
-                  <label for="paid" class="block mb-2 text-base font-medium text-gray-400">Paid</label>
+                  <label for="paid" class="block mb-5 text-base font-medium text-gray-400">Paid</label>
                   <input
                   _='on keyup call calculateTotal()'
                   name="paid"
@@ -182,7 +181,7 @@ form label {
                   placeholder="0.0" />
                 </div>
                 <div class="text-center">
-                  <label for="remaining" class="block mb-2 text-base font-medium text-gray-400">Remaining</label>
+                  <label for="remaining" class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
                   <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
                   class="border-none text-base text-red-500 text-center rounded-lg block w-24 p-2 bg-gray-800 
                   placeholder-gray-400"

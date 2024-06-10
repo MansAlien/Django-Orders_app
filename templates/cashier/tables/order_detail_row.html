@@ -24,7 +24,7 @@
       </button>
       <input
       type="text" 
-      class="flex-shrink-0 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center"
+      class="flex-shrink-0 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center amount px-0"
       value="1"
       _="on change set me.closest('tr').querySelector('.total-price').innerText to
       ((parseInt(me.closest('tr').querySelector('.price').innerText) * parseInt(me.value)).toFixed(2))
@@ -43,18 +43,18 @@
       </button>
     </div>
   </td> <!--amount-->
-  <td class="px-2 py-4 text-base total-price">{{ product_line.normal_price }}</td>
+  <td class="px-2 py-4 text-base total-price" :id="$id('total-price')", >{{ product_line.normal_price }}</td>
   <td class="px-2 py-4 text-base">
     <select 
       _="on change if my.value == 'F' then 
       set me.closest('tr').querySelector('.price').innerText to {{ product_line.fawry_price }} 
       then set me.closest('tr').querySelector('.total-price').innerText to 
-      ({{ product_line.fawry_price }} * parseInt(me.closest('td').querySelector('input').value)).toFixed(2) 
+      ({{ product_line.fawry_price }} * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2) 
       then call calculateTotal()
       else 
       set me.closest('tr').querySelector('.price').innerText to {{ product_line.normal_price }} 
       then set me.closest('tr').querySelector('.total-price').innerText to 
-      ({{ product_line.normal_price }} * parseInt(me.closest('td').querySelector('input').value)).toFixed(2)
+      ({{ product_line.normal_price }} * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2)
       then call calculateTotal()"
       class="border text-sm rounded-full
       block p-1 bg-gray-700 border-gray-600 placeholder-gray-400

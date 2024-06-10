@@ -21,7 +21,7 @@
             hx-target="#table_body"
             hx-swap="beforeend"
             hx-trigger="click"
-            x-on:htmx:after-request="count++, calculateTotal()"
+            _="on htmx:afterOnLoad wait 100ms then call calculateTotal()"
             class="text-lg text-gray-300 odd:bg-gray-900 even:bg-gray-800
             hover:bg-gray-600 cursor-pointer">
             <td class="px-3 py-3 ">
