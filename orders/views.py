@@ -7,9 +7,10 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import ( CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
-                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm )
+                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, PaymentForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
+from django.http import JsonResponse
 
 @login_required
 def home_view(request):
@@ -317,8 +318,24 @@ def cashier_view(request):
     category_list = Category.objects.all()
     context = {
         "category_list": category_list,
+        "payment_form": PaymentForm()
     }
     return render(request, "cashier/home.html", context)
+
+
+def product_list(request, pk):
+    category = get_object_or_404(Category, pk=pk)
+    sub_category_list = Sub_Category.objects.filter(category=category, is_active=True)
+    subcategory_products = {}
+    for sub in sub_category_list:
+        product_list = Product.objects.filter(sub_category=sub, is_active=True)
+        product_line_list = {product: ProductLine.objects.filter(product=product, is_active=True) for product in product_list}
+        subcategory_products[sub] = product_line_list
+    context = {
+        "category": category,
+        "subcategory_products": subcategory_products,
+    }
+    return render(request, "cashier/tables/product_list.html", context)
 
 def create_customer(request):
     if request.method == "POST":
@@ -375,40 +392,41 @@ def edit_customer(request, pk):
         form = CustomerForm(instance=customer)
     return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
 
-
-def product_list(request, pk):
-    category = get_object_or_404(Category, pk=pk)
-    sub_category_list = Sub_Category.objects.filter(category=category, is_active=True)
-    subcategory_products = {}
-    for sub in sub_category_list:
-        product_list = Product.objects.filter(sub_category=sub, is_active=True)
-        product_line_list = {product: ProductLine.objects.filter(product=product, is_active=True) for product in product_list}
-        subcategory_products[sub] = product_line_list
+def new_order(request):
+    customer_id = request.POST.get('customer_id')
+    customer = Customer.objects.get(id=customer_id)
+    order = Order.objects.create(customer=customer)
     context = {
-        "category": category,
-        "subcategory_products": subcategory_products,
+        "order_id": order.id,
     }
-    return render(request, "cashier/tables/product_list.html", context)
+    return render(request, "cashier/forms/order_info.html", context)
+
+
 
 def order_detail_row(request, pk):
     product_line = ProductLine.objects.get(id=pk)
-    print(product_line)
+    order_id = request.POST.get('order_id')
     if request.method == "POST":
+        order = Order.objects.get(id=order_id)
         form = OrderDetailForm(request.POST)
         if form.is_valid():
-            form.save()
+            order_detail = form.save(commit=False)
+            order_detail.product_line = product_line
+            order_detail.order = order
+            order_detail.save()
             return HttpResponse(status=204)
         else:
-            print(form.cleaned_data)
+            print(form.errors)
             return HttpResponse(status=204)
     else:
         form = OrderDetailForm()
     context = {
         "product_line": product_line,
-        "form":form,
-        "pk":pk,
+        "form": form,
+        "pk": pk,
     }
     return render(request, "cashier/tables/order_detail_row.html", context)
+
 
 @login_required
 def edit_order_detail(request):
@@ -422,27 +440,34 @@ def edit_order_detail(request):
     return render(request, "cashier/modals/edit_order_detail.html", { "form":form })
 
 def create_order(request):
+    order_id = request.POST.get('order_id')
     if request.method == "POST":
-        customer_id = request.POST.get('customer_id')
-        order_id = request.POST.get('order_id')
-        # check if order is exists
-        if order_id:
-            # edit the order
-            print(order_id)
-        else:
-            # creat an order
-            customer=Customer.objects.get(id=customer_id)
-            order=Order.objects.create(customer=customer)
-            paid = request.POST.get('paid')
-            if not paid:
-                paid = 0
+        order = Order.objects.get(id=order_id)
+        paid = request.POST.get('paid')
+        if not paid:
+            paid = 0
             discount = request.POST.get('discount')
             if not discount:
                 discount=0
             payment_method = request.POST.get('payment_method')
             total = request.POST.get('total')
-            
+
             Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)
     return HttpResponse(status=204)
 
 
+def order_payment(request):
+    order_id = request.POST.get('order_id')
+    if request.method == "POST":
+        order = Order.objects.get(id=order_id)
+        form = PaymentForm(request.POST)
+        if form.is_valid():
+            payment = form.save(commit=False)
+            payment.order = order
+            payment.save()
+            return HttpResponse(status=204)
+        else:
+            print(form.cleaned_data)
+            print(form.errors)
+            return HttpResponse(status=204)
+    return render(request, "cashier/tables/order_detail_row.html")

@@ -1,5 +1,5 @@
 from django import forms
-from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment
 from django.forms import widgets
 
 
@@ -82,6 +82,7 @@ class CustomerForm(forms.ModelForm):
         model = Customer
         fields = ['phone', 'name_one', 'name_two', 'whatsapp']
 
+# The Order Details Form
 class OrderDetailForm(forms.ModelForm):
     location = forms.CharField(required=False,
         widget=widgets.TextInput(attrs={
@@ -104,6 +105,7 @@ class OrderDetailForm(forms.ModelForm):
         widget=widgets.TextInput(attrs={
             'class': 'flex-shrink-0 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center',
             'value': '1',
+            ':id':"$id('amount')",
             '_': """
                     on change set me.closest('tr').querySelector('.total-price').innerText to
                     ((parseInt(me.closest('tr').querySelector('.price').innerText) * parseInt(me.value)).toFixed(2))
@@ -115,6 +117,7 @@ class OrderDetailForm(forms.ModelForm):
         widget=widgets.Select(attrs={
             'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
             'x-on:change':"price = $event.target.value === 'F' ? fawryPrice : normalPrice",
+            ':id':"$id('deliver_type')",
             '_': """
                     on change 
                     set me.closest('tr').querySelector('.total-price').innerText to 
@@ -126,6 +129,7 @@ class OrderDetailForm(forms.ModelForm):
         choices=[('P', 'Printing'), ('D', 'Delivered')],
         widget=widgets.Select(attrs={
             'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+            ':id':"$id('deliver_status')",
         })) 
     deliver_date = forms.DateField(
         widget=widgets.DateInput(attrs={
@@ -153,4 +157,56 @@ class OrderDetailForm(forms.ModelForm):
         }))
     class Meta:
         model = OrderDetail
-        fields = ['product_line', 'deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date', 'deliver_time']
+        fields = ['deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date', 'deliver_time']
+
+
+class PaymentForm(forms.ModelForm):
+    total = forms.CharField(required=False,
+        widget=widgets.TextInput(attrs={
+            'class': 'border-none bg-gray-800 text-center text-white w-20 px-0 text-base',
+            'id': 'before_discount',
+            'value': '0.0',
+            'readonly': 'readonly',
+        }))
+    discount = forms.CharField(
+        widget=widgets.NumberInput(attrs={
+            'class':'''
+                        border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+                    ''',
+            'id': 'payment_discount',
+            'placeholder':"0 %", 
+            'min':"0", 
+            'max':"100", 
+            '_':"on keyup call calculateTotal()", 
+        }))
+    discount = forms.CharField(
+        widget=widgets.NumberInput(attrs={
+            'class':'''
+                        border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+                    ''',
+            'id': 'payment_discount',
+            'placeholder':"0 %", 
+            'min':"0", 
+            'max':"100", 
+            '_':"on keyup or change call calculateTotal()", 
+        }))
+    paid = forms.CharField(
+        widget=widgets.NumberInput(attrs={
+            'class':'''
+                        border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
+                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
+                    ''',
+            'id': 'paid',
+            'placeholder':"0.0", 
+            '_':"on keyup or change call calculateTotal()", 
+        }))
+    payment_method = forms.ChoiceField(
+        choices=[('C', 'Cash'), ('O', 'Online'), ('V','Visa')],
+        widget=widgets.Select(attrs={
+            'class': 'border text-base rounded-lg block p-2 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+        })) 
+    class Meta:
+        model = Payment
+        fields = ['discount', 'total', 'paid', 'payment_method']

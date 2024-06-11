@@ -73,16 +73,24 @@ form label {
           </div>
         </div>
       </div>
-      <div class="flex h-full bg-gray-800 justify-center gap-1 items-center rounded-tr-lg p-10">
+      <div id="order_info" class="flex h-full bg-gray-800 justify-center gap-1 items-center rounded-tr-lg p-10">
         <div>
           {% csrf_token %}
           <form id="order_id_form">
-            <input
-            _="on keyup set #form_order_id's value to my.value"
-            type="number" aria-describedby="helper-text-explanation" id="order_id" 
-            class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
-            placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Order ID" />
+            <div id="order_id">
+              <input
+              type="number" aria-describedby="helper-text-explanation"  
+              class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
+              placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Order ID" />
+            </div>
+            <input type="hidden" name="customer_id" id="form_customer_id">
+            <button
+              hx-post="{% url 'order_info' %}"
+              hx-target="#order_id"
+              hx-swap="innerHTML"
+              id="new_order_button"
+              type="button"> new order </button>
           </form>
         </div>
         <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
@@ -123,30 +131,18 @@ form label {
           </div>
 
           <!--Order Details Payment-->
-          <form id="payment_form" class="row-span-2 h-full" hx-post="{% url 'create_order' %}">
+          <form id="payment_form" class="row-span-2 h-full" hx-post="{% url 'order_payment' %}">
             {% csrf_token %}
             <div class=" flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
-                <input type="hidden" name="customer_id" id="form_customer_id">
-                <input type="hidden" name="order_id" id="form_order_id">
+                <input type="hidden" name="order_id" id="payment_order_id">
                 <div class="text-center text-white">
                   <p class="block mb-5 text-base font-medium text-gray-400">Befor Discount</p>
-                  <input
-                  class="border-none bg-gray-800 text-center text-white w-20 px-0 text-base"
-                  type="text" id="before_discount" value='0.0' readonly />
+                  {{ payment_form.total }}
                 </div>
                 <div class="text-center">
                   <label for="payment_discount" class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
-                  <input
-                  name="discount"
-                  id="payment_discount"
-                  type="number" aria-describedby="helper-text-explanation" id="discount" 
-                  class="border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="0 %" 
-                  min="0"
-                  max="100"
-                  _="on keyup call calculateTotal()" />
+                  {{ payment_form.discount }}
                 </div>
                 <div class="text-center text-white">
                   <p class="block mb-5 text-base font-medium text-gray-400">After Discount</p>
@@ -159,26 +155,11 @@ form label {
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
                   <label for="payment_method" class="block mb-5 text-base font-medium text-gray-400">Payment</label>
-                  <select 
-                    id="payment_method"
-                    name="payment_method"
-                    class=" border text-base rounded-lg
-                    block p-2 bg-gray-700 border-gray-600 placeholder-gray-400
-                    text-white focus:ring-blue-500 focus:border-blue-500">
-                    <option value="C" selected>Cash</option>
-                    <option value="O">Online</option>
-                    <option value="V">Visa</option>
-                  </select>
+                  {{ payment_form.payment_method }}
                 </div>
                 <div class="text-center">
                   <label for="paid" class="block mb-5 text-base font-medium text-gray-400">Paid</label>
-                  <input
-                  _='on keyup call calculateTotal()'
-                  name="paid"
-                  type="number" aria-describedby="helper-text-explanation" id="paid" 
-                  class="border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600
-                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="0.0" />
+                  {{ payment_form.paid }}
                 </div>
                 <div class="text-center">
                   <label for="remaining" class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
@@ -311,4 +292,12 @@ function getCookie(name) {
   }
   return cookieValue;
 }
+document.body.addEventListener('htmx:afterOnLoad', function(event) {
+    if (event.detail.target.id === 'order_details_form') {
+        const response = JSON.parse(event.detail.xhr.responseText);
+        if (response.order_id) {
+            document.getElementById('order_id').value = response.order_id;
+        }
+    }
+});
 </script>
