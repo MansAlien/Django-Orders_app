@@ -1,4 +1,5 @@
-<tr class="bg-gray-900 text-xs" x-data="{ formData: {} }">
+<tr class="bg-gray-900 text-xs" 
+  x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }} }">
   <input 
     type="hidden" name="product_line_id" value="{{ pk }}">
   <td
@@ -7,7 +8,7 @@
     {{ product_line.product }}
   </td>
   <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
-  <td class="px-2 py-4 text-base price">{{ product_line.normal_price }}</td>
+  <td class="px-2 py-4 text-base price" x-text="price"></td>
   <td class="px-2 py-4 text-base">
     <div class="relative flex items-center">
       <button

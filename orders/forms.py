@@ -114,17 +114,12 @@ class OrderDetailForm(forms.ModelForm):
         choices=[('N', 'normal'), ('F', 'fawry')],
         widget=widgets.Select(attrs={
             'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+            'x-on:change':"price = $event.target.value === 'F' ? fawryPrice : normalPrice",
             '_': """
-                    on change if my.value == 'F' then 
-                    set me.closest('tr').querySelector('.price').innerText to {{ product_line.fawry_price }} 
-                    then set me.closest('tr').querySelector('.total-price').innerText to 
-                    ({{ product_line.fawry_price }} * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2) 
-                    then call calculateTotal()
-                    else 
-                    set me.closest('tr').querySelector('.price').innerText to {{ product_line.normal_price }} 
-                    then set me.closest('tr').querySelector('.total-price').innerText to 
-                    ({{ product_line.normal_price }} * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2)
-                    then call calculateTotal()
+                    on change 
+                    set me.closest('tr').querySelector('.total-price').innerText to 
+                    (parseFloat(me.closest('tr').querySelector('.price').innerText)
+                    * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2) 
                 """,
         })) 
     delivery_Status = forms.ChoiceField(
