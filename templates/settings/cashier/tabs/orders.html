@@ -4,22 +4,11 @@
   class="mt-10">
   <div class=" bg-gray-800 rounded-lg md:min-w-80">
     <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
-      <p class="text-white text-lg m-2"> Customers </p>
+      <p class="text-white text-lg m-2"> Orders </p>
     </div>
-    <div class="flex justify-center lg:gap-32 gap-5">
-      <button 
-        hx-get="{% url 'create_customer' %}"
-        hx-target="#modal_form"
-        hx-swap="innerHtml"
-        _="on click remove .hidden from modal_div " 
-        class="text-white focus:ring-4 focus:outline-none
-        font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-        focus:ring-blue-800 my-3" type="button">
-        New Customer
-      </button>
-    </div>
-    <div class="relative overflow-x-auto p-5 sm:rounded-lg" style="max-height: 33rem">
-      {% include "settings/cashier/tables/customer_table.html" %}
+    <div 
+      class="relative overflow-x-auto shadow-lg m-5 sm:rounded-lg" style="height: 30rem">
+      {% include "settings/cashier/tables/order_table.html" %}
     </div>
   </div>
   <!-- Main Modal -->

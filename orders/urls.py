@@ -14,6 +14,7 @@ urlpatterns = [
     path("cashier/", views.cashier_view, name="cashier"),
     path("settings/cashier/", views.cashier_settings_view, name="cashier_settings_view"),
     path("settings/cashier/customer", views.customer_view, name="customer_settings_view"),
+    path("settings/cashier/order", views.order_view, name="order_view"),
 ]
 
 

@@ -103,7 +103,7 @@ class OrderDetailForm(forms.ModelForm):
         }))
     amount = forms.CharField(
         widget=widgets.TextInput(attrs={
-            'class': 'flex-shrink-0 text-white border-0 bg-transparent text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center',
+            'class': 'flex-shrink-0 text-white border-0 bg-gray-900 text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center',
             'value': '1',
             ':id':"$id('amount')",
             '_': """

@@ -74,7 +74,7 @@ class ProductLine(models.Model):
     stock_qty = models.IntegerField(default=0)
     min_stock_qty = models.IntegerField(default=1)
     is_active = models.BooleanField(default=False)
-    deliver_date = models.IntegerField(null=True)
+    deliver_date = models.IntegerField()
     admin_comment = models.TextField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
@@ -147,9 +147,9 @@ class Payment(models.Model):
         "V":"Visa",
     }
     order = models.ForeignKey(Order, on_delete=models.PROTECT)
-    discount = models.DecimalField(decimal_places=2, max_digits=4, null=True, blank=True, default=0.00)
+    discount = models.DecimalField(decimal_places=2, max_digits=4, blank=True, default=0.00)
     total = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True)
-    paid = models.DecimalField(decimal_places=2, max_digits=10, null=True, blank=True, default=0.00)
+    paid = models.DecimalField(decimal_places=2, max_digits=10, blank=True, default=0.00)
     payment_method = models.CharField(max_length=1, choices=PAYMENT_METHOD, default="C")
 
     def __str__(self) -> str:

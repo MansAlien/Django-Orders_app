@@ -269,20 +269,32 @@ def delete_attribute_value(request, pk):
     attribute_value.delete()
     return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
 
-# product line
-@permission_required("orders.add_product")
 def create_product_line(request):
     product_list = Product.objects.all()
     if request.method == "POST":
         form = ProductLineCreateForm(request.POST)
         if form.is_valid():
-            form.save()
+            product_line = ProductLine(
+                product=form.cleaned_data['product'],
+                normal_price=form.cleaned_data['normal_price'],
+                fawry_price=form.cleaned_data['fawry_price'],
+                stock_qty=form.cleaned_data['stock_qty'],
+                min_stock_qty=form.cleaned_data['min_stock_qty'],
+                is_active=form.cleaned_data['is_active'],
+                deliver_date=form.cleaned_data['deliver_date'],
+                admin_comment=form.cleaned_data.get('admin_comment')
+            )
+            product_line.save()
+            product_line.attribute_values.set(form.cleaned_data['attribute_values'])
+
             return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+        else:
+            print(form.errors)  # Debugging statement to print form errors
     else:
         form = ProductLineCreateForm()
     context = {
-        "product_list":product_list,
-        "form":form,
+        "product_list": product_list,
+        "form": form,
     }
     return render(request, "settings/inventory/modals/create_product_line.html", context)
 
@@ -298,6 +310,9 @@ def edit_product_line(request, pk):
         form = ProductLineForm(request.POST,  instance=product_line)
         if form.is_valid():
             form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
+        else:
+            print(form.errors)
             return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
     else:
         form = ProductLineForm(instance=product_line)
@@ -339,60 +354,7 @@ def product_list(request, pk):
     }
     return render(request, "cashier/tables/product_list.html", context)
 
-def create_customer(request):
-    if request.method == "POST":
-        form = CustomerForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request,"The new Customer Successfully Created")
-            return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
-    else:
-        form = CustomerForm()
-    context = {
-        "form":form,
-    }
-    return render(request, "cashier/modals/create_customer.html", context)
 
-def customer_info(request):
-    customer = Customer.objects.last()
-    context = {
-        "customer":customer,
-    }
-    return render(request, "cashier/forms/customer_info.html", context)
-
-def clear_customer_info(request):
-    return render(request, "cashier/forms/customer_info.html")
-
-def customer_with_id(request):
-    customer_id = request.POST.get('customer_id')
-    customer = None
-    try:
-        customer = Customer.objects.get(id=customer_id)
-    except Customer.DoesNotExist:
-        try:
-            customer = Customer.objects.get(phone=customer_id)
-        except Customer.DoesNotExist:
-            customer = None
-    if customer:
-        context = {
-            "customer": customer,
-        }
-        return render(request, "cashier/forms/customer_info.html", context)
-    else:
-        messages.error(request, "This customer does not exist.")
-        return clear_customer_info(request)
-
-def edit_customer(request, pk):
-    customer = Customer.objects.get(id=pk)
-    if request.method == "POST":
-        form = CustomerForm(request.POST,  instance=customer)
-        if form.is_valid():
-            form.save()
-            messages.success(request,"The new Customer Successfully Updated")
-            return HttpResponse(status=204, headers={"HX-Trigger": "clear"})
-    else:
-        form = CustomerForm(instance=customer)
-    return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
 
 def new_order(request):
     customer_id = request.POST.get('customer_id')
@@ -463,6 +425,7 @@ def order_payment(request):
 
 def cashier_settings_view(request):
     return render(request, "settings/cashier/cashier.html")
+
 # Customer
 def customer_view(request):
     customers = Customer.objects.all()
@@ -470,6 +433,20 @@ def customer_view(request):
         "customers":customers,
     }
     return render(request, "settings/cashier/tabs/customer.html", context)
+
+def create_customer(request):
+    if request.method == "POST":
+        form = CustomerForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"The new Customer Successfully Created")
+            return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
+    else:
+        form = CustomerForm()
+    context = {
+        "form":form,
+    }
+    return render(request, "cashier/modals/create_customer.html", context)
 
 def delete_customer(request, pk):
     try:
@@ -479,3 +456,52 @@ def delete_customer(request, pk):
     except ProtectedError:
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
+
+def edit_customer(request, pk):
+    customer = Customer.objects.get(id=pk)
+    if request.method == "POST":
+        form = CustomerForm(request.POST,  instance=customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"The new Customer Successfully Updated")
+            return HttpResponse(status=204, headers={"HX-Trigger": "clear"})
+    else:
+        form = CustomerForm(instance=customer)
+    return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
+
+def customer_info(request):
+    customer = Customer.objects.last()
+    context = {
+        "customer":customer,
+    }
+    return render(request, "cashier/forms/customer_info.html", context)
+
+def customer_with_id(request):
+    customer_id = request.POST.get('customer_id')
+    customer = None
+    try:
+        customer = Customer.objects.get(id=customer_id)
+    except Customer.DoesNotExist:
+        try:
+            customer = Customer.objects.get(phone=customer_id)
+        except Customer.DoesNotExist:
+            customer = None
+    if customer:
+        context = {
+            "customer": customer,
+        }
+        return render(request, "cashier/forms/customer_info.html", context)
+    else:
+        messages.error(request, "This customer does not exist.")
+        return clear_customer_info(request)
+
+def clear_customer_info(request):
+    return render(request, "cashier/forms/customer_info.html")
+
+# Order
+def order_view(request):
+    order_list = Payment.objects.all()
+    context = {
+        "order_list":order_list,
+    }
+    return render(request, "settings/cashier/tabs/orders.html", context)

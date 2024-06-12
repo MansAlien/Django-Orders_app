@@ -1,0 +1,28 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-400">
+  <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">
+    <tr>
+      <th scope="col" class="px-6 py-3">ID</th>
+      <th scope="col" class="px-6 py-3">Customer</th>
+      <th scope="col" class="px-6 py-3">Discount</th>
+      <th scope="col" class="px-6 py-3">Before</th>
+      <th scope="col" class="px-6 py-3">After</th>
+      <th scope="col" class="px-6 py-3">paid</th>
+      <th scope="col" class="px-6 py-3">Remaining</th>
+      <th scope="col" class="px-6 py-3">Payment Method</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in order_list %}
+    <tr class=" odd:bg-gray-900 even:bg-gray-800" x-data="{'total': {{ order.total}}, 'discount': {{ order.discount }}, 'paid': {{ order.paid }} }">
+      <td class="px-6 py-4 text-base">{{ order.order.id }}</td>
+      <td class="px-6 py-4 text-base">{{ order.order.customer.name_one }}</td>
+      <td class="px-6 py-4 text-base" >{{ order.discount }} %</td>
+      <td class="px-6 py-4 text-base" x-text="total"></td>
+      <td class="px-6 py-4 text-base" x-text="total-((total*discount)/100)"></td>
+      <td class="px-6 py-4 text-base" x-text="paid">{{ order.paid }}</td>
+      <td class="px-6 py-4 text-base" x-text="(total-((total*discount)/100))-paid"></td>
+      <td class="px-6 py-4 text-base">{{ order.get_payment_method_display }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
