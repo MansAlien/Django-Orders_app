@@ -429,7 +429,8 @@ def order_details_view(request):
             else:
                 print(form.errors)
 
-        return JsonResponse({'status': 'success'})
+        return HttpResponse(status=204, headers={"HX-Trigger": "payment_submit"})
+
     return JsonResponse({'status': 'invalid request'}, status=400)
 
 def order_detail_row(request, pk):
@@ -479,7 +480,7 @@ def create_order(request):
             discount = request.POST.get('discount')
             if not discount:
                 discount=0
-                payment_method = request.POST.get('payment_method')
+            payment_method = request.POST.get('payment_method')
             total = request.POST.get('total')
 
             Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)

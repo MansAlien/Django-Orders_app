@@ -78,6 +78,8 @@ form label {
           {% csrf_token %}
           <div class="flex justify-center gap-1 items-center" id="order_id">
             <input
+            id="new_order_id"
+            name="new_order_id"
             type="number" aria-describedby="helper-text-explanation"  
             class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
             placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
@@ -135,7 +137,7 @@ form label {
           </div>
 
           <!--Order Details Payment-->
-          <form id="payment_form" class="row-span-2 h-full" hx-post="{% url 'order_payment' %}">
+          <form id="payment_form" class="row-span-2 h-full" action="{% url 'order_payment' %}" method="post">
             {% csrf_token %}
             <div class=" flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
@@ -145,7 +147,7 @@ form label {
                   {{ payment_form.total }}
                 </div>
                 <div class="text-center">
-                  <label class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
+                  <label for="payment_discount" class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
                   {{ payment_form.discount }}
                 </div>
                 <div class="text-center text-white">
@@ -158,15 +160,15 @@ form label {
 
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
-                  <label class="block mb-5 text-base font-medium text-gray-400">Payment</label>
+                  <label for="id_payment_method" class="block mb-5 text-base font-medium text-gray-400">Payment</label>
                   {{ payment_form.payment_method }}
                 </div>
                 <div class="text-center">
-                  <label class="block mb-5 text-base font-medium text-gray-400">Paid</label>
+                  <label for="paid" class="block mb-5 text-base font-medium text-gray-400">Paid</label>
                   {{ payment_form.paid }}
                 </div>
                 <div class="text-center">
-                  <label class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
+                  <label for="remaining" class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
                   <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
                   class="border-none text-base text-red-500 text-center rounded-lg block w-24 p-2 bg-gray-800 
                   placeholder-gray-400"
@@ -174,21 +176,20 @@ form label {
                 </div>
               </div>
             </div>
+            <button type="submit" class="hidden">Submit Payment</button>
           </form>
 
             <!--Order Details buttons-->
             <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
               <div class="flex justify-center items-center px-5 gap-10">
                 <button 
-                  id="ok_button"
-                  form="payment_form"
+                  form="order_details_form"
                   class="block text-white focus:ring-4 focus:outline-none
                   font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
                   focus:ring-blue-800 my-3" type="submit">
                   OK
                 </button>
                 <button 
-                  form="order_details_form"
                   class="block text-white focus:ring-4 focus:outline-none
                   font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
                   focus:ring-blue-800 my-3" type="submit">
@@ -226,6 +227,9 @@ form label {
     </div>
   </div>
 </div>
+
+<script>
+</script>
 {% endblock %}
 
 {% block sidecontent %}

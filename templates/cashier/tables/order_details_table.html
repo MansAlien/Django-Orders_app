@@ -17,7 +17,6 @@
     <tbody id="table_body">
     </tbody>
   </table>
-  <button type="submit">Submit All</button>
 </form>
 
 
@@ -114,6 +113,7 @@
     };
 
     xhr.send(JSON.stringify(formData));
+  document.getElementById('payment_form').submit();
   }
 </script>
 

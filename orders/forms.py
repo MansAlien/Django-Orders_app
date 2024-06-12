@@ -168,19 +168,7 @@ class PaymentForm(forms.ModelForm):
             'value': '0.0',
             'readonly': 'readonly',
         }))
-    discount = forms.CharField(
-        widget=widgets.NumberInput(attrs={
-            'class':'''
-                        border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
-                        placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500
-                    ''',
-            'id': 'payment_discount',
-            'placeholder':"0 %", 
-            'min':"0", 
-            'max':"100", 
-            '_':"on keyup call calculateTotal()", 
-        }))
-    discount = forms.CharField(
+    discount = forms.DecimalField(required=False,
         widget=widgets.NumberInput(attrs={
             'class':'''
                         border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
@@ -192,7 +180,7 @@ class PaymentForm(forms.ModelForm):
             'max':"100", 
             '_':"on keyup or change call calculateTotal()", 
         }))
-    paid = forms.CharField(
+    paid = forms.DecimalField(required=False,
         widget=widgets.NumberInput(attrs={
             'class':'''
                         border text-base text-center rounded-lg block w-24 p-2 bg-gray-700 border-gray-600 
