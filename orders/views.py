@@ -404,6 +404,16 @@ def new_order(request):
     return render(request, "cashier/forms/order_info.html", context)
 
 
+def order_detail_row(request, pk):
+    product_line = ProductLine.objects.get(id=pk)
+    form = OrderDetailForm()
+    context = {
+        "product_line": product_line,
+        "form": form,
+        "pk": pk,
+    }
+    return render(request, "cashier/tables/order_detail_row.html", context)
+
 @csrf_exempt
 def order_details_view(request):
     if request.method == 'POST':
@@ -433,60 +443,6 @@ def order_details_view(request):
 
     return JsonResponse({'status': 'invalid request'}, status=400)
 
-def order_detail_row(request, pk):
-    product_line = ProductLine.objects.get(id=pk)
-    order_id = request.POST.get('order_id')
-    if request.method == "POST":
-        order = Order.objects.get(id=order_id)
-        form = OrderDetailForm(request.POST)
-        if form.is_valid():
-            order_detail = form.save(commit=False)
-            order_detail.product_line = product_line
-            order_detail.order = order
-            order_detail.save()
-            print(form.cleaned_data)
-            return HttpResponse(status=204)
-        else:
-            print(form.errors)
-            return HttpResponse(status=204)
-    else:
-        form = OrderDetailForm()
-    context = {
-        "product_line": product_line,
-        "form": form,
-        "pk": pk,
-    }
-    return render(request, "cashier/tables/order_detail_row.html", context)
-
-
-@login_required
-def edit_order_detail(request):
-    if request.method == "POST":
-        form = OrderDetailForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse(status=204)
-    else:
-        form = OrderDetailForm()
-    return render(request, "cashier/modals/edit_order_detail.html", { "form":form })
-
-def create_order(request):
-    order_id = request.POST.get('order_id')
-    if request.method == "POST":
-        order = Order.objects.get(id=order_id)
-        paid = request.POST.get('paid')
-        if not paid:
-            paid = 0
-            discount = request.POST.get('discount')
-            if not discount:
-                discount=0
-            payment_method = request.POST.get('payment_method')
-            total = request.POST.get('total')
-
-            Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)
-    return HttpResponse(status=204)
-
-
 def order_payment(request):
     order_id = request.POST.get('order_id')
     if request.method == "POST":
@@ -503,3 +459,23 @@ def order_payment(request):
             return HttpResponse(status=204)
     return render(request, "cashier/tables/order_detail_row.html")
 
+# Cashier Settings
+
+def cashier_settings_view(request):
+    return render(request, "settings/cashier/cashier.html")
+# Customer
+def customer_view(request):
+    customers = Customer.objects.all()
+    context = {
+        "customers":customers,
+    }
+    return render(request, "settings/cashier/tabs/customer.html", context)
+
+def delete_customer(request, pk):
+    try:
+        customer = Customer.objects.get(id=pk)
+        customer.delete()
+        return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})

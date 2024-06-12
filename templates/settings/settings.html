@@ -36,6 +36,21 @@
     </a>
   </li>
   {% endif %}
+  <li class="item">
+    <a
+      hx-get="{% url "cashier_settings_view" %}"
+      hx-target="#settings_content"
+      hx-swap="innerHtml"
+      _="on click remove .bg-gray-700 from <a/> in .ul_items then add .bg-gray-700 to me"
+      class="flex items-top p-2 rounded-lg text-white 
+      hover:bg-gray-700 group cursor-pointer max-h-full">
+      <span class="inline-block transition duration-75 
+        text-gray-200 group-hover:text-white">
+        <i class="text-xl fa-solid fa-circle-plus"></i>
+      </span>
+        <span class="ms-5 text-gray-300 text-lg">Cashier</span>
+    </a>
+  </li>
 {% endblock sidecontent %}
 
 {% block content %} 

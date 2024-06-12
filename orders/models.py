@@ -15,7 +15,6 @@ class Category(models.Model):
 
         for sub_category in self.sub_category_set.all():
             sub_category.product_set.update(is_active=self.is_active)
-
             for product in sub_category.product_set.all():
                 product.productline_set.update(is_active=self.is_active)
                     

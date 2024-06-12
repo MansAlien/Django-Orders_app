@@ -12,6 +12,8 @@ urlpatterns = [
     path("settings/inventory/product_line", views.product_line_view, name="product_line"), # attribute_value & product_line
 
     path("cashier/", views.cashier_view, name="cashier"),
+    path("settings/cashier/", views.cashier_settings_view, name="cashier_settings_view"),
+    path("settings/cashier/customer", views.customer_view, name="customer_settings_view"),
 ]
 
 
@@ -48,17 +50,19 @@ htmx_urlpatterns = [
     path("settings/inventory/product_line/<int:pk>/delete", views.delete_product_line, name="delete_product_line"),
 
     # Cashier
-    path("cashier/create_customer/", views.create_customer, name="create_customer"),
-    path("cashier/edit_customer/<int:pk>", views.edit_customer, name="edit_customer"),
     path("cashier/customer_info/", views.customer_info, name="customer_info"),
     path("cashier/customer_with_id/", views.customer_with_id, name="customer_with_id"),
+
+    # Customer
     path("cashier/clear_customer_info/", views.clear_customer_info, name="clear_customer_info"),
+    path("cashier/create_customer/", views.create_customer, name="create_customer"),
+    path("cashier/edit_customer/<int:pk>", views.edit_customer, name="edit_customer"),
+    path("cashier/delete_customer/<int:pk>", views.delete_customer, name="delete_customer"),
 
     path("cashier/order_info/", views.new_order, name="order_info"),
 
     path("product_list/<int:pk>", views.product_list, name="product_list"),
     path("order_detail_row/<int:pk>", views.order_detail_row, name="order_detail_row"),
-    path("edit_order_detail/", views.edit_order_detail, name="edit_order_detail"),
     path("order_details_view/", views.order_details_view, name="order_details_view"),
     
     path("order_payment/", views.order_payment, name="order_payment"),
