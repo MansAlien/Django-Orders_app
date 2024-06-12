@@ -74,37 +74,41 @@ form label {
         </div>
       </div>
       <div id="order_info" class="flex h-full bg-gray-800 justify-center gap-1 items-center rounded-tr-lg p-10">
-        <div>
+        <form id="order_id_form">
           {% csrf_token %}
-          <form id="order_id_form">
-            <div id="order_id">
-              <input
-              type="number" aria-describedby="helper-text-explanation"  
-              class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
-              placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Order ID" />
+          <div class="flex justify-center gap-1 items-center" id="order_id">
+            <input
+            type="number" aria-describedby="helper-text-explanation"  
+            class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
+            placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Order ID" />
+            <div>
+              <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
+                <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
+              </button>
+              <div 
+                id="tooltip-bottom" role="tooltip"
+                class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
+                text-white rounded-lg shadow-sm opacity-0 tooltip bg-gray-500">
+                <p> - Write the Order ID </p>
+                <p> - press "Enter" from the keyboard </p>
+                <p> - If the order is exist it will get the order data </p>
+                <div class="tooltip-arrow" data-popper-arrow></div>
+              </div>
             </div>
-            <input type="hidden" name="customer_id" id="form_customer_id">
-            <button
-              hx-post="{% url 'order_info' %}"
-              hx-target="#order_id"
-              hx-swap="innerHTML"
-              id="new_order_button"
-              type="button"> new order </button>
-          </form>
-        </div>
-        <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
-          <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
-        </button>
-        <div 
-          id="tooltip-bottom" role="tooltip"
-          class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
-          text-white rounded-lg shadow-sm opacity-0 tooltip bg-gray-500">
-          <p> - Write the Order ID </p>
-          <p> - press "Enter" from the keyboard </p>
-          <p> - If the order is exist it will get the order data </p>
-          <div class="tooltip-arrow" data-popper-arrow></div>
-        </div>
+          </div>
+          <input type="hidden" name="customer_id" id="form_customer_id">
+          <button
+            hx-post="{% url 'order_info' %}"
+            hx-target="#order_id"
+            hx-swap="innerHTML"
+            id="new_order_button"
+            class="block text-white focus:ring-4 focus:outline-none
+            font-medium rounded-lg text-sm w-28 h-9 px-5 py-2.5 text-center bg-blue-600
+            hover:bg-blue-700 focus:ring-blue-800 my-3" type="button">
+            New Order
+          </button>
+        </form>
       </div>
     </div>
 
@@ -141,7 +145,7 @@ form label {
                   {{ payment_form.total }}
                 </div>
                 <div class="text-center">
-                  <label for="payment_discount" class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
+                  <label class="block mb-5 text-base font-medium text-gray-400">Discount %</label>
                   {{ payment_form.discount }}
                 </div>
                 <div class="text-center text-white">
@@ -154,15 +158,15 @@ form label {
 
               <div class="flex justify-center items-center px-5 gap-10">
                 <div class="text-center">
-                  <label for="payment_method" class="block mb-5 text-base font-medium text-gray-400">Payment</label>
+                  <label class="block mb-5 text-base font-medium text-gray-400">Payment</label>
                   {{ payment_form.payment_method }}
                 </div>
                 <div class="text-center">
-                  <label for="paid" class="block mb-5 text-base font-medium text-gray-400">Paid</label>
+                  <label class="block mb-5 text-base font-medium text-gray-400">Paid</label>
                   {{ payment_form.paid }}
                 </div>
                 <div class="text-center">
-                  <label for="remaining" class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
+                  <label class="block mb-5 text-base font-medium text-gray-400">Remaining</label>
                   <input type="number" aria-describedby="helper-text-explanation" id="remaining" 
                   class="border-none text-base text-red-500 text-center rounded-lg block w-24 p-2 bg-gray-800 
                   placeholder-gray-400"

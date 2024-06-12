@@ -11,6 +11,8 @@ from orders.forms import ( CategoryForm, ProductLineForm, ProductLineCreateForm,
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 @login_required
 def home_view(request):
@@ -402,6 +404,33 @@ def new_order(request):
     return render(request, "cashier/forms/order_info.html", context)
 
 
+@csrf_exempt
+def order_details_view(request):
+    if request.method == 'POST':
+        body_unicode = request.body.decode('utf-8')
+        body_data = json.loads(body_unicode)
+        
+        order_id = body_data.get('order_id')
+        rows = body_data.get('rows', [])
+
+        for i in range(0, len(rows), 5):
+            row_data=rows[i]
+            product_line_id=row_data['product_line_id']
+            product_line = ProductLine.objects.get(id=product_line_id)
+            order = Order.objects.get(id=order_id)
+
+            row_data=dict(list(row_data.items())[1:])
+            form = OrderDetailForm(row_data)
+            if form.is_valid():
+                order_detail = form.save(commit=False)
+                order_detail.product_line = product_line
+                order_detail.order = order
+                order_detail.save()
+            else:
+                print(form.errors)
+
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'invalid request'}, status=400)
 
 def order_detail_row(request, pk):
     product_line = ProductLine.objects.get(id=pk)
@@ -414,6 +443,7 @@ def order_detail_row(request, pk):
             order_detail.product_line = product_line
             order_detail.order = order
             order_detail.save()
+            print(form.cleaned_data)
             return HttpResponse(status=204)
         else:
             print(form.errors)
@@ -449,7 +479,7 @@ def create_order(request):
             discount = request.POST.get('discount')
             if not discount:
                 discount=0
-            payment_method = request.POST.get('payment_method')
+                payment_method = request.POST.get('payment_method')
             total = request.POST.get('total')
 
             Payment.objects.create(order=order, discount=discount, total=total, paid=paid, payment_method=payment_method)
@@ -471,3 +501,4 @@ def order_payment(request):
             print(form.errors)
             return HttpResponse(status=204)
     return render(request, "cashier/tables/order_detail_row.html")
+
