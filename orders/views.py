@@ -413,11 +413,11 @@ def order_payment(request):
         if form.is_valid():
             payment = form.save(commit=False)
             payment.order = order
+            if not payment.paid:
+                payment.paid=0
+            if not payment.discount:
+                payment.discount=0
             payment.save()
-            return HttpResponse(status=204)
-        else:
-            print(form.cleaned_data)
-            print(form.errors)
             return HttpResponse(status=204)
     return render(request, "cashier/tables/order_detail_row.html")
 
@@ -506,7 +506,7 @@ def order_view(request):
     }
     return render(request, "settings/cashier/tabs/orders.html", context)
 
-def order_details_view(request, pk):
+def order_details_list(request, pk):
     order = Order.objects.get(id=pk)
     order_details_list = OrderDetail.objects.filter(order=order)
     payment = Payment.objects.get(order=order)
