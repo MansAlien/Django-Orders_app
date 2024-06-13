@@ -14,7 +14,13 @@
   <tbody>
     {% for order in order_list %}
     <tr class=" odd:bg-gray-900 even:bg-gray-800" x-data="{'total': {{ order.total}}, 'discount': {{ order.discount }}, 'paid': {{ order.paid }} }">
-      <td class="px-6 py-4 text-base">{{ order.order.id }}</td>
+      <td
+        hx-get="{% url 'order_details' order.order.id %}"
+        hx-target="#settings_content"
+        hx-swap="innerHTML"
+        class="px-6 py-4 text-base hover:text-white hover:font-bold cursor-pointer">
+        {{ order.order.id }}
+      </td>
       <td class="px-6 py-4 text-base">{{ order.order.customer.name_one }}</td>
       <td class="px-6 py-4 text-base" >{{ order.discount }} %</td>
       <td class="px-6 py-4 text-base" x-text="total"></td>

@@ -1,4 +1,4 @@
-<tr class="bg-gray-900 text-xs" 
+<tr class="bg-gray-900 text-xs border-t border-gray-500" 
   x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }} }">
   <input type="hidden" name="product_line_id" value="{{ pk }}">
   <td
@@ -100,7 +100,7 @@
               x-on:click="input = !input; span = !span"></i>
           </td>
         </tr>
-        <tr class="border-b border-gray-600">
+        <tr>
           <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700">Location</th>
           <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
             <div class="col-span-3">

@@ -1,5 +1,5 @@
 from django import forms
-from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment
 from django.forms import widgets
 
 
@@ -198,3 +198,9 @@ class PaymentForm(forms.ModelForm):
     class Meta:
         model = Payment
         fields = ['discount', 'total', 'paid', 'payment_method']
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['content']
+

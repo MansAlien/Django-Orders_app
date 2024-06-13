@@ -1,12 +1,12 @@
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, Sub_Category, Product, ProductLine, Customer, Order, Payment
+from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment
 from django.http.response import HttpResponse 
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from orders.forms import ( CategoryForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
+from orders.forms import ( CategoryForm, CommentForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
                             AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, PaymentForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
@@ -505,3 +505,53 @@ def order_view(request):
         "order_list":order_list,
     }
     return render(request, "settings/cashier/tabs/orders.html", context)
+
+def order_details_view(request, pk):
+    order = Order.objects.get(id=pk)
+    order_details_list = OrderDetail.objects.filter(order=order)
+    payment = Payment.objects.get(order=order)
+    comment_list = Comment.objects.filter(order=order).order_by("-created_at")
+    comment_count = Comment.objects.filter(order=order).count()
+    context = {
+        "order_details_list":order_details_list,
+        "order":order,
+        "payment":payment,
+        "comment_list":comment_list,
+        "comment_count":comment_count,
+    }
+    return render(request, "settings/cashier/tabs/order_details.html", context)
+
+def create_comment(request, pk):
+    order=Order.objects.get(id=pk)
+    user = request.user
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment=form.save(commit=False)
+            comment.order=order
+            comment.user=user
+            comment.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+    else:
+        form = CommentForm()
+    context = {
+        "form":form,
+        "pk":pk,
+    }
+    return render(request, "settings/cashier/modals/create_comment.html", context)
+
+
+def edit_comment(request, pk):
+    comment = Comment.objects.get(id=pk)
+    if request.method == "POST":
+        form = CommentForm(request.POST,  instance=comment)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+    else:
+        form = CommentForm(instance=comment)
+    context = {
+        "form":form,
+        "pk":pk,
+    }
+    return render(request, "settings/cashier/modals/edit_comment.html", context)

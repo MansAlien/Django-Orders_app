@@ -1,0 +1,158 @@
+<div 
+  hx-get="{% url 'order_details' order.id %}"
+  hx-trigger="order_details_refresh"
+  hx-swap="outerHTML"
+  class="p-4 md:ml-64" >
+  <!-- Breadcrumb -->
+  <nav class="flex mt-10 p-4 pb-0" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <i class=" fas fa-home"></i>
+        <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium">
+          Home
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <a href="{% url 'settings' %}" class="inline-flex items-center text-sm font-medium">
+          Settings
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <a 
+          hx-get="{% url 'cashier_settings_view' %}"
+          hx-target="#settings_content"
+          hx-swap="innerHtml"
+          class="inline-flex items-center text-sm font-medium">
+          Cashier
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <span class="ms-1 text-sm font-medium md:ms-2 text-gray-400">
+          order_details
+        </span>
+      </li>
+    </ol>
+  </nav>
+  <div class="p-4 rounded-lg h-modal px-10 min-w-min">
+    <!--Order Info-->
+      <div class="grid xl:grid-cols-2 gap-5 ">
+        <div class="p-2"> 
+          <table class="w-full text-sm text-left rtl:text-right text-gray-200 rounded-lg overflow-hidden shadow ">
+            <tbody>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> ID </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ order.id }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Customer Name</th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ order.customer.name_one }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Whatsapp </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ order.customer.whatsapp }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Phone </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ customer.phone }} </td>
+              </tr>
+              <tr>
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Created At </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ order.created_at }} </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="p-2"> 
+          <table class="w-full text-sm text-left rtl:text-right text-gray-200 rounded-lg overflow-hidden shadow ">
+            <tbody x-data="{'total': {{ payment.total}}, 'discount': {{ payment.discount }}, 'paid': {{ payment.paid }} }">
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Total </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ payment.total }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Discount </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ payment.discount }} % </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> After Discount </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800" x-text="total-((total*discount)/100)"></td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Paid </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800"> {{ payment.paid }} </td>
+              </tr>
+              <tr>
+                <th class="px-6 py-1.5 whitespace-nowrap text-gray-300
+                  font-bold bg-gray-700 w-20"> Remaining </th>
+                <td class="px-4 py-1.5 text-white font-bold bg-gray-800" x-text="(total-((total*discount)/100))-paid"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+    </div>
+    <!--Order Details-->
+    {% include "settings/cashier/tables/order_details_table.html" %}
+    <div>
+      <div class="flex justify-between items-center w-[27rem]">
+        <div>
+        <h1 class="text-white font-bold mt-2"> Comments ({{ comment_count }}) </h1>
+        <hr class="w-24 mb-3">
+        </div>
+        <button 
+          hx-get="{% url 'create_comment' order.id %}"
+          hx-target="#modal_form"
+          hx-swap="innerHtml"
+          _="on click remove .hidden from modal_div " 
+          class="font-medium me-2 px-2.5 py-1 rounded-full bg-green-600 text-gray-100 hover:bg-green-800">
+          add comment
+        </button>
+      </div>
+      {% for comment in comment_list %}
+      <div class="flex items-center justify-center w-[30rem] gap-2 mt-3">
+        <div class="bg-gray-700 rounded-lg rounded-tl-none w-[27rem] p-2">
+          <p class="text-gray-400">
+            <span class="text-white font-semibold">{{ comment.user.username }} : </span>
+            {{ comment.created_at }}
+          </p>
+          <p class="text-white mt-1">{{ comment.content }} </p>
+        </div>
+        {% if request.user.username == comment.user.username %}
+        <div class="rounded-full bg-gray-700 h-10 w-10 flex justify-center items-center">
+          <a 
+            hx-get="{% url 'edit_comment' comment.id %}"
+            hx-target="#modal_form"
+            hx-swap="innerHtml"
+            _="on click remove .hidden from modal_div " >
+            <i class="fa-solid fa-pen-to-square text-white hover:text-gray-400 cursor-pointer"></i>
+          </a>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <!-- Main Modal -->
+  <div
+    id="modal_div"
+    class="hidden overflow-y-auto overflow-x-hidden fixed left-0 top-0 bg-black 
+    bg-opacity-50 w-screen h-screen flex justify-center items-center z-50 md:inset-0 ">
+    <div class="relative p-4 w-full max-w-lg max-h-full">
+      <div class="relative rounded-lg shadow bg-gray-700 p-6 my-6">
+        <div id="modal_form"> </div>
+      </div>
+    </div>
+  </div>
+</div>
+

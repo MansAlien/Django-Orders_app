@@ -1,0 +1,75 @@
+<div class="relative overflow-auto shadow-md sm:rounded-lg mt-5 h-[24rem] bg-gray-800">
+  <table class="w-full text-sm text-left rtl:text-right text-gray-400">
+    <thead class="text-sm uppercase bg-gray-700 text-gray-400 sticky top-0">
+      <tr>
+        <th scope="col" class="px-2 py-3">name</th>
+        <th scope="col" class="px-2 py-3">attributes</th>
+        <th scope="col" class="px-2 py-3">price</th>
+        <th scope="col" class="px-2 py-3">amount</th>
+        <th scope="col" class="px-2 py-3">total</th>
+        <th scope="col" class="px-2 py-3">D_Type</th>
+        <th scope="col" class="px-2 py-3">D_status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order_detail in order_details_list %}
+      <tr class="odd:bg-gray-900 even:bg-gray-800 border-b border-gray-700"
+        _="on load set total to ((my.querySelector('.price').innerText) * (my.querySelector('.amount').innerText))
+        then put total into my.querySelector('.total-price')">
+        <td class="px-2 py-3 text-base hover:text-white hover:underline cursor-pointer"
+        _="on click toggle .hidden on the next <tr/>"> {{ order_detail.product_line.product.name }} </td>
+        <td class="px-2 py-3 text-base"> {{ order_detail.product_line.values }} </td>
+        <td class="px-2 py-3 text-base price">
+          {% if order_detail.deliver_type == "N" %}
+          {{ order_detail.product_line.normal_price }}
+          {% else %}
+          {{ order_detail.product_line.fawry_price }}
+          {% endif %}
+        </td>
+        <td class="px-2 py-3 text-base amount"> {{ order_detail.amount }} </td>
+        <td class="px-2 py-3 text-base total-price"></td>
+        <td class="px-2 py-3 text-base"> {{ order_detail.get_deliver_type_display }} </td>
+        <td class="px-2 py-3 text-base">
+          {% if order_detail.delivery_Status == "D" %}
+          <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-green-600 text-gray-100">
+            {{ order_detail.get_delivery_Status_display }}
+          </span>
+          {% else %}
+          <span class="text-xs font-medium me-2 px-2.5 py-0.5 rounded-full bg-yellow-500 text-gray-100">
+            {{ order_detail.get_delivery_Status_display }}
+          </span>
+          {% endif %}
+        </td>
+      </tr>
+      <tr class="bg-gray-800 text-xs">
+        <td colspan="8" class="text-base">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-200">
+            <tbody>
+              <tr class="border-b border-gray-600">
+                <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700 w-36">comment</th>
+                <td class="px-2 py-3 grid grid-cols-4 place-items-start">{{ order_detail.customer_comment }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700 w-36">Location</th>
+                <td class="px-2 py-3 grid grid-cols-4 place-items-start">{{ order_detail.location }} </td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700">Created At</th>
+                <td class="px-2 py-3 text-base">{{ order_detail.created_at }}</td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700">Updated At</th>
+                <td class="px-2 py-3 text-base">{{ order_detail.updated_at }}</td>
+              </tr>
+              <tr class="border-b border-gray-600">
+                <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700">Deliver Date</th>
+                <td class="px-2 py-3 text-base">{{ order_detail.deliver_date }}, {{ order_detail.deliver_time }}</td>
+              </tr>
+            </tbody>
+          </table>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
