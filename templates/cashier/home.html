@@ -179,38 +179,38 @@ form label {
             <button type="submit" class="hidden">Submit Payment</button>
           </form>
 
-            <!--Order Details buttons-->
-            <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
-              <div class="flex justify-center items-center px-5 gap-10">
-                <button 
-                  form="order_details_form"
-                  class="block text-white focus:ring-4 focus:outline-none
-                  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-                  focus:ring-blue-800 my-3" type="submit">
-                  OK
-                </button>
-                <button 
-                  class="block text-white focus:ring-4 focus:outline-none
-                  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-                  focus:ring-blue-800 my-3" type="submit">
-                  OK + Print
-                </button>
-              </div>
-
-              <div class="flex justify-center items-center px-5 gap-10">
-                <button 
-                  class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
-                  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
-                  Open
-                </button>
-                <button 
-                  class=" border focus:outline-none focus:ring-4
-                  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
-                  hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700" type="button">
-                  Clear
-                </button>
-              </div>
+          <!--Order Details buttons-->
+          <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
+            <div class="flex justify-center items-center px-5 gap-10">
+              <button 
+                form="order_details_form"
+                class="block text-white focus:ring-4 focus:outline-none
+                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                focus:ring-blue-800 my-3" type="submit">
+                OK
+              </button>
+              <button 
+                class="block text-white focus:ring-4 focus:outline-none
+                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                focus:ring-blue-800 my-3" type="submit">
+                OK + Print
+              </button>
             </div>
+
+            <div class="flex justify-center items-center px-5 gap-10">
+              <button 
+                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
+                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
+                Open
+              </button>
+              <a href="{% url 'cashier' %}"
+                class=" border focus:outline-none focus:ring-4
+                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
+                hover:bg-gray-700 hover:border-gray-600 focus:ring-gray-700" type="button">
+                Clear
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -301,11 +301,11 @@ function getCookie(name) {
   return cookieValue;
 }
 document.body.addEventListener('htmx:afterOnLoad', function(event) {
-    if (event.detail.target.id === 'order_details_form') {
-        const response = JSON.parse(event.detail.xhr.responseText);
-        if (response.order_id) {
-            document.getElementById('order_id').value = response.order_id;
-        }
+  if (event.detail.target.id === 'order_details_form') {
+    const response = JSON.parse(event.detail.xhr.responseText);
+    if (response.order_id) {
+      document.getElementById('order_id').value = response.order_id;
     }
+  }
 });
 </script>

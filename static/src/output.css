@@ -1722,6 +1722,10 @@ input:checked + .toggle-bg {
   place-self: center;
 }
 
+.justify-self-start {
+  justify-self: start;
+}
+
 .overflow-auto {
   overflow: auto;
 }
