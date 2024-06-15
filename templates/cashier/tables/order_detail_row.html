@@ -23,13 +23,6 @@
         <i class="fa-solid fa-minus"></i>
       </button>
       {{ form.amount }}
-      <!--<input-->
-      <!--type="text" id="counter-input-{% now "G:i:s" %}" -->
-      <!--class="flex-shrink-0 text-gray-900 dark:text-white border-0 bg-transparent-->
-      <!--text-sm font-normal focus:outline-none focus:ring-0 w-[2rem] text-center"-->
-      <!--value="1"-->
-      <!--_="on change set #total-price-{% now "G:i:s" %}.innerText to-->
-      <!--((parseInt(#price-{% now "G:i:s" %}.innerText) * parseInt(#counter-input-{% now "G:i:s" %}.value)).toFixed(2)) " />-->
       <button
         _="on click set me.closest('td').querySelector('input').value to
         (parseInt(me.closest('td').querySelector('input').value) + 1)

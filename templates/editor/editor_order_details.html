@@ -1,0 +1,12 @@
+<!--Order Details Table-->
+<div class=" h-4/6 overflow-y-auto shadow">
+  {% include 'editor/tables/order_details_table.html' %}
+</div>
+
+<!--Comment Section-->
+<div 
+  hx-get="{% url 'editor_comments' order.id %}"
+  hx-trigger="load, refresh_comments"
+  hx-target="this"
+  class="p-2 h-2/6">
+</div>

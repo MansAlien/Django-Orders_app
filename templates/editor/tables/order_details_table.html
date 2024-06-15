@@ -1,0 +1,29 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-400" ">
+  <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">Name</th>
+      <th scope="col" class="px-3 py-3">Attributes</th>
+      <th scope="col" class="px-3 py-3">Deliver Type</th>
+      <th scope="col" class="px-3 py-3">Deliver Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for detail in order_details_list %}
+    <tr
+      class="text-lg odd:bg-gray-900 even:bg-gray-800">
+      <td class="px-3 py-3 hover:text-white hover:font-bold cursor-pointer">
+        {{ detail.product_line.product.name }}
+      </td>
+      <td class="px-3 py-3 hover:text-white hover:font-bold cursor-pointer">
+        {{ detail.product_line.values }}
+      </td>
+      <td class="px-3 py-3 hover:text-white hover:font-bold cursor-pointer">
+        {{ detail.get_deliver_type_display }}
+      </td>
+      <td class="px-3 py-3 hover:text-white hover:font-bold cursor-pointer">
+        {{ detail.deliver_date }}
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

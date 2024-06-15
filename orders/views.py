@@ -547,7 +547,7 @@ def create_comment(request, pk):
             comment.user=user
             comment.save()
             messages.success(request,"The comment is created successfully")
-            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh","HX-Trigger": "refresh_comments"})
     else:
         form = CommentForm()
     context = {
@@ -564,7 +564,7 @@ def edit_comment(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request,"The comment is updated successfully")
-            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+            return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh","HX-Trigger": "refresh_comments"})
     else:
         form = CommentForm(instance=comment)
     context = {
@@ -578,16 +578,35 @@ def delete_comment(request, pk):
         comment = Comment.objects.get(id=pk)
         comment.delete()
         messages.success(request,"The comment is deleted successfully")
-        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh", "HX-Trigger": "refresh_comments"})
     except ProtectedError:
         messages.error(request,"Can't remove this item, it related to other items")
-        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh", "HX-Trigger": "refresh_comments"})
 
 # Editor 
 def editor_view(request):
-    order_list=Order.objects.all()
+    order_list=Payment.objects.filter(order__delivery_status="P")
     context={
         "order_list":order_list
     }
     return render(request, "editor/editor.html", context)
 
+def editor_order_details(request, pk):
+    order=Order.objects.get(id=pk)
+    order_details_list=OrderDetail.objects.filter(order=order)
+    context={
+        "order":order,
+        "order_details_list":order_details_list,
+    }
+    return render(request, "editor/editor_order_details.html", context)
+
+def editor_comments(request, pk):
+    order=Order.objects.get(id=pk)
+    comment_list=Comment.objects.filter(order=order).order_by("-created_at")
+    comment_count=Comment.objects.filter(order=order).count()
+    context={
+        "order":order,
+        "comment_list":comment_list,
+        "comment_count":comment_count,
+    }
+    return render(request, "editor/comments.html", context)

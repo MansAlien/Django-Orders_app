@@ -1,0 +1,30 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-400" ">
+  <thead class="sticky top-10 text-sm uppercase bg-gray-700 text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">ID</th>
+      <th scope="col" class="px-3 py-3">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for order in order_list %}
+    <tr
+      class="text-lg odd:bg-gray-900 even:bg-gray-800">
+      <td class="px-3 py-3 hover:text-white hover:font-bold cursor-pointer">
+        <a 
+          hx-get="{% url 'editor_order_details' order.order.id %}"
+          hx-target="#order_details_section"
+          hx-swap="innerHTML"
+          class="cursor-pointer ">
+          {{ order.order.id }}
+        </a>
+      </td>
+      <td class="px-3 py-3">
+        <a 
+          class="cursor-pointer ">
+          <i class="fa-solid fa-folder-open text-yellow-400 hover:text-yellow-600"></i>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

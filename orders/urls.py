@@ -17,7 +17,6 @@ urlpatterns = [
     path("settings/cashier/order", views.order_view, name="order_view"),
     path("settings/cashier/order/order_details/<int:pk>", views.order_details_list, name="order_details"),
     
-    path("editor", views.editor_view, name="editor_view"),
 
 ]
 
@@ -74,6 +73,10 @@ htmx_urlpatterns = [
     path("comment/create/<int:pk>", views.create_comment, name="create_comment"),
     path("comment/edit/<int:pk>", views.edit_comment, name="edit_comment"),
     path("comment/delete/<int:pk>", views.delete_comment, name="delete_comment"),
+
+    path("editor", views.editor_view, name="editor_view"),
+    path("editor/order_details/<int:pk>", views.editor_order_details, name="editor_order_details"),
+    path("editor/order_details/comments/<int:pk>", views.editor_comments, name="editor_comments"),
 ]
 
 urlpatterns += htmx_urlpatterns
