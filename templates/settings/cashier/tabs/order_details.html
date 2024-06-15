@@ -121,6 +121,15 @@
       </div>
       {% for comment in comment_list %}
       <div class="flex items-center justify-between w-[30rem] gap-2 mt-3">
+        {% if comment.user.is_superuser %}
+        <div class="bg-gray-700 border-2 border-yellow-400 rounded-lg rounded-tl-none w-[27rem] p-2">
+          <p class="text-gray-400">
+            <span class="text-white font-semibold">{{ comment.user.username }} : </span>
+            {{ comment.created_at }}
+          </p>
+          <p class="text-white mt-1">{{ comment.content }} </p>
+        </div>
+        {% else %}
         <div class="bg-gray-700 rounded-lg rounded-tl-none w-[27rem] p-2">
           <p class="text-gray-400">
             <span class="text-white font-semibold">{{ comment.user.username }} : </span>
@@ -128,14 +137,26 @@
           </p>
           <p class="text-white mt-1">{{ comment.content }} </p>
         </div>
-        {% if request.user.username == comment.user.username %}
+        {% endif %}
+        {% if request.user.is_superuser %}
         <div class="rounded-full bg-gray-700 h-10 w-10 flex justify-center items-center">
           <a 
             hx-get="{% url 'edit_comment' comment.id %}"
             hx-target="#modal_form"
             hx-swap="innerHtml"
-            _="on click remove .hidden from modal_div " >
-            <i class="fa-solid fa-pen-to-square text-white hover:text-gray-400 cursor-pointer"></i>
+            _="on click remove .hidden from modal_div "
+            class="cursor-pointer hover:text-blue-400 text-white">
+            <i class="fa-solid fa-pen-to-square"></i>
+          </a>
+        </div>
+        <div class="rounded-full bg-gray-700 h-10 w-10 flex justify-center items-center">
+          <a 
+            hx-get="{% url 'edit_comment' comment.id %}"
+            hx-target="#modal_form"
+            hx-swap="innerHtml"
+            _="on click remove .hidden from modal_div " 
+            class="cursor-pointer hover:text-red-700 text-white ">
+            <i class="fa-solid fa-trash "></i>
           </a>
         </div>
         {% endif %}
