@@ -123,6 +123,7 @@ class OrderDetailForm(forms.ModelForm):
                     set me.closest('tr').querySelector('.total-price').innerText to 
                     (parseFloat(me.closest('tr').querySelector('.price').innerText)
                     * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2) 
+                    then call calculateTotal() 
                 """,
         })) 
     delivery_Status = forms.ChoiceField(

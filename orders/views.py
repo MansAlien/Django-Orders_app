@@ -3,7 +3,7 @@ from django.views.generic import TemplateView
 from accounts.models import UserProfile
 from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment
 from django.http.response import HttpResponse 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import ( CategoryForm, CommentForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
+import os
 
 @login_required
 def home_view(request):
@@ -360,6 +361,19 @@ def new_order(request):
     customer_id = request.POST.get('customer_id')
     customer = Customer.objects.get(id=customer_id)
     order = Order.objects.create(customer=customer)
+    # Extract year, month, and day from the created_at timestamp
+    created_at = order.created_at
+    year = created_at.year
+    month = created_at.month
+    day = created_at.day
+
+    # Create the folder structure
+    base_dir = '/home/alien/orders'  # Replace with the base directory where you want to create folders
+    folder_path = os.path.join(base_dir, str(year), str(month).zfill(2), str(day).zfill(2), str(order.id))
+
+    # Create directories if they don't exist
+    os.makedirs(folder_path, exist_ok=True)
+
     context = {
         "order_id": order.id,
     }
@@ -418,7 +432,8 @@ def order_payment(request):
             if not payment.discount:
                 payment.discount=0
             payment.save()
-            return HttpResponse(status=204)
+            messages.success(request,"The Order is Successfully Created")
+            return redirect('cashier')
     return render(request, "cashier/tables/order_detail_row.html")
 
 # Cashier Settings

@@ -132,7 +132,7 @@ class OrderDetail(models.Model):
     amount = models.PositiveIntegerField(default=1)
     customer_comment = models.TextField(null=True, blank=True)
     location = models.CharField(max_length=200, null=True, blank=True)
-    created_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, editable=False)
     deliver_date = models.DateField(null=True, blank=True)
     deliver_time = models.TimeField(null=True, blank=True)
