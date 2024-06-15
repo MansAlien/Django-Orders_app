@@ -87,7 +87,7 @@ class OrderDetailForm(forms.ModelForm):
     location = forms.CharField(required=False,
         widget=widgets.TextInput(attrs={
             'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
-            'placeholder': 'location',
+            'placeholder': 'Other Comments',
             'x-show': 'input',  # Add your custom attributes here
             ':id':"$id('location')",
             '_': 'on keyup put my value into the next <span/>',
