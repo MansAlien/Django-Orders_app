@@ -70,6 +70,7 @@ htmx_urlpatterns = [
     
     path("comment/create/<int:pk>", views.create_comment, name="create_comment"),
     path("comment/edit/<int:pk>", views.edit_comment, name="edit_comment"),
+    path("comment/delete/<int:pk>", views.delete_comment, name="delete_comment"),
 ]
 
 urlpatterns += htmx_urlpatterns

@@ -546,6 +546,7 @@ def create_comment(request, pk):
             comment.order=order
             comment.user=user
             comment.save()
+            messages.success(request,"The comment is created successfully")
             return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
     else:
         form = CommentForm()
@@ -562,6 +563,7 @@ def edit_comment(request, pk):
         form = CommentForm(request.POST,  instance=comment)
         if form.is_valid():
             form.save()
+            messages.success(request,"The comment is updated successfully")
             return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
     else:
         form = CommentForm(instance=comment)
@@ -570,3 +572,13 @@ def edit_comment(request, pk):
         "pk":pk,
     }
     return render(request, "settings/cashier/modals/edit_comment.html", context)
+
+def delete_comment(request, pk):
+    try:
+        comment = Comment.objects.get(id=pk)
+        comment.delete()
+        messages.success(request,"The comment is deleted successfully")
+        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+    except ProtectedError:
+        messages.error(request,"Can't remove this item, it related to other items")
+        return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
