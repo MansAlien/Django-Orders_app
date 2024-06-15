@@ -16,6 +16,9 @@ urlpatterns = [
     path("settings/cashier/customer", views.customer_view, name="customer_settings_view"),
     path("settings/cashier/order", views.order_view, name="order_view"),
     path("settings/cashier/order/order_details/<int:pk>", views.order_details_list, name="order_details"),
+    
+    path("editor", views.editor_view, name="editor_view"),
+
 ]
 
 

@@ -582,3 +582,12 @@ def delete_comment(request, pk):
     except ProtectedError:
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh"})
+
+# Editor 
+def editor_view(request):
+    order_list=Order.objects.all()
+    context={
+        "order_list":order_list
+    }
+    return render(request, "editor/editor.html", context)
+

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+  {% block content %} 
+<style>
+form label {
+  display: none;
+}
+</style>
+<div class="p-4 md:ml-64">
+  <!-- Breadcrumb -->
+  <nav class="flex mt-12 py-4" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <i class=" fas fa-home"></i>
+        <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium">
+          Home
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <span class="ms-1 text-sm font-medium md:ms-2 text-gray-400">
+          Editor
+        </span>
+      </li>
+    </ol>
+  </nav>
+  <div class="grid grid-cols-4 py-4 rounded-lg h-full">
+  </div>
+</div>
+{% endblock %}
+
