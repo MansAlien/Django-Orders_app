@@ -14,6 +14,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import os
+from django.http import FileResponse, Http404
 
 @login_required
 def home_view(request):
@@ -370,6 +371,8 @@ def new_order(request):
     # Create the folder structure
     base_dir = '/home/alien/orders'  # Replace with the base directory where you want to create folders
     folder_path = os.path.join(base_dir, str(year), str(month).zfill(2), str(day).zfill(2), str(order.id))
+    order.path = folder_path
+    order.save()
 
     # Create directories if they don't exist
     os.makedirs(folder_path, exist_ok=True)
@@ -610,3 +613,30 @@ def editor_comments(request, pk):
         "comment_count":comment_count,
     }
     return render(request, "editor/comments.html", context)
+
+def serve_order_file(request, order_id):
+    try:
+        order = Order.objects.get(id=order_id)
+        file_path = order.path
+
+        if os.path.exists(file_path):
+            os.system('thunar "%s"' % file_path)
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=204)
+    except Order.DoesNotExist:
+        raise Http404("Order does not exist")
+
+def open_folder(request):
+    order_id = request.POST.get('order_id')
+    try:
+        order = Order.objects.get(id=order_id)
+        file_path = order.path
+
+        if os.path.exists(file_path):
+            os.system('thunar "%s"' % file_path)
+            return HttpResponse(status=204)
+        else:
+            return HttpResponse(status=204)
+    except Order.DoesNotExist:
+        raise Http404("Order does not exist")

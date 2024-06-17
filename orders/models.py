@@ -110,6 +110,8 @@ class Order(models.Model):
     delivery_status = models.CharField(max_length=1, choices=STATUS, default="P")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False)
+    path = models.CharField(max_length=300, blank=True, null=True)
+
 
     def __str__(self) -> str:
         return f"{self.customer} --> ({self.get_delivery_status_display()})"

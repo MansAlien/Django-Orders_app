@@ -141,7 +141,7 @@ form label {
             {% csrf_token %}
             <div class=" flex justify-between items-center bg-gray-800 h-full px-5">
               <div class="flex justify-center items-center px-5 gap-10">
-                <input type="hidden" name="order_id" id="payment_order_id">
+                <input  type="hidden" name="order_id" id="payment_order_id">
                 <div class="text-center text-white">
                   <p class="block mb-5 text-base font-medium text-gray-400">Befor Discount</p>
                   {{ payment_form.total }}
@@ -198,11 +198,16 @@ form label {
             </div>
 
             <div class="flex justify-center items-center px-5 gap-10">
-              <button 
-                class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
-                font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900" type="button">
-                Open
-              </button>
+              <form method="POST">
+                <input type="hidden" name="order_id" id="folder_order_id">
+                <button 
+                  hx-post="{% url 'open_folder' %}"
+                  type="submit"
+                  class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4
+                  font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:ring-yellow-900">
+                  Open
+                </button>
+              </form>
               <a href="{% url 'cashier' %}"
                 class=" border focus:outline-none focus:ring-4
                 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 bg-gray-800 text-white border-gray-600
