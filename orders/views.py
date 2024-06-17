@@ -401,9 +401,11 @@ def order_details_view(request):
         
         order_id = body_data.get('order_id')
         rows = body_data.get('rows', [])
+        print(rows)
 
         for i in range(0, len(rows), 5):
             row_data=rows[i]
+            print(row_data)
             product_line_id=row_data['product_line_id']
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
@@ -588,7 +590,7 @@ def delete_comment(request, pk):
 
 # Editor 
 def editor_view(request):
-    order_list=Payment.objects.filter(order__delivery_status="P")
+    order_list=Payment.objects.filter(order__delivery_status="P").order_by('-order__created_at')
     context={
         "order_list":order_list
     }
