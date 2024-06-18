@@ -369,7 +369,9 @@ def new_order(request):
     day = created_at.day
 
     # Create the folder structure
-    base_dir = '/home/alien/orders'  # Replace with the base directory where you want to create folders
+    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    BASE_DIR = os.path.expanduser("~")
+    base_dir = os.path.join(BASE_DIR, 'orders')
     folder_path = os.path.join(base_dir, str(year), str(month).zfill(2), str(day).zfill(2), str(order.id))
     order.path = folder_path
     order.save()
