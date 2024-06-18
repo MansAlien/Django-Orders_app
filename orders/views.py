@@ -624,7 +624,10 @@ def serve_order_file(request, order_id):
         file_path = order.path
 
         if os.path.exists(file_path):
-            os.system('thunar "%s"' % file_path)
+            if os.system("which thunar > /dev/null 2>&1") == 0:
+                os.system(f'thunar "{file_path}"')
+            else:
+                os.system(f'explorer "{file_path}"')
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=204)
@@ -638,7 +641,10 @@ def open_folder(request):
         file_path = order.path
 
         if os.path.exists(file_path):
-            os.system('thunar "%s"' % file_path)
+            if os.system("which thunar > /dev/null 2>&1") == 0:
+                os.system(f'thunar "{file_path}"')
+            else:
+                os.system(f'explorer "{file_path}"')
             return HttpResponse(status=204)
         else:
             return HttpResponse(status=204)
