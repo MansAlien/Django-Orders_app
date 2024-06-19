@@ -395,6 +395,12 @@ def order_detail_row(request, pk):
     }
     return render(request, "cashier/tables/order_detail_row.html", context)
 
+def merge_dicts(dict_list):
+    merged_dict = {}
+    for d in dict_list:
+        merged_dict.update(d)
+    return merged_dict
+
 @csrf_exempt
 def order_details_view(request):
     if request.method == 'POST':
@@ -403,16 +409,17 @@ def order_details_view(request):
         
         order_id = body_data.get('order_id')
         rows = body_data.get('rows', [])
-        print(rows)
 
-        for i in range(0, len(rows), 5):
-            row_data=rows[i]
-            print(row_data)
-            product_line_id=row_data['product_line_id']
+        chunk_size = 5
+        merged_rows = [merge_dicts(rows[i:i + chunk_size]) for i in range(0, len(rows), chunk_size)]
+        print(merged_rows)
+
+        for row in merged_rows:
+            product_line_id=row['product_line_id']
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
 
-            row_data=dict(list(row_data.items())[1:])
+            row_data=dict(list(row.items())[1:])
             form = OrderDetailForm(row_data)
             if form.is_valid():
                 order_detail = form.save(commit=False)
