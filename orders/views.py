@@ -15,6 +15,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import os
 from django.http import FileResponse, Http404
+from accounts.decorators import cashier_required, editor_required
 
 @login_required
 def home_view(request):
@@ -332,7 +333,7 @@ def delete_product_line(request, pk):
 
 
 # Cashier
-@login_required
+@cashier_required
 def cashier_view(request):
     category_list = Category.objects.all()
     context = {
@@ -342,6 +343,7 @@ def cashier_view(request):
     return render(request, "cashier/home.html", context)
 
 
+@cashier_required
 def product_list(request, pk):
     category = get_object_or_404(Category, pk=pk)
     sub_category_list = Sub_Category.objects.filter(category=category, is_active=True)
@@ -358,6 +360,7 @@ def product_list(request, pk):
 
 
 
+@cashier_required
 def new_order(request):
     customer_id = request.POST.get('customer_id')
     customer = Customer.objects.get(id=customer_id)
@@ -368,8 +371,6 @@ def new_order(request):
     month = created_at.month
     day = created_at.day
 
-    # Create the folder structure
-    # BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     BASE_DIR = os.path.expanduser("~")
     base_dir = os.path.join(BASE_DIR, 'orders')
     folder_path = os.path.join(base_dir, str(year), str(month).zfill(2), str(day).zfill(2), str(order.id))
@@ -385,6 +386,7 @@ def new_order(request):
     return render(request, "cashier/forms/order_info.html", context)
 
 
+@cashier_required
 def order_detail_row(request, pk):
     product_line = ProductLine.objects.get(id=pk)
     form = OrderDetailForm()
@@ -402,6 +404,7 @@ def merge_dicts(dict_list):
     return merged_dict
 
 @csrf_exempt
+@cashier_required
 def order_details_view(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
@@ -412,7 +415,6 @@ def order_details_view(request):
 
         chunk_size = 5
         merged_rows = [merge_dicts(rows[i:i + chunk_size]) for i in range(0, len(rows), chunk_size)]
-        print(merged_rows)
 
         for row in merged_rows:
             product_line_id=row['product_line_id']
@@ -433,6 +435,7 @@ def order_details_view(request):
 
     return JsonResponse({'status': 'invalid request'}, status=400)
 
+@cashier_required
 def order_payment(request):
     order_id = request.POST.get('order_id')
     if request.method == "POST":
@@ -451,7 +454,6 @@ def order_payment(request):
     return render(request, "cashier/tables/order_detail_row.html")
 
 # Cashier Settings
-
 def cashier_settings_view(request):
     return render(request, "settings/cashier/cashier.html")
 
@@ -498,6 +500,7 @@ def edit_customer(request, pk):
         form = CustomerForm(instance=customer)
     return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
 
+@login_required
 def customer_info(request):
     customer = Customer.objects.last()
     context = {
@@ -505,6 +508,7 @@ def customer_info(request):
     }
     return render(request, "cashier/forms/customer_info.html", context)
 
+@login_required
 def customer_with_id(request):
     customer_id = request.POST.get('customer_id')
     customer = None
@@ -529,7 +533,7 @@ def clear_customer_info(request):
 
 # Order
 def order_view(request):
-    order_list = Payment.objects.all()
+    order_list = Payment.objects.all().order_by("-order__created_at")
     context = {
         "order_list":order_list,
     }
@@ -550,6 +554,7 @@ def order_details_list(request, pk):
     }
     return render(request, "settings/cashier/tabs/order_details.html", context)
 
+@login_required
 def create_comment(request, pk):
     order=Order.objects.get(id=pk)
     user = request.user
@@ -571,6 +576,7 @@ def create_comment(request, pk):
     return render(request, "settings/cashier/modals/create_comment.html", context)
 
 
+@login_required
 def edit_comment(request, pk):
     comment = Comment.objects.get(id=pk)
     if request.method == "POST":
@@ -587,6 +593,7 @@ def edit_comment(request, pk):
     }
     return render(request, "settings/cashier/modals/edit_comment.html", context)
 
+@login_required
 def delete_comment(request, pk):
     try:
         comment = Comment.objects.get(id=pk)
@@ -598,6 +605,7 @@ def delete_comment(request, pk):
         return HttpResponse(status=204, headers={"HX-Trigger": "order_details_refresh", "HX-Trigger": "refresh_comments"})
 
 # Editor 
+@editor_required
 def editor_view(request):
     order_list=Payment.objects.filter(order__delivery_status="P").order_by('-order__created_at')
     context={
@@ -605,6 +613,7 @@ def editor_view(request):
     }
     return render(request, "editor/editor.html", context)
 
+@editor_required
 def editor_order_details(request, pk):
     order=Order.objects.get(id=pk)
     order_details_list=OrderDetail.objects.filter(order=order)
@@ -614,6 +623,7 @@ def editor_order_details(request, pk):
     }
     return render(request, "editor/editor_order_details.html", context)
 
+@login_required
 def editor_comments(request, pk):
     order=Order.objects.get(id=pk)
     comment_list=Comment.objects.filter(order=order).order_by("-created_at")
@@ -625,6 +635,7 @@ def editor_comments(request, pk):
     }
     return render(request, "editor/comments.html", context)
 
+@login_required
 def serve_order_file(request, order_id):
     try:
         order = Order.objects.get(id=order_id)
@@ -641,6 +652,7 @@ def serve_order_file(request, order_id):
     except Order.DoesNotExist:
         raise Http404("Order does not exist")
 
+@login_required
 def open_folder(request):
     order_id = request.POST.get('order_id')
     try:

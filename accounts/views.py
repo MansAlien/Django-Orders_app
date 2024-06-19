@@ -150,7 +150,7 @@ def permission_view(request, pk):
     user = User.objects.get(id=pk)
     permissions = Permission.objects.filter(
         (Q(content_type__app_label="accounts") | Q(content_type__app_label="orders")) &
-        (Q(codename__endswith="_userprofile") | Q(codename__endswith="_product"))
+        (Q(codename__endswith="_userprofile") | Q(codename__endswith="_product") | Q(codename__endswith="_order")) 
     ).exclude(codename__startswith="delete")
 
     if request.method == "POST":
