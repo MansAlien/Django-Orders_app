@@ -13,7 +13,7 @@
     add comment
   </button>
 </div>
-<div class="overflow-auto h-5/6">
+<div class="overflow-auto h-5/6 pb-2">
   {% for comment in comment_list %}
   <div class="flex items-center justify-between w-[30rem] gap-2 mt-3">
     {% if comment.user.is_superuser %}
