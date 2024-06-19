@@ -7,6 +7,7 @@
     <div class="flex justify-center items-center mb-2 rounded-t-lg bg-gray-700">
       <p class="text-white text-lg m-2"> Customers </p>
     </div>
+    {% if perms.orders.add_order %}
     <div class="flex justify-center lg:gap-32 gap-5">
       <button 
         hx-get="{% url 'create_customer' %}"
@@ -19,6 +20,7 @@
         New Customer
       </button>
     </div>
+    {% endif %}
     <div class="relative overflow-x-auto p-5 sm:rounded-lg" style="max-height: 33rem">
       {% include "settings/cashier/tables/customer_table.html" %}
     </div>

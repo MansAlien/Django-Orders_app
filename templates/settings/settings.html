@@ -19,7 +19,7 @@
     </a>
   </li>
   {% endif %}
-  {% if perms.orders %} 
+  {% if perms.orders.view_product %} 
   <li class="item">
     <a
       hx-get="{% url "inventory" %}"
@@ -36,6 +36,7 @@
     </a>
   </li>
   {% endif %}
+  {% if perms.orders.view_order %}
   <li class="item">
     <a
       hx-get="{% url "cashier_settings_view" %}"
@@ -51,6 +52,7 @@
         <span class="ms-5 text-gray-300 text-lg">Cashier</span>
     </a>
   </li>
+  {% endif %}
 {% endblock sidecontent %}
 
 {% block content %} 

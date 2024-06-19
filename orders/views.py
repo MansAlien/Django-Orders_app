@@ -454,10 +454,12 @@ def order_payment(request):
     return render(request, "cashier/tables/order_detail_row.html")
 
 # Cashier Settings
+@permission_required("orders.view_order")
 def cashier_settings_view(request):
     return render(request, "settings/cashier/cashier.html")
 
 # Customer
+@permission_required("orders.view_order")
 def customer_view(request):
     customers = Customer.objects.all()
     context = {
@@ -465,6 +467,7 @@ def customer_view(request):
     }
     return render(request, "settings/cashier/tabs/customer.html", context)
 
+@permission_required("orders.add_order")
 def create_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
@@ -479,6 +482,7 @@ def create_customer(request):
     }
     return render(request, "cashier/modals/create_customer.html", context)
 
+@permission_required("orders.change_order")
 def delete_customer(request, pk):
     try:
         customer = Customer.objects.get(id=pk)
@@ -488,6 +492,7 @@ def delete_customer(request, pk):
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
 
+@permission_required("orders.change_order")
 def edit_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     if request.method == "POST":
@@ -532,6 +537,7 @@ def clear_customer_info(request):
     return render(request, "cashier/forms/customer_info.html")
 
 # Order
+@permission_required("orders.view_order")
 def order_view(request):
     order_list = Payment.objects.all().order_by("-order__created_at")
     context = {
@@ -539,6 +545,7 @@ def order_view(request):
     }
     return render(request, "settings/cashier/tabs/orders.html", context)
 
+@permission_required("orders.view_order")
 def order_details_list(request, pk):
     order = Order.objects.get(id=pk)
     order_details_list = OrderDetail.objects.filter(order=order)
