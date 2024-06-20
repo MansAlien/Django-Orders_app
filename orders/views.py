@@ -14,8 +14,10 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import os
-from django.http import FileResponse, Http404
+from django.http import Http404
 from accounts.decorators import cashier_required, editor_required
+from django.db.models import Q
+
 
 @login_required
 def home_view(request):
@@ -676,3 +678,27 @@ def open_folder(request):
             return HttpResponse(status=204)
     except Order.DoesNotExist:
         raise Http404("Order does not exist")
+
+def search_orders(request):
+    query = request.GET.get('query', '')
+    filter_type = request.GET.get('filter_type', 'id')
+    
+    if query:
+        if filter_type == 'id':
+            orders = Order.objects.filter(id__icontains=query).order_by('-created_at')
+        elif filter_type == 'date':
+            orders = Order.objects.filter(created_at__icontains=query).order_by('-created_at')
+        elif filter_type == 'name':
+            orders = Order.objects.filter(
+                Q(customer__name_one__icontains=query) |
+                Q(customer__name_two__icontains=query)
+            ).order_by('-created_at')
+        elif filter_type == 'phone':
+            orders = Order.objects.filter(
+                Q(customer__phone__icontains=query) |
+                Q(customer__whatsapp__icontains=query)
+            ).order_by('-created_at')
+    else:
+        orders = Order.objects.filter(payment__order__id__icontains=query).order_by('-created_at')
+    
+    return render(request, 'editor/tables/partial_order_list.html', {'order_list': orders})

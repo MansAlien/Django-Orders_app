@@ -75,11 +75,13 @@ htmx_urlpatterns = [
     path("comment/delete/<int:pk>", views.delete_comment, name="delete_comment"),
 
     path("editor", views.editor_view, name="editor_view"),
+    path('editor/search_orders/', views.search_orders, name='search_orders'),
     path("editor/order_details/<int:pk>", views.editor_order_details, name="editor_order_details"),
     path("editor/order_details/comments/<int:pk>", views.editor_comments, name="editor_comments"),
 
     path('orders/files/<int:order_id>/', views.serve_order_file, name='serve_order_file'),
     path('orders/files/', views.open_folder, name='open_folder'),
+
 ]
 
 urlpatterns += htmx_urlpatterns

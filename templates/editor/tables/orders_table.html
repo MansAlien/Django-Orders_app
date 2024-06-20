@@ -2,10 +2,11 @@
   <thead class="sticky top-10 text-sm uppercase bg-gray-700 text-gray-400">
     <tr>
       <th scope="col" class="px-3 py-3">ID</th>
+      <th scope="col" class="px-3 py-3">Date</th>
       <th scope="col" class="px-3 py-3">Action</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="orderTable">
     {% for order in order_list %}
     <tr
       class="text-lg odd:bg-gray-900 even:bg-gray-800">
@@ -17,6 +18,9 @@
           class="cursor-pointer h-full w-full px-3 py-3">
           {{ order.order.id }}
         </a>
+      </td>
+      <td class="px-3 py-3 cursor-pointer">
+        {{ order.order.created_at|date }}
       </td>
       <td class="px-3 py-3">
         <a 
