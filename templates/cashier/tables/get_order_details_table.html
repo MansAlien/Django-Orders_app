@@ -1,0 +1,120 @@
+<form id="order_details_form" onsubmit="submitAllRows(event)" action="{% url 'order_details_view' %}" method="POST">
+  <input type="hidden" name="order_id" id="table_order_id">
+  {% csrf_token %}
+  <table id="products-table" class="w-full text-sm text-left rtl:text-right text-gray-400">
+    <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">
+      <tr>
+        <th scope="col" class="px-2 py-3">name</th>
+        <th scope="col" class="px-2 py-3">attributes</th>
+        <th scope="col" class="px-2 py-3">price</th>
+        <th scope="col" class="px-2 py-3">amount</th>
+        <th scope="col" class="px-2 py-3">total</th>
+        <th scope="col" class="px-2 py-3">D_Type</th>
+        <th scope="col" class="px-2 py-3">D_status</th>
+        <th scope="col" class="px-2 py-3">Action</th>
+      </tr>
+    </thead>
+    <tbody id="table_body">
+    </tbody>
+  </table>
+</form>
+
+
+<script>
+  function calculateTotal() {
+    let grandTotal = 0;
+
+    // Calculate the grand total
+    document.querySelectorAll('[id^="total-price-"]').forEach(function(element) {
+      grandTotal += parseFloat(element.innerText);
+    });
+    document.getElementById('before_discount').value = grandTotal.toFixed(2);
+
+    // Check the discount value
+    let discountElement = document.getElementById('payment_discount');
+    let discountPercentage = parseFloat(discountElement.value);
+
+    // Apply the discount if it's not zero
+    if (!isNaN(discountPercentage) && discountPercentage !== 0) {
+      let discountAmount = (grandTotal * discountPercentage) / 100;
+      grandTotal -= discountAmount;
+    }
+
+    // Ensure the grand total is not negative
+    grandTotal = Math.max(grandTotal, 0);
+
+    // Update the grand total field
+    document.getElementById('after_discount').value = grandTotal.toFixed(2);
+
+    // Check the paid value
+    let paidElement = document.getElementById('paid');
+    let paidAmount = parseFloat(paidElement.value);
+    let remainingAmount = grandTotal;
+
+    // Calculate the remaining amount if paid amount is not zero
+    if (!isNaN(paidAmount) && paidAmount !== 0) {
+      remainingAmount -= paidAmount;
+    }
+
+    // Ensure the remaining amount is not negative
+    remainingAmount = Math.max(remainingAmount, 0);
+
+    // Update the remaining field
+    document.getElementById('remaining').value = remainingAmount.toFixed(2);
+  }
+
+  // Initial calculation when the page loads
+  document.addEventListener('DOMContentLoaded', calculateTotal);
+
+  function submitAllRows(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    const form = document.getElementById('order_details_form');
+    const rows = form.querySelectorAll('tbody > tr');
+
+    // Create a data object to hold all form data
+    const formData = {
+      order_id: document.getElementById('table_order_id').value,
+      csrfmiddlewaretoken: form.querySelector('[name=csrfmiddlewaretoken]').value,
+      rows: []
+    };
+
+    // Iterate through each row and append its data to the formData
+    let rowIndex = -1;
+    rows.forEach(row => {
+      // Check if the row is hidden (extended row)
+      if (!row.classList.contains('hidden')) {
+        rowIndex++;
+        formData.rows.push({});
+      }
+
+      const inputs = row.querySelectorAll('input, select, textarea');
+      inputs.forEach(input => {
+        if (input.name) {
+          formData.rows[rowIndex][input.name] = input.value;
+        }
+      });
+    });
+
+    // Create an XMLHttpRequest to send the form data
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader('X-CSRFToken', form.querySelector('[name=csrfmiddlewaretoken]').value);
+
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        // Handle success
+        console.log('Form submitted successfully');
+      } else {
+        // Handle error
+        console.log('Error submitting form');
+      }
+    };
+
+    xhr.send(JSON.stringify(formData));
+  document.getElementById('payment_form').submit();
+  }
+</script>
+
+

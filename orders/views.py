@@ -32,7 +32,6 @@ def home_view(request):
 @method_decorator(login_required, name='dispatch')
 class SettingsTemplateView(TemplateView):
     template_name="settings/settings.html"
-
 ##########################################
 ######### Inventory Databases ############
 ##########################################
@@ -455,6 +454,24 @@ def order_payment(request):
             return redirect('cashier')
     return render(request, "cashier/tables/order_detail_row.html")
 
+@cashier_required
+def get_order_payment(request):
+    order_id = request.POST.get('order_id')
+    
+    try:
+        order = Order.objects.get(id=order_id)
+        payment = Payment.objects.get(order=order)
+        form = PaymentForm(instance=payment)
+    except :
+        messages.error(request, "Order not found.")
+        form = PaymentForm()
+        return render(request, "cashier/forms/create_payment_form.html", {"payment_form":form})
+
+    context = {
+        'payment_form': form,
+    }
+    return render(request, "cashier/forms/update_payment_form.html", context)
+
 # Cashier Settings
 @permission_required("orders.view_order")
 def cashier_settings_view(request):
@@ -516,9 +533,6 @@ def customer_info(request):
     return render(request, "cashier/forms/customer_info.html", context)
 
 
-import logging
-logger = logging.getLogger(__name__)
-
 @login_required
 def customer_with_order(request):
     order_id = request.POST.get('order_id')
@@ -569,7 +583,6 @@ def customer_with_id(request):
         return clear_customer_info(request)
 
 def clear_customer_info(request):
-    logger.info("Clearing customer information.")
     context = {
         "customer": None,
     }
