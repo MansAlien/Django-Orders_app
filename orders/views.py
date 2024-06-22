@@ -399,21 +399,23 @@ def order_detail_row(request, pk):
 @cashier_required
 def get_order_details(request):
     order_id = request.POST.get('order_id')
-    
     try:
         order = Order.objects.get(id=order_id)
-        order_detail_list= OrderDetail.objects.filter(order=order)
-        print(order_detail_list)
-        for order_detail in order_detail_list:
-            form = OrderDetailForm(instance=order_detail)
+        order_details = OrderDetail.objects.filter(order=order)
+        forms_and_product_lines = [(OrderDetailForm(instance=order_detail), order_detail.product_line) for order_detail in order_details]
         context = {
-            'form': form,
-        }
-        return render(request, "cashier/table/update_order_details.html", context)
+            'forms': forms_and_product_lines,
+        }       
+        return render(request, "cashier/tables/update_order_details.html", context)
     except :
-        messages.error(request, "Order Details not found.")
+        messages.error(request, "Order not found.")
         return HttpResponse(status=204, headers={"HX-Trigger": "sdf"})
 
+def merge_dicts(dict_list):
+    merged_dict = {}
+    for d in dict_list:
+        merged_dict.update(d)
+    return merged_dict
 
 @csrf_exempt
 @cashier_required

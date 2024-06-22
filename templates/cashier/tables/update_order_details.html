@@ -1,13 +1,20 @@
+{% for form, product_line in forms %}
 <tr class="bg-gray-900 text-xs border-t border-gray-500" 
-  x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }} }">
-  <input type="hidden" name="product_line_id" value="{{ pk }}">
+  x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }}, amount: {{ form.instance.amount }} }">
+  <input type="hidden" name="product_line_id" value="{{ product_line.pk }}">
   <td
     _="on click toggle .hidden on the next <tr/>"
     class="px-2 py-4 text-base hover:text-white cursor-pointer">
     {{ product_line.product }}
   </td>
   <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
-  <td class="px-2 py-4 text-base price" x-text="price"></td>
+  <td class="px-2 py-4 text-base price" >
+    {% if form.deliver_type == normal %}
+    {{ product_line.normal_price }}
+    {% else %}
+    {{ product_line.fawry_price }}
+    {% endif %}
+  </td>
   <td class="px-2 py-4 text-base">
     <div class="relative flex items-center">
       <button
@@ -37,7 +44,12 @@
       </button>
     </div>
   </td> <!--amount-->
-  <td class="px-2 py-4 text-base total-price" :id="$id('total-price')", >{{ product_line.normal_price }}</td>
+
+  {% if form.deliver_type == normal %}
+  <td class="px-2 py-4 text-base total-price" x-text="(price * amount).toFixed(2)"></td>
+  {% else %}
+  <td class="px-2 py-4 text-base total-price" x-text="(fawryPrice * amount).toFixed(2)"></td>
+  {% endif %}
   <td class="px-2 py-4 text-base">
     {{ form.deliver_type }}
   </td>
@@ -107,4 +119,5 @@
   <td>
   </td>
 </tr>
+{% endfor %}
 
