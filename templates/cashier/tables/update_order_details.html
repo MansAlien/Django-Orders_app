@@ -1,0 +1,110 @@
+<tr class="bg-gray-900 text-xs border-t border-gray-500" 
+  x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }} }">
+  <input type="hidden" name="product_line_id" value="{{ pk }}">
+  <td
+    _="on click toggle .hidden on the next <tr/>"
+    class="px-2 py-4 text-base hover:text-white cursor-pointer">
+    {{ product_line.product }}
+  </td>
+  <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
+  <td class="px-2 py-4 text-base price" x-text="price"></td>
+  <td class="px-2 py-4 text-base">
+    <div class="relative flex items-center">
+      <button
+        _="on click if (parseInt(me.closest('td').querySelector('input').value) > 1)
+        then set me.closest('td').querySelector('input').value to (parseInt(me.closest('td').querySelector('input').value) - 1) 
+        then set me.closest('tr').querySelector('.total-price').innerText to
+        ((parseInt(me.closest('tr').querySelector('.price').innerText) * parseInt(me.closest('td').querySelector('input').value)).toFixed(2))
+        then call calculateTotal()"
+        type="button"
+        class="flex-shrink-0 bg-gray-700
+        hover:bg-gray-200 inline-flex items-center justify-center border border-gray-300 rounded-md
+        h-5 w-5 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+        <i class="fa-solid fa-minus"></i>
+      </button>
+      {{ form.amount }}
+      <button
+        _="on click set me.closest('td').querySelector('input').value to
+        (parseInt(me.closest('td').querySelector('input').value) + 1)
+        then set me.closest('tr').querySelector('.total-price').innerText to
+        ((parseInt(me.closest('tr').querySelector('.price').innerText) * parseInt(me.closest('td').querySelector('input').value)).toFixed(2))
+        then call calculateTotal()"
+        type="button"  
+        class="flex-shrink-0 bg-gray-700 border-gray-600
+        hover:bg-gray-200 inline-flex items-center justify-center rounded-md
+        h-5 w-5 focus:ring-gray-700 focus:ring-2 focus:outline-none">
+        <i class="fa-solid fa-plus"></i>
+      </button>
+    </div>
+  </td> <!--amount-->
+  <td class="px-2 py-4 text-base total-price" :id="$id('total-price')", >{{ product_line.normal_price }}</td>
+  <td class="px-2 py-4 text-base">
+    {{ form.deliver_type }}
+  </td>
+  <td class="px-2 py-4 text-base">
+    {{ form.delivery_Status }}
+  </td>
+  <td class="px-3 py-4 text-base">
+    <div class="flex gap-5">
+      <a 
+        _="on click if confirm('Are you sure you want to delete this row?') then remove closest <tr/>
+        then call calculateTotal()"
+        class="cursor-pointer hover:text-red-700">
+        <i class="fa-solid fa-trash"></i>
+      </a>
+    </div>
+  </td>
+</tr>
+<tr class="hidden bg-gray-800 text-xs">
+  <td colspan="8" class="text-base">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-200">
+      <tbody>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700 w-36">comment</th>
+          <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
+            <div class="col-span-3">
+              {{ form.customer_comment }}
+              <span class="text-lg" x-show="span"></span>
+            </div>
+            <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
+              x-on:click="input = !input; span = !span"></i>
+          </td>
+        </tr>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700">Date</th>
+          <td class="px-2 py-2 text-base">{% now "M d, Y g:i a" %}</td>
+        </tr>
+        <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700">Deliver Date</th>
+          <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
+            <div class="col-span-3">
+              <div class="flex gap-2">
+                {{ form.deliver_date }}
+                {{ form.deliver_time }}
+              </div>
+              <span class="text-base date" x-show="span"></span>
+              <span class="text-base" x-show="span"> | </span>
+              <span class="text-base time" x-show="span"></span>
+            </div>
+            <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
+              x-on:click="input = !input; span = !span"></i>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700">Other</th>
+          <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
+            <div class="col-span-3">
+              {{ form.location }}
+              <span class="text-lg" x-show="span"></span>
+            </div>
+            <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
+              x-on:click="input = !input; span = !span"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+  <td>
+  </td>
+</tr>
+

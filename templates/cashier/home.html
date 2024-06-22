@@ -90,7 +90,9 @@ form label {
           <div class="flex justify-center gap-1 items-center" id="order_id">
             <input
             id="new_order_id"
-            _="on change or keyup wait 100ms set #table_order_id.value to my.value
+            _="on change or keyup wait 100ms 
+            set #table_order_id.value to my.value
+            then wait 100ms then trigger change on #table_order_id
             then set #payment_order_id.value to my.value
             then wait 100ms then trigger change on #payment_order_id
             then set #folder_order_id.value to my.value

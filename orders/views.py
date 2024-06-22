@@ -292,8 +292,6 @@ def create_product_line(request):
             product_line.attribute_values.set(form.cleaned_data['attribute_values'])
 
             return HttpResponse(status=204, headers={"HX-Trigger": "product_line_refresh"})
-        else:
-            print(form.errors)  # Debugging statement to print form errors
     else:
         form = ProductLineCreateForm()
     context = {
@@ -398,11 +396,24 @@ def order_detail_row(request, pk):
     }
     return render(request, "cashier/tables/order_detail_row.html", context)
 
-def merge_dicts(dict_list):
-    merged_dict = {}
-    for d in dict_list:
-        merged_dict.update(d)
-    return merged_dict
+@cashier_required
+def get_order_details(request):
+    order_id = request.POST.get('order_id')
+    
+    try:
+        order = Order.objects.get(id=order_id)
+        order_detail_list= OrderDetail.objects.filter(order=order)
+        print(order_detail_list)
+        for order_detail in order_detail_list:
+            form = OrderDetailForm(instance=order_detail)
+        context = {
+            'form': form,
+        }
+        return render(request, "cashier/table/update_order_details.html", context)
+    except :
+        messages.error(request, "Order Details not found.")
+        return HttpResponse(status=204, headers={"HX-Trigger": "sdf"})
+
 
 @csrf_exempt
 @cashier_required
@@ -429,8 +440,6 @@ def order_details_view(request):
                 order_detail.product_line = product_line
                 order_detail.order = order
                 order_detail.save()
-            else:
-                print(form.errors)
 
         return HttpResponse(status=204, headers={"HX-Trigger": "payment_submit"})
 
@@ -438,7 +447,7 @@ def order_details_view(request):
 
 @cashier_required
 def order_payment(request):
-    order_id = request.POST.get('order_id')
+    order_id = request.POST.get('payment_order_id')
     if request.method == "POST":
         order = Order.objects.get(id=order_id)
         form = PaymentForm(request.POST)
@@ -456,14 +465,13 @@ def order_payment(request):
 
 @cashier_required
 def get_order_payment(request):
-    order_id = request.POST.get('order_id')
-    
+    order_id = request.POST.get('payment_order_id')
     try:
         order = Order.objects.get(id=order_id)
         payment = Payment.objects.get(order=order)
         form = PaymentForm(instance=payment)
     except :
-        messages.error(request, "Order not found.")
+        messages.error(request, "Order Payment not found.")
         form = PaymentForm()
         return render(request, "cashier/forms/create_payment_form.html", {"payment_form":form})
 
@@ -550,7 +558,7 @@ def customer_with_order(request):
         order = Order.objects.get(id=order_id)
         customer = order.customer
     except Order.DoesNotExist:
-        messages.error(request, "Order not found.")
+        messages.error(request, "Order Customer not found.")
         return clear_customer_info(request)
     
     if customer:

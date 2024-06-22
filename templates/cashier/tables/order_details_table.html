@@ -1,5 +1,10 @@
 <form id="order_details_form" onsubmit="submitAllRows(event)" action="{% url 'order_details_view' %}" method="POST">
-  <input type="hidden" name="order_id" id="table_order_id">
+  <input
+    hx-post="{% url 'get_order_details' %}" 
+    hx-trigger="change"
+    hx-target="#table_body"
+    hx-swap="innerHTML"
+    type="hidden" name="order_id" id="table_order_id">
   {% csrf_token %}
   <table id="products-table" class="w-full text-sm text-left rtl:text-right text-gray-400">
     <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">

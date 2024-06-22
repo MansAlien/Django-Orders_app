@@ -71,6 +71,7 @@ htmx_urlpatterns = [
     path("order_payment/", views.order_payment, name="order_payment"),
     path("get_order_payment/", views.get_order_payment, name="get_order_payment"),
     path("order_details_view/", views.order_details_view, name="order_details_view"),
+    path("get_order_details/", views.get_order_details, name="get_order_details"),
     
     path("comment/create/<int:pk>", views.create_comment, name="create_comment"),
     path("comment/edit/<int:pk>", views.edit_comment, name="edit_comment"),
