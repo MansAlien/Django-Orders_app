@@ -33,18 +33,26 @@ form label {
               {% csrf_token %}
               <form id="customer_id_form">
                 <input
-                hx-post="{% url 'customer_with_id' %}" 
-                hx-trigger="keyup changed delay:1s from:input[id='customer_id']"
-                hx-target="#customer"
-                hx-swap="innerHTML"
-                name="customer_id"
-                type="number" 
-                aria-describedby="helper-text-explanation" 
-                id="customer_id"
-                type="number" aria-describedby="helper-text-explanation" id="customer_id" 
-                class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 bg-gray-700 border-gray-600
-                placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
-                placeholder="ID or Phone" />
+                  name="order_id"
+                  id="customer_order_id"
+                  hx-post="{% url 'customer_with_order' %}" 
+                  hx-trigger="change"
+                  hx-target="#customer"
+                  hx-swap="innerHTML"
+                  type="hidden">
+                <input
+                  hx-post="{% url 'customer_with_id' %}" 
+                  hx-trigger="keyup changed delay:1s from:input[id='customer_id']"
+                  hx-target="#customer"
+                  hx-swap="innerHTML"
+                  name="customer_id"
+                  type="number" 
+                  aria-describedby="helper-text-explanation" 
+                  id="customer_id"
+                  type="number" aria-describedby="helper-text-explanation" id="customer_id" 
+                  class="border text-sm rounded-lg block w-[11rem] mt-1.5 p-2.5 bg-gray-700 border-gray-600
+                  placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="ID or Phone" />
               </form>
             </div>
             <button data-tooltip-target="tooltip-right" data-tooltip-placement="right">
@@ -61,6 +69,9 @@ form label {
             </div>
           </div>
           <div class="col-span-2"> 
+            <!--Customer info with order id-->
+
+            <!--Customer info-->
             <div 
               hx-get="{% url "customer_info" %}"
               hx-trigger="customer_info from:body" 
@@ -79,6 +90,11 @@ form label {
           <div class="flex justify-center gap-1 items-center" id="order_id">
             <input
             id="new_order_id"
+            _="on change or keyup wait 100ms set #table_order_id.value to my.value
+            then set #payment_order_id.value to my.value
+            then set #folder_order_id.value to my.value
+            then set #customer_order_id.value to my.value
+            then wait 100ms then trigger change on #customer_order_id"
             name="new_order_id"
             type="number" aria-describedby="helper-text-explanation"  
             class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
@@ -313,4 +329,5 @@ document.body.addEventListener('htmx:afterOnLoad', function(event) {
     }
   }
 });
+htmx.logAll();
 </script>

@@ -54,8 +54,9 @@ htmx_urlpatterns = [
     path("settings/inventory/product_line/<int:pk>/delete", views.delete_product_line, name="delete_product_line"),
 
     # Cashier
-    path("cashier/customer_info/", views.customer_info, name="customer_info"),
-    path("cashier/customer_with_id/", views.customer_with_id, name="customer_with_id"),
+    path("cashier/customer_info", views.customer_info, name="customer_info"),
+    path("cashier/customer_with_id", views.customer_with_id, name="customer_with_id"),
+    path("cashier/customer_with_order", views.customer_with_order, name="customer_with_order"),
 
     # Customer
     path("cashier/clear_customer_info/", views.clear_customer_info, name="clear_customer_info"),

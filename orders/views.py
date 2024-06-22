@@ -515,6 +515,39 @@ def customer_info(request):
     }
     return render(request, "cashier/forms/customer_info.html", context)
 
+
+import logging
+logger = logging.getLogger(__name__)
+
+@login_required
+def customer_with_order(request):
+    order_id = request.POST.get('order_id')
+    if not order_id:
+        messages.error(request, "Order ID is required.")
+        return clear_customer_info(request)
+    
+    try:
+        order_id = int(order_id)
+    except ValueError:
+        messages.error(request, "Invalid Order ID format.")
+        return clear_customer_info(request)
+
+    try:
+        order = Order.objects.get(id=order_id)
+        customer = order.customer
+    except Order.DoesNotExist:
+        messages.error(request, "Order not found.")
+        return clear_customer_info(request)
+    
+    if customer:
+        context = {
+            "customer": customer,
+        }
+        return render(request, "cashier/forms/customer_info.html", context)
+    else:
+        messages.error(request, "This customer does not exist.")
+        return clear_customer_info(request)
+
 @login_required
 def customer_with_id(request):
     customer_id = request.POST.get('customer_id')
@@ -536,7 +569,11 @@ def customer_with_id(request):
         return clear_customer_info(request)
 
 def clear_customer_info(request):
-    return render(request, "cashier/forms/customer_info.html")
+    logger.info("Clearing customer information.")
+    context = {
+        "customer": None,
+    }
+    return render(request, "cashier/forms/customer_info.html", context)
 
 # Order
 @permission_required("orders.view_order")
