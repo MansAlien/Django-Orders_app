@@ -76,7 +76,7 @@
           <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
             <div class="col-span-3">
               {{ form.customer_comment }}
-              <span class="text-lg" x-show="span"></span>
+              <span class="text-lg" x-show="span">{{ form.instance.customer_comment }}</span>
             </div>
             <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
               x-on:click="input = !input; span = !span"></i>
@@ -94,9 +94,9 @@
                 {{ form.deliver_date }}
                 {{ form.deliver_time }}
               </div>
-              <span class="text-base date" x-show="span"></span>
+              <span class="text-base date" x-show="span">{{ form.instance.deliver_date }}</span>
               <span class="text-base" x-show="span"> | </span>
-              <span class="text-base time" x-show="span"></span>
+              <span class="text-base time" x-show="span">{{ form.instance.deliver_time }}</span>
             </div>
             <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
               x-on:click="input = !input; span = !span"></i>
@@ -107,7 +107,7 @@
           <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
             <div class="col-span-3">
               {{ form.location }}
-              <span class="text-lg" x-show="span"></span>
+              <span class="text-lg" x-show="span">{{ form.instance.location }}</span>
             </div>
             <i class="fa-solid fa-pen-to-square text-base place-self-center hover:text-blue-500 cursor-pointer"
               x-on:click="input = !input; span = !span"></i>
