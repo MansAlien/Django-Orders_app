@@ -86,6 +86,8 @@ htmx_urlpatterns = [
     path('orders/files/<int:order_id>/', views.serve_order_file, name='serve_order_file'),
     path('orders/files/', views.open_folder, name='open_folder'),
 
+    path('cashier/bill', views.bill, name='bill'),
+
 ]
 
 urlpatterns += htmx_urlpatterns

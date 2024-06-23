@@ -96,6 +96,7 @@ form label {
             then set #payment_order_id.value to my.value
             then wait 200ms then trigger change on #payment_order_id
             then set #folder_order_id.value to my.value
+            then set #print_order_id.value to my.value
             then set #customer_order_id.value to my.value
             then wait 300ms then trigger change on #customer_order_id"
             name="new_order_id"
@@ -168,12 +169,20 @@ form label {
                 focus:ring-blue-800 my-3" type="submit">
                 OK
               </button>
-              <button 
-                class="block text-white focus:ring-4 focus:outline-none
-                font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-                focus:ring-blue-800 my-3" type="submit">
-                OK + Print
-              </button>
+              <form method="POST">
+                <input type="hidden" name="order_id" id="print_order_id">
+                <button 
+                  form="folder_form"
+                  hx-post="{% url 'bill' %}"
+                  hx-target="#modal_form"
+                  hx-swap="innerHTML"
+                  _="on click remove .hidden from modal_div " 
+                  class="block text-white focus:ring-4 focus:outline-none
+                  font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
+                  focus:ring-blue-800 my-3" type="submit">
+                  Print
+                </button>
+              </form>
             </div>
 
             <div class="flex justify-center items-center px-5 gap-10">

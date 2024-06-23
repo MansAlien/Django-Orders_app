@@ -786,3 +786,16 @@ def search_orders(request):
         orders = Order.objects.filter(payment__order__id__icontains=query).order_by('-created_at')
     
     return render(request, 'editor/tables/partial_order_list.html', {'order_list': orders})
+
+def bill(request):
+    order_id = request.POST.get('order_id')
+    print(order_id)
+    order = Order.objects.get(id=order_id)
+    order_details = OrderDetail.objects.filter(order=order)
+    payment = Payment.objects.filter(order=order).last()
+    context={
+        "order":order,
+        "order_details":order_details,
+        "payment":payment,
+    }
+    return render(request, 'cashier/modals/bill.html', context)
