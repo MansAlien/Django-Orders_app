@@ -94,10 +94,10 @@ form label {
             set #table_order_id.value to my.value
             then wait 100ms then trigger change on #table_order_id
             then set #payment_order_id.value to my.value
-            then wait 100ms then trigger change on #payment_order_id
+            then wait 200ms then trigger change on #payment_order_id
             then set #folder_order_id.value to my.value
             then set #customer_order_id.value to my.value
-            then wait 100ms then trigger change on #customer_order_id"
+            then wait 300ms then trigger change on #customer_order_id"
             name="new_order_id"
             type="number" aria-describedby="helper-text-explanation"  
             class="border text-sm rounded-lg block w-28 p-2.5 bg-gray-700 border-gray-600
@@ -292,5 +292,4 @@ document.body.addEventListener('htmx:afterOnLoad', function(event) {
     }
   }
 });
-htmx.logAll();
 </script>

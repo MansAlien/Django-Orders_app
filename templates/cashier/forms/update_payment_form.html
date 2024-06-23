@@ -1,13 +1,14 @@
-<form id="payment_form" class="row-span-2 h-full" hx-post="{% url 'get_order_payment' %}" >
+<form id="payment_form" class="row-span-2 h-full" action="{% url 'order_payment' %}" method="post">
   {% csrf_token %}
-  <div class=" flex justify-between items-center bg-gray-800 h-full px-5">
+  <div class=" flex justify-between items-center bg-gray-800 h-full px-5" _="on load call calculateTotal()">
     <div class="flex justify-center items-center px-5 gap-10">
       <input
         hx-post="{% url 'get_order_payment' %}" 
         hx-trigger="change"
         hx-target="#payment_form"
         hx-swap="outerHTML"
-        type="hidden" name="payment_order_id" id="payment_order_id">
+        type="hidden" name="payment_order_id" id="payment_order_id" value="{{ order_id }}">
+      <input type="hidden" name="payment_id" value="{{ payment_id }}">
       <div class="text-center text-white">
         <p class="block mb-5 text-base font-medium text-gray-400">Befor Discount</p>
         {{ payment_form.total }}

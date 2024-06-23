@@ -1,20 +1,20 @@
-{% for form, product_line in forms %}
+{% for form, product_line, detail_id in forms %}
 <tr class="bg-gray-900 text-xs border-t border-gray-500" 
-  x-data="{ price: {{ product_line.normal_price }}, fawryPrice: {{ product_line.fawry_price }} , normalPrice: {{ product_line.normal_price }}, amount: {{ form.instance.amount }} }">
+  x-data="{ {% if form.instance.deliver_type == 'N' %} price: {{ product_line.normal_price }} {% else %} price: {{ product_line.fawry_price }} {% endif %},
+    fawryPrice: {{ product_line.fawry_price }},
+    normalPrice: {{ product_line.normal_price }},
+    amount: {{ form.instance.amount }} }"
+>
   <input type="hidden" name="product_line_id" value="{{ product_line.pk }}">
+  <input type="hidden" name="order_detail_id" value="{{ detail_id }}">
   <td
     _="on click toggle .hidden on the next <tr/>"
     class="px-2 py-4 text-base hover:text-white cursor-pointer">
     {{ product_line.product }}
+    
   </td>
   <td class="px-2 py-4 text-base">{{ product_line.values }}</td>
-  <td class="px-2 py-4 text-base price" >
-    {% if form.deliver_type == normal %}
-    {{ product_line.normal_price }}
-    {% else %}
-    {{ product_line.fawry_price }}
-    {% endif %}
-  </td>
+  <td class="px-2 py-4 text-base price" x-text="price"> </td>
   <td class="px-2 py-4 text-base">
     <div class="relative flex items-center">
       <button
@@ -45,10 +45,10 @@
     </div>
   </td> <!--amount-->
 
-  {% if form.deliver_type == normal %}
-  <td class="px-2 py-4 text-base total-price" x-text="(price * amount).toFixed(2)"></td>
+  {% if form.instance.deliver_type == "N" %}
+  <td class="px-2 py-4 text-base total-price" id="total-price-{{ detail_id }}" x-text="(price * amount).toFixed(2)"></td>
   {% else %}
-  <td class="px-2 py-4 text-base total-price" x-text="(fawryPrice * amount).toFixed(2)"></td>
+  <td class="px-2 py-4 text-base total-price" id="total-price-{{ detail_id }}" x-text="(fawryPrice * amount).toFixed(2)"></td>
   {% endif %}
   <td class="px-2 py-4 text-base">
     {{ form.deliver_type }}
@@ -59,8 +59,10 @@
   <td class="px-3 py-4 text-base">
     <div class="flex gap-5">
       <a 
-        _="on click if confirm('Are you sure you want to delete this row?') then remove closest <tr/>
-        then call calculateTotal()"
+        hx-post="{% url 'delete_order_detail' detail_id %}"
+        hx-confirm="Are you sure you want to delete this order_detail?"
+        _="on htmx:afterRequest remove closest <tr/>
+          then call calculateTotal()"
         class="cursor-pointer hover:text-red-700">
         <i class="fa-solid fa-trash"></i>
       </a>

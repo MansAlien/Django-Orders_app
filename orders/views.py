@@ -398,11 +398,11 @@ def order_detail_row(request, pk):
 
 @cashier_required
 def get_order_details(request):
-    order_id = request.POST.get('order_id')
+    order_id = request.GET.get('order_id')
     try:
         order = Order.objects.get(id=order_id)
         order_details = OrderDetail.objects.filter(order=order)
-        forms_and_product_lines = [(OrderDetailForm(instance=order_detail), order_detail.product_line) for order_detail in order_details]
+        forms_and_product_lines = [(OrderDetailForm(instance=order_detail), order_detail.product_line, order_detail.id) for order_detail in order_details]
         context = {
             'forms': forms_and_product_lines,
         }       
@@ -423,22 +423,29 @@ def order_details_view(request):
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         body_data = json.loads(body_unicode)
-        
         order_id = body_data.get('order_id')
         rows = body_data.get('rows', [])
-
         chunk_size = 5
         merged_rows = [merge_dicts(rows[i:i + chunk_size]) for i in range(0, len(rows), chunk_size)]
 
         for row in merged_rows:
-            product_line_id=row['product_line_id']
+            product_line_id = row['product_line_id']
+            order_detail_id = row.get('order_detail_id')
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
-
-            row_data=dict(list(row.items())[1:])
-            form = OrderDetailForm(row_data)
-            if form.is_valid():
+            row_data = dict(list(row.items())[1:])  # Remove the product_line_id and order_detail_id from row_data
+            if order_detail_id: #if the order_detail is exist update the data
+                try:
+                    order_detail = OrderDetail.objects.get(id=order_detail_id, order=order)
+                    form = OrderDetailForm(row_data, instance=order_detail)
+                except OrderDetail.DoesNotExist:
+                    form = OrderDetailForm(row_data)
+                    order_detail = form.save(commit=False)
+            else: #if the order_detail is not exist create a new one
+                form = OrderDetailForm(row_data)
                 order_detail = form.save(commit=False)
+
+            if form.is_valid():
                 order_detail.product_line = product_line
                 order_detail.order = order
                 order_detail.save()
@@ -447,21 +454,36 @@ def order_details_view(request):
 
     return JsonResponse({'status': 'invalid request'}, status=400)
 
+def delete_order_detail(request, pk):
+    order_detail = OrderDetail.objects.get(id=pk)
+    order_detail.delete()
+    return HttpResponse(status=204)
+
+
 @cashier_required
 def order_payment(request):
-    order_id = request.POST.get('payment_order_id')
     if request.method == "POST":
-        order = Order.objects.get(id=order_id)
-        form = PaymentForm(request.POST)
+        order_id = request.POST.get('payment_order_id')
+        payment_id = request.POST.get('payment_id')
+        order = get_object_or_404(Order, id=order_id)
+
+        if payment_id:
+            print('update')
+            payment = get_object_or_404(Payment, id=payment_id, order=order)
+            form = PaymentForm(request.POST, instance=payment)
+        else:
+            print('create')
+            form = PaymentForm(request.POST)
+
         if form.is_valid():
             payment = form.save(commit=False)
             payment.order = order
-            if not payment.paid:
-                payment.paid=0
-            if not payment.discount:
-                payment.discount=0
+            if payment.paid is None:
+                payment.paid = 0
+            if payment.discount is None:
+                payment.discount = 0
             payment.save()
-            messages.success(request,"The Order is Successfully Created")
+            messages.success(request, "The Order is Successfully Created")
             return redirect('cashier')
     return render(request, "cashier/tables/order_detail_row.html")
 
@@ -479,6 +501,8 @@ def get_order_payment(request):
 
     context = {
         'payment_form': form,
+        'payment_id': payment.id,
+        'order_id': order_id,
     }
     return render(request, "cashier/forms/update_payment_form.html", context)
 

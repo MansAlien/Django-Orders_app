@@ -1,6 +1,6 @@
 <form id="order_details_form" onsubmit="submitAllRows(event)" action="{% url 'order_details_view' %}" method="POST">
   <input
-    hx-post="{% url 'get_order_details' %}" 
+    hx-get="{% url 'get_order_details' %}" 
     hx-trigger="change"
     hx-target="#table_body"
     hx-swap="innerHTML"
