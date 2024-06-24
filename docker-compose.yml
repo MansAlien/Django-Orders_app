@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    command: ["sh", "./start.sh"]
+    volumes:
+      - .:/app
+      - ~/orders:/root/orders
+    env_file:
+      - .env
+    depends_on:
+      - postgres_db
+
+  postgres_db:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${P_DATABASE}
+      - POSTGRES_USER=${P_USER}
+      - POSTGRES_PASSWORD=${P_PASSWORD}
+
+volumes:
+  postgres_data:

@@ -1,13 +1,14 @@
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-k-_m&f-g%$&pumvwzv3kn&1$ab^%79)*t*yofxf2q)$%+-6+^2'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
 
+SECRET_KEY = os.environ.get("SECRET_KEY")
+DEBUG = bool(os.environ.get("DEBUG", default=0))
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
@@ -76,13 +77,24 @@ STATICFILES_FINDERS = [
     "compressor.finders.CompressorFinder",
 ]
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#         'OPTIONS': {
+#             'timeout': 80,  # Set timeout to 20 seconds
+#         },
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-        'OPTIONS': {
-            'timeout': 80,  # Set timeout to 20 seconds
-        },
+    "default": {
+        "ENGINE": os.environ.get("P_ENGINE", "django.db.backends.sqlite3"),
+        "NAME": os.environ.get("P_DATABASE", BASE_DIR / "db.sqlite3"),
+        "USER": os.environ.get("P_USER", "user"),
+        "PASSWORD": os.environ.get("P_PASSWORD", "password"),
+        "HOST": os.environ.get("P_HOST", "localhost"),
+        "PORT": os.environ.get("P_PORT", "5432"),
     }
 }
 
