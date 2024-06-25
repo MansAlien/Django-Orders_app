@@ -1,21 +1,24 @@
 <div class="container mx-auto p-6">
   <div class="bg-white p-6 rounded-lg shadow-lg">
-    <h1 class="text-3xl font-bold mb-4">Studio Vision</h1>
-    <p class="mb-4">Phone: 01200120080</p>
+    <div class="flex flex-col justify-center items-center">
+      <h1 class="text-3xl font-bold">Studio Vision</h1>
+      <p class="uppercase font-bold ">p  h  o  t  o  g  r  a  p  h  y</p>
+      <p class="font-bold">01200 1200 80</p>
+    </div>
 
-    <table class="min-w-full bg-white border border-gray-300 mb-4">
+    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-gray-300 rtl:mb-4 " dir="rtl">
       <tbody>
         <tr>
-          <th class="py-2 px-4 border-b border-gray-300 text-right">رقم الأوردر</th>
-          <td class="py-2 px-4 border-b border-gray-300">{{ order.id }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">رقم الأوردر</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.id }}</td>
         </tr>
         <tr>
-          <th class="py-2 px-4 border-b border-gray-300 text-right">التاريخ</th>
-          <td class="py-2 px-4 border-b border-gray-300">{{ order.created_at }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">اسم العميل</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.customer.name_one }}</td>
         </tr>
         <tr>
-          <th class="py-2 px-4 border-b border-gray-300 text-right">اسم العميل</th>
-          <td class="py-2 px-4 border-b border-gray-300">{{ order.customer.name_one }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">التاريخ</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.created_at|date:'j/n/Y' }}</td>
         </tr>
       </tbody>
     </table>
@@ -23,46 +26,57 @@
     <table class="min-w-full bg-white border border-gray-300 mb-4">
       <thead>
         <tr>
-          <th class="py-2 px-4 border-b border-gray-300">المنتج</th>
-          <th class="py-2 px-4 border-b border-gray-300">العدد</th>
-          <th class="py-2 px-4 border-b border-gray-300">السعر</th>
-          <th class="py-2 px-4 border-b border-gray-300">التسليم</th>
+          <th class="py-2 px-3 border border-gray-300 text-center">التسليم</th>
+          <th class="py-2 px-3 border border-gray-300 text-center">العدد</th>
+          <th class="py-2 px-3 border border-gray-300 text-center">السعر</th>
+          <th class="py-2 px-3 border border-gray-300 text-center">المنتج</th>
         </tr>
       </thead>
       <tbody>
         {% for detail in order_details %}
         <tr>
-          <td class="py-2 px-4 border-b border-gray-300">{{ detail.product_line.product.name }}</td>
-          <td class="py-2 px-4 border-b border-gray-300">{{ detail.amount }}</td>
-          <td class="py-2 px-4 border-b border-gray-300">
+          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.deliver_date|date:'j/n/Y' }}</td>
+          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.amount }}</td>
+          <td class="py-2 px-3 border border-gray-300 text-center">
             {% if detail.deliver_type == "N" %}
             {{ detail.product_line.normal_price }}
             {% else %}
             {{ detail.product_line.fawry_price }}
             {% endif %}
           </td>
-          <td class="py-2 px-4 border-b border-gray-300">{{ detail.deliver_date }}</td>
+          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.product_line.product.name }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <table class="min-w-full bg-white border border-gray-300 mb-4" x-data="{total: {{ payment.total }}, paid: {{ payment.paid }}}">
-      <thead>
-        <tr>
-          <th class="py-2 px-4 border-b border-gray-300">إجمالي</th>
-          <th class="py-2 px-4 border-b border-gray-300">مدفوع</th>
-          <th class="py-2 px-4 border-b border-gray-300">متبقي</th>
-        </tr>
-      </thead>
+    <table class="rtl:min-w-full rtl:bg-white rtl:border-0 rtl:border-gray-300 rtl:mb-4 w-40" dir="rtl" 
+      x-data="{total: {{ payment.total }}, paid: {{ payment.paid }}, discount: {{ payment.discount }} }">
       <tbody>
         <tr>
-          <td class="py-2 px-4 border-b border-gray-300">{{ payment.total }}</td>
-          <td class="py-2 px-4 border-b border-gray-300">{{ payment.paid }}</td>
-          <td class="py-2 px-4 border-b border-gray-300" x-text="total-paid"></td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">إجمالي</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">{{ payment.total }}</td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+        </tr>
+        <tr>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">مدفوع</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">{{ payment.paid }}</td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+        </tr>
+        <tr>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">خصم</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold" x-text="(total*discount)/100"></td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+        </tr>
+        <tr>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">متبقي</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold" x-text="(total-((total*discount)/100))-paid"></td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
         </tr>
       </tbody>
     </table>
+    <hr class="border-solid border-t-2 border-black ">
+    <p class="ml-2">{{ order.created_at|date:'j/n/Y  G:i' }}</p>
   </div>
 </div>
   <div class="flex justify-between mt-2 px-5 border-t">
