@@ -17,6 +17,7 @@ import os
 from django.http import Http404
 from accounts.decorators import cashier_required, editor_required
 from django.db.models import Q
+import requests
 
 
 @login_required
@@ -734,14 +735,12 @@ def serve_order_file(request, order_id):
         order = Order.objects.get(id=order_id)
         file_path = order.path
 
-        if os.path.exists(file_path):
-            if os.system("which thunar > /dev/null 2>&1") == 0:
-                os.system(f'thunar "{file_path}"')
-            else:
-                os.system(f'explorer "{file_path}"')
+        # Send request to Flask server running on host machine
+        response = requests.post('http://host.docker.internal:5000/open_folder', json={"file_path": file_path})
+        if response.status_code == 200:
             return HttpResponse(status=204)
         else:
-            return HttpResponse(status=204)
+            return HttpResponse(response.json(), status=response.status_code)
     except Order.DoesNotExist:
         raise Http404("Order does not exist")
 
@@ -752,14 +751,12 @@ def open_folder(request):
         order = Order.objects.get(id=order_id)
         file_path = order.path
 
-        if os.path.exists(file_path):
-            if os.system("which thunar > /dev/null 2>&1") == 0:
-                os.system(f'thunar "{file_path}"')
-            else:
-                os.system(f'explorer "{file_path}"')
+        # Send request to Flask server running on host machine
+        response = requests.post('http://host.docker.internal:5000/open_folder', json={"file_path": file_path})
+        if response.status_code == 200:
             return HttpResponse(status=204)
         else:
-            return HttpResponse(status=204)
+            return HttpResponse(response.json(), status=response.status_code)
     except Order.DoesNotExist:
         raise Http404("Order does not exist")
 
