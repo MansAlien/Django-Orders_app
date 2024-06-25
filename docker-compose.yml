@@ -2,6 +2,7 @@ version: "3.8"
 
 services:
   web:
+    image: mansalien/vision_app:v0.5
     build:
       context: .
     ports:
@@ -24,5 +25,17 @@ services:
       - POSTGRES_PASSWORD=${P_PASSWORD}
     restart: always
 
+  backup:
+    build: ./backup
+    volumes:
+      - backup_data:/backups
+    environment:
+      - P_DATABASE=${P_DATABASE}
+      - P_USER=${P_USER}
+      - P_PASSWORD=${P_PASSWORD}
+    depends_on:
+      - postgres_db
+
 volumes:
   postgres_data:
+  backup_data:
