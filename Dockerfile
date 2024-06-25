@@ -5,10 +5,16 @@ ENV PYTHONDONTWRITEBYTECODE 1
 
 WORKDIR /app
 
-COPY . /app/
-
 RUN apt-get update
 
 RUN pip install --upgrade pip
-COPY ./requirements.txt .
-RUN pip install -r requirements.txt
+
+# Install dependencies
+COPY requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+
+EXPOSE 8000
+
+COPY . .
+
+CMD ["sh", "./start.sh"]

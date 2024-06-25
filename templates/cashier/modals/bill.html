@@ -1,9 +1,9 @@
 <div class="container mx-auto p-6">
   <div class="bg-white p-6 rounded-lg shadow-lg">
     <div class="flex flex-col justify-center items-center">
-      <h1 class="text-3xl font-bold">Studio Vision</h1>
-      <p class="uppercase font-bold ">p  h  o  t  o  g  r  a  p  h  y</p>
-      <p class="font-bold">01200 1200 80</p>
+      <h1 class="font-bold" style="font-size: 50px;">Studio Vision</h1>
+      <p class="uppercase font-bold" style="font-size: 30px;">p  h  o  t  o  g  r  a  p  h  y</p>
+      <p class="font-bold" style="font-size: 30px;">01200 1200 80</p>
     </div>
 
     <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-gray-300 rtl:mb-4 " dir="rtl">
@@ -26,7 +26,7 @@
     <table class="min-w-full bg-white border border-gray-300 mb-4">
       <thead>
         <tr>
-          <th class="py-2 px-3 border border-gray-300 text-center">التسليم</th>
+          <th class="py-2 px-3 border border-gray-300 text-center">تاريخ التسليم</th>
           <th class="py-2 px-3 border border-gray-300 text-center">العدد</th>
           <th class="py-2 px-3 border border-gray-300 text-center">السعر</th>
           <th class="py-2 px-3 border border-gray-300 text-center">المنتج</th>
@@ -76,7 +76,7 @@
       </tbody>
     </table>
     <hr class="border-solid border-t-2 border-black ">
-    <p class="ml-2">{{ order.created_at|date:'j/n/Y  G:i' }}</p>
+    <p class="ml-2">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
   </div>
 </div>
   <div class="flex justify-between mt-2 px-5 border-t">
