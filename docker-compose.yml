@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   web:
-    image: mansalien/vision_app:v0.5
+    image: mansalien/vision_app:v0.7
     build:
       context: .
     ports:
@@ -26,9 +26,16 @@ services:
     restart: always
 
   backup:
-    build: ./backup
+    image: postgres
     volumes:
-      - backup_data:/backups
+      - ./db_backup:/backup
+    command: >
+      bash -c "while true; do
+        PGPASSWORD=AAsd@01203394542 pg_dump -h postgres_db -U alien -Fc vision > /backup/$$(date +%Y-%m-%d-%H-%M-%S).dump
+        echo ""Backup done at $$(date +%Y-%m-%d_%H:%M:%S)""
+        ls -1 /backup/*.dump | head -n -5 | xargs rm -f
+        sleep 43200
+      done"
     environment:
       - P_DATABASE=${P_DATABASE}
       - P_USER=${P_USER}
@@ -38,4 +45,3 @@ services:
 
 volumes:
   postgres_data:
-  backup_data:
