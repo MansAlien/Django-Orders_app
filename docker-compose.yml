@@ -9,6 +9,7 @@ services:
       - "8000:8000"
     volumes:
       - ~/orders:/root/orders
+      - .:/app
     env_file:
       - .env
     depends_on:
@@ -42,6 +43,7 @@ services:
       - P_PASSWORD=${P_PASSWORD}
     depends_on:
       - postgres_db
+    restart: always
 
 volumes:
   postgres_data:

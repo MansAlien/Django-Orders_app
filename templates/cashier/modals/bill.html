@@ -1,12 +1,12 @@
-<div class="container mx-auto p-6">
-  <div class="bg-white p-6 rounded-lg shadow-lg">
+<div class="container mx-auto p-6" id="print_area">
+  <div class="bg-white p-6 rounded-lg">
     <div class="flex flex-col justify-center items-center">
       <h1 class="font-bold" style="font-size: 50px;">Studio Vision</h1>
       <p class="uppercase font-bold" style="font-size: 30px;">p  h  o  t  o  g  r  a  p  h  y</p>
-      <p class="font-bold" style="font-size: 30px;">01200 1200 80</p>
+      <p class="font-bold mb-4" style="font-size: 30px;">01200 1200 80</p>
     </div>
 
-    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-gray-300 rtl:mb-4 " dir="rtl">
+    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-gray-300 rtl:mb-4" dir="rtl">
       <tbody>
         <tr>
           <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">رقم الأوردر</th>
@@ -75,23 +75,58 @@
         </tr>
       </tbody>
     </table>
-    <hr class="border-solid border-t-2 border-black ">
+    <hr class="border-solid border-t-2 border-black">
     <p class="ml-2">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
   </div>
 </div>
-  <div class="flex justify-between mt-2 px-5 border-t">
-    <button 
-      _="on click add .hidden to modal_div"
-      type="button" class="text-white focus:outline-none
-      focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 my-3
-      bg-gray-600 hover:bg-gray-800 focus:ring-gray-700 border-gray-700">
-      cancel
-    </button>
-    <button 
-      _="on click add .hidden to modal_div"
-      class="block text-white focus:ring-4 focus:outline-none
-      font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-800 
-      focus:ring-blue-800 my-3">
-      Add
-    </button>
-  </div>
+<div class="flex justify-between mt-2 px-5 border-t">
+  <button 
+    _="on click add .hidden to modal_div"
+    type="button" class="text-white focus:outline-none
+    focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 my-3
+    bg-gray-600 hover:bg-gray-800 focus:ring-gray-700 border-gray-700">
+    cancel
+  </button>
+  <button 
+    id="print_button"
+    class="block text-white focus:ring-4 focus:outline-none
+    font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-800 
+    focus:ring-blue-800 my-3">
+    print
+  </button>
+</div>
+
+<script>
+  document.getElementById('print_button').addEventListener('click', function() {
+    const { jsPDF } = window.jspdf;
+    html2canvas(document.getElementById('print_area')).then(canvas => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdfWidth = 80; // Width in mm for thermal printer
+      const imgProps = canvas.width / canvas.height;
+      const pdfHeight = pdfWidth / imgProps; // Dynamic height based on content
+
+      const pdf = new jsPDF({
+        orientation: 'portrait',
+        unit: 'mm',
+        format: [pdfWidth, pdfHeight] // Custom dimensions for thermal paper
+      });
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+
+      const pdfBlob = pdf.output('blob');
+      const url = URL.createObjectURL(pdfBlob);
+      const iframe = document.createElement('iframe');
+      iframe.style.position = 'absolute';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      iframe.src = url;
+      document.body.appendChild(iframe);
+
+      iframe.onload = function() {
+        iframe.contentWindow.print();
+        URL.revokeObjectURL(url); // Clean up URL object after printing
+      };
+    });
+  });
+</script>
