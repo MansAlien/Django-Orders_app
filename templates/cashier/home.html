@@ -42,7 +42,7 @@ form label {
                   type="hidden">
                 <input
                   hx-post="{% url 'customer_with_id' %}" 
-                  hx-trigger="keyup changed delay:1s from:input[id='customer_id']"
+                  hx-trigger="keyup, refresh_info changed delay:1s"
                   hx-target="#customer"
                   hx-swap="innerHTML"
                   name="customer_id"

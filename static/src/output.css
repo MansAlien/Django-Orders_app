@@ -1,6 +1,6 @@
 /* static/src/input.css */
 
-/* ! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -1276,6 +1276,10 @@ input:checked + .toggle-bg {
   margin-inline-end: 1rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .ml-3 {
   margin-left: 0.75rem;
 }
@@ -1330,10 +1334,6 @@ input:checked + .toggle-bg {
 
 .mt-5 {
   margin-top: 1.25rem;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
 }
 
 .block {
@@ -1440,14 +1440,6 @@ input:checked + .toggle-bg {
   height: 100vh;
 }
 
-.h-0 {
-  height: 0px;
-}
-
-.h-0\.5 {
-  height: 0.125rem;
-}
-
 .max-h-\[32rem\] {
   max-height: 32rem;
 }
@@ -1496,6 +1488,10 @@ input:checked + .toggle-bg {
   width: 1rem;
 }
 
+.w-40 {
+  width: 10rem;
+}
+
 .w-5 {
   width: 1.25rem;
 }
@@ -1530,22 +1526,6 @@ input:checked + .toggle-bg {
 
 .w-screen {
   width: 100vw;
-}
-
-.w-72 {
-  width: 18rem;
-}
-
-.w-52 {
-  width: 13rem;
-}
-
-.w-40 {
-  width: 10rem;
-}
-
-.w-32 {
-  width: 8rem;
 }
 
 .min-w-full {
@@ -1903,16 +1883,12 @@ input:checked + .toggle-bg {
   border-top-width: 1px;
 }
 
-.border-t-4 {
-  border-top-width: 4px;
-}
-
-.border-r {
-  border-right-width: 1px;
-}
-
 .border-t-2 {
   border-top-width: 2px;
+}
+
+.border-t-4 {
+  border-top-width: 4px;
 }
 
 .border-solid {
@@ -1921,6 +1897,11 @@ input:checked + .toggle-bg {
 
 .border-none {
   border-style: none;
+}
+
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .border-blue-600 {
@@ -1976,11 +1957,6 @@ input:checked + .toggle-bg {
 .border-yellow-400 {
   --tw-border-opacity: 1;
   border-color: rgb(227 160 8 / var(--tw-border-opacity));
-}
-
-.border-black {
-  --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .border-r-gray-800 {
@@ -2210,6 +2186,11 @@ input:checked + .toggle-bg {
   padding-bottom: 1rem;
 }
 
+.px-1 {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
 .pb-0 {
   padding-bottom: 0px;
 }
@@ -2250,18 +2231,9 @@ input:checked + .toggle-bg {
   text-align: center;
 }
 
-.text-right {
-  text-align: right;
-}
-
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-
-.text-3xl {
-  font-size: 1.875rem;
-  line-height: 2.25rem;
 }
 
 .text-base {
@@ -2311,10 +2283,6 @@ input:checked + .toggle-bg {
 
 .leading-9 {
   line-height: 2.25rem;
-}
-
-.tracking-wide {
-  letter-spacing: 0.025em;
 }
 
 .text-blue-600 {
@@ -2385,11 +2353,6 @@ input:checked + .toggle-bg {
 .text-yellow-400 {
   --tw-text-opacity: 1;
   color: rgb(227 160 8 / var(--tw-text-opacity));
-}
-
-.text-black {
-  --tw-text-opacity: 1;
-  color: rgb(0 0 0 / var(--tw-text-opacity));
 }
 
 .placeholder-gray-400::-moz-placeholder {
@@ -2994,6 +2957,11 @@ input:checked + .toggle-bg {
   border-color: rgb(209 213 219 / var(--tw-border-opacity));
 }
 
+.rtl\:border-black:where([dir="rtl"], [dir="rtl"] *) {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
+}
+
 .rtl\:bg-white:where([dir="rtl"], [dir="rtl"] *) {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -3017,19 +2985,14 @@ input:checked + .toggle-bg {
   text-align: right;
 }
 
-.rtl\:text-base:where([dir="rtl"], [dir="rtl"] *) {
-  font-size: 1rem;
-  line-height: 1.5rem;
-}
-
-.rtl\:font-thin:where([dir="rtl"], [dir="rtl"] *) {
-  font-weight: 100;
-}
-
 .rtl\:font-normal:where([dir="rtl"], [dir="rtl"] *) {
   font-weight: 400;
 }
 
 .rtl\:font-semibold:where([dir="rtl"], [dir="rtl"] *) {
   font-weight: 600;
+}
+
+.rtl\:font-bold:where([dir="rtl"], [dir="rtl"] *) {
+  font-weight: 700;
 }

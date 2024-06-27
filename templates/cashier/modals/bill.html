@@ -6,77 +6,79 @@
       <p class="font-bold mb-4" style="font-size: 30px;">01200 1200 80</p>
     </div>
 
-    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-gray-300 rtl:mb-4" dir="rtl">
+    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-black rtl:mb-4" dir="rtl">
       <tbody>
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">رقم الأوردر</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.id }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">رقم الأوردر</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.id }}</td>
         </tr>
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">اسم العميل</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.customer.name_one }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">اسم العميل</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.customer.name_one }}</td>
         </tr>
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-normal">التاريخ</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-gray-300 rtl:text-center rtl:font-semibold">{{ order.created_at|date:'j/n/Y' }}</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">التاريخ</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.created_at|date:'j/n/Y' }}</td>
         </tr>
       </tbody>
     </table>
 
-    <table class="min-w-full bg-white border border-gray-300 mb-4">
+    <table class="min-w-full bg-white border border-black mb-4">
       <thead>
         <tr>
-          <th class="py-2 px-3 border border-gray-300 text-center">تاريخ التسليم</th>
-          <th class="py-2 px-3 border border-gray-300 text-center">العدد</th>
-          <th class="py-2 px-3 border border-gray-300 text-center">السعر</th>
-          <th class="py-2 px-3 border border-gray-300 text-center">المنتج</th>
+          <th class="py-2 px-2 border border-black text-center text-sm font-bold">تاريخ التسليم</th>
+          <th class="py-2 px-2 border border-black text-center font-bold">العدد</th>
+          <th class="py-2 px-2 border border-black text-center font-bold">السعر</th>
+          <th class="py-2 px-2 border border-black text-center font-bold">المنتج</th>
         </tr>
       </thead>
       <tbody>
         {% for detail in order_details %}
         <tr>
-          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.deliver_date|date:'j/n/Y' }}</td>
-          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.amount }}</td>
-          <td class="py-2 px-3 border border-gray-300 text-center">
+          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.deliver_date|date:'j/n/Y' }}</td>
+          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.amount }}</td>
+          <td class="py-2 px-2 border border-black text-center font-bold">
             {% if detail.deliver_type == "N" %}
             {{ detail.product_line.normal_price }}
             {% else %}
             {{ detail.product_line.fawry_price }}
             {% endif %}
           </td>
-          <td class="py-2 px-3 border border-gray-300 text-center">{{ detail.product_line.product.name }}</td>
+          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.product_line.product.name }}</td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
 
-    <table class="rtl:min-w-full rtl:bg-white rtl:border-0 rtl:border-gray-300 rtl:mb-4 w-40" dir="rtl" 
+    <table class="rtl:min-w-full rtl:bg-white rtl:border-0 rtl:border-black rtl:mb-4 w-40" dir="rtl" 
       x-data="{total: {{ payment.total }}, paid: {{ payment.paid }}, discount: {{ payment.discount }} }">
       <tbody>
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">إجمالي</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">{{ payment.total }}</td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">إجمالي</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.total }}</td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
         </tr>
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">مدفوع</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">{{ payment.paid }}</td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">مدفوع</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.paid }}</td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
         </tr>
+        {% if payment.discount %}
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">خصم</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold" x-text="(total*discount)/100"></td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">خصم</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total*discount)/100"></td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
         </tr>
+        {% endif %}
         <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-normal">متبقي</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold" x-text="(total-((total*discount)/100))-paid"></td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-semibold">LE</td>
+          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">متبقي</th>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total-((total*discount)/100))-paid"></td>
+          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
         </tr>
       </tbody>
     </table>
     <hr class="border-solid border-t-2 border-black">
-    <p class="ml-2">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
+    <p class="ml-2 font-bold">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
   </div>
 </div>
 <div class="flex justify-between mt-2 px-5 border-t">

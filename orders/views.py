@@ -521,7 +521,7 @@ def customer_view(request):
     }
     return render(request, "settings/cashier/tabs/customer.html", context)
 
-@permission_required("orders.add_order")
+@login_required
 def create_customer(request):
     if request.method == "POST":
         form = CustomerForm(request.POST)
@@ -546,15 +546,14 @@ def delete_customer(request, pk):
         messages.error(request,"Can't remove this item, it related to other items")
         return HttpResponse(status=204, headers={"HX-Trigger": "customer_info"})
 
-@permission_required("orders.change_order")
+@login_required
 def edit_customer(request, pk):
     customer = Customer.objects.get(id=pk)
     if request.method == "POST":
         form = CustomerForm(request.POST,  instance=customer)
         if form.is_valid():
             form.save()
-            messages.success(request,"The new Customer Successfully Updated")
-            return HttpResponse(status=204, headers={"HX-Trigger": "clear"})
+            return HttpResponse(status=204)
     else:
         form = CustomerForm(instance=customer)
     return render(request, "cashier/modals/edit_customer.html", { "form":form, "pk":pk})
