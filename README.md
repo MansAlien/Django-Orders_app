@@ -95,6 +95,3 @@ Check out the live project [here](http://51.20.117.160:8000/) to see it in actio
 ![ScreenShot](./images/29-jun/employee_details_3.png)
 ![ScreenShot](./images/29-jun/employee_details_4.png)
 ![ScreenShot](./images/29-jun/employee_details_5.png)
-
-## Website Link
-- http://51.20.117.160:8000/
