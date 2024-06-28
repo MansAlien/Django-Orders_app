@@ -61,14 +61,6 @@ This project is designed to streamline studio management by providing comprehens
 3. Make your changes.
 4. Submit a pull request.
 
-### 🛠 If You Are New to Git, These Topics Might Be Helpful:
-- How to install git on (Window / Linux) ? 
-    -> [Git_Setup](needs/Git_setup.md)
-- How to install the project on my pc ?
-    -> [installing_repo](needs/installing-repo.md)
-- How to get the lates version of the project ?
-    -> [repo_update](needs/repo-update.md)
-
 <br><br>
 
 ### 📸 Screenshots
