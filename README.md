@@ -65,27 +65,27 @@ This project is designed to streamline studio management by providing comprehens
 
 ## 📸 Screenshots
 
-### Login
+### Login: 🔑
 ![ScreenShot](./images/29-jun/login.png)
 
-### Home
+### Home: 🏠
 ![ScreenShot](./images/29-jun/home.png)
 
-### Cashier
+### Cashier: 💰
 ![ScreenShot](./images/29-jun/cashier.png)
 ![ScreenShot](./images/29-jun/cashier_1.png)
 ![ScreenShot](./images/29-jun/cashier_2.png)
 
-### Editor
+### Editor: ✏️
 ![ScreenShot](./images/29-jun/editor.png)
 
-### Inventory
+### Inventory: 📦
 ![ScreenShot](./images/29-jun/inventory_1.png)
 ![ScreenShot](./images/29-jun/inventory_2.png)
 ![ScreenShot](./images/29-jun/inventory_3.png)
 ![ScreenShot](./images/29-jun/inventory_dashboard.png)
 
-### Employee
+### Employee: 👤
 ![ScreenShot](./images/29-jun/employee.png)
 ![ScreenShot](./images/29-jun/employee_details_1.png)
 ![ScreenShot](./images/29-jun/employee_details_2.png)
