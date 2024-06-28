@@ -64,8 +64,31 @@ This project is designed to streamline studio management by providing comprehens
 <br><br>
 
 ## 📸 Screenshots
-![ScreenShot](./images/23-Mar/screen_01.png)
-![ScreenShot](./images/23-Mar/screen_02.png)
-![ScreenShot](./images/23-Mar/screen_03.png)
-![ScreenShot](./images/23-Mar/screen_04.png)
-![ScreenShot](./images/23-Mar/screen_05.png)
+
+### Login
+![ScreenShot](./images/29-jun/login.png)
+
+### Home
+![ScreenShot](./images/29-jun/home.png)
+
+### Cashier
+![ScreenShot](./images/29-jun/cashier.png)
+![ScreenShot](./images/29-jun/cashier_1.png)
+![ScreenShot](./images/29-jun/cashier_2.png)
+
+### Editor
+![ScreenShot](./images/29-jun/editor.png)
+
+### Inventory
+![ScreenShot](./images/29-jun/inventory_1.png)
+![ScreenShot](./images/29-jun/inventory_2.png)
+![ScreenShot](./images/29-jun/inventory_3.png)
+![ScreenShot](./images/29-jun/inventory_dashboard.png)
+
+### Employee
+![ScreenShot](./images/29-jun/employee.png)
+![ScreenShot](./images/29-jun/employee_details_1.png)
+![ScreenShot](./images/29-jun/employee_details_2.png)
+![ScreenShot](./images/29-jun/employee_details_3.png)
+![ScreenShot](./images/29-jun/employee_details_4.png)
+![ScreenShot](./images/29-jun/employee_details_5.png)
