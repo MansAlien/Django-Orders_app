@@ -1,29 +1,37 @@
 <h1 align="center">👉 Studio Vision Project 👈</h1>
 This is project is created for helping the owners of the studios to manage everything in the studio and helping the employees too
 
-<h1 align="center"> Technologies Used </h1>
-<p align="center">
-  <img src="https://img.shields.io/badge/Language-Html-%23e34f26">
-  <img src="https://img.shields.io/badge/Language-Css-%23002561">
-  <img src="https://img.shields.io/badge/Language-JavaScript-yellow">
-  <img src="https://img.shields.io/badge/Language-Python-%234584b6">
-</p>
+## Technologies Used
 
-<p align="center">
-  <img src="https://img.shields.io/badge/framework-Bootstrap-%23563d7c">
-  <img src="https://img.shields.io/badge/framework-Django-%23092e20">
-  <img src="https://img.shields.io/badge/framework-HTMX-%23e34f26">
-</p>
+#### Front-end
+- <img src="https://img.shields.io/badge/Language-HTML-%23e34f26">
+- <img src="https://img.shields.io/badge/Language-CSS-%23002561">
+- <img src="https://img.shields.io/badge/Language-JavaScript-yellow">
+- <img src="https://img.shields.io/badge/Framework-Bootstrap-%23563d7c">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Database-Mysql-%2300758f">
-  <img src="https://img.shields.io/badge/Database-Postgresql-%23336791">
-</p>
+#### Back-end
+- <img src="https://img.shields.io/badge/Language-Python-%234584b6">
+- <img src="https://img.shields.io/badge/Framework-Django-%23092e20">
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Tools-Git-%23c9510c">
-  <img src="https://img.shields.io/badge/Tools-VS%20Code-%2314acf2">
-</p>
+#### Database
+- <img src="https://img.shields.io/badge/Database-MySQL-%2300758f">
+- <img src="https://img.shields.io/badge/Database-PostgreSQL-%23336791">
+
+#### Tools & Environment
+- <img src="https://img.shields.io/badge/Tools-Git-%23c9510c">
+- <img src="https://img.shields.io/badge/Tools-VS%20Code-%2314acf2">
+- <img src="https://img.shields.io/badge/OS-Arch%20Linux-blue">
+- <img src="https://img.shields.io/badge/OS-Windows-blueviolet">
+- <img src="https://img.shields.io/badge/Containerization-Docker-green">
+
+#### Other Technologies
+- <img src="https://img.shields.io/badge/Language-Tailwind%20CSS-blue">
+- <img src="https://img.shields.io/badge/Framework-HTMX-%23e34f26">
+- <img src="https://img.shields.io/badge/Framework-Hyperscript-orange">
+- <img src="https://img.shields.io/badge/Language-Alpine.js-green">
+
+#### Miscellaneous
+- <img src="https://img.shields.io/badge/ChatGPT-blue">
 
 ## The web apps of the project:-
 1. Orders
