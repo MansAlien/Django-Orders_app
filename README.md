@@ -22,7 +22,7 @@ This is project is created for helping the owners of the studios to manage every
 - <img src="https://img.shields.io/badge/Tools-VS%20Code-%2314acf2">
 - <img src="https://img.shields.io/badge/OS-Arch%20Linux-blue">
 - <img src="https://img.shields.io/badge/OS-Windows-blueviolet">
-- <img src="https://img.shields.io/badge/Containerization-Docker-green">
+- <img src="https://img.shields.io/badge/Containerization-Docker-blue">
 
 #### Other Technologies
 - <img src="https://img.shields.io/badge/Tailwind%20CSS-blue">
