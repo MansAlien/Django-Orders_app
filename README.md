@@ -37,7 +37,7 @@ This project is designed to streamline studio management by providing comprehens
 - Clean, efficient inventory management to track products and set limits to prevent overstocking.
 - Automated alerts for low stock, with deactivation of out-of-stock products to prevent sale.
   
-### Cashier Interface 🛒
+### Cashier Interface 💰
 - Customer management: create new customers, update existing data, and search via customer code or phone number.
 - Order management: unique order ID generation, structured order storage (year/month/day/order_id).
 - Payment processing: calculate total price, apply discounts, manage payments (total, paid, remaining).
@@ -62,6 +62,9 @@ This project is designed to streamline studio management by providing comprehens
 4. Submit a pull request.
 
 <br><br>
+
+### 🔗 Project Link
+Visit the live project [here](http://51.20.117.160:8000/).
 
 ## 📸 Screenshots
 
@@ -92,3 +95,6 @@ This project is designed to streamline studio management by providing comprehens
 ![ScreenShot](./images/29-jun/employee_details_3.png)
 ![ScreenShot](./images/29-jun/employee_details_4.png)
 ![ScreenShot](./images/29-jun/employee_details_5.png)
+
+## Website Link
+- http://51.20.117.160:8000/
