@@ -700,11 +700,15 @@ def delete_comment(request, pk):
 # Editor 
 @editor_required
 def editor_view(request):
+    return render(request, "editor/editor.html")
+
+@editor_required
+def editor_table_refresh(request):
     order_list=Payment.objects.filter(order__delivery_status="P").order_by('-order__created_at')
     context={
         "order_list":order_list
     }
-    return render(request, "editor/editor.html", context)
+    return render(request, "editor/tables/orders_table.html", context)
 
 @editor_required
 def editor_order_details(request, pk):

@@ -9,7 +9,6 @@ services:
       - "8000:8000"
     volumes:
       - ~/orders:/root/orders
-      - .:/app
     env_file:
       - .env
     depends_on:
