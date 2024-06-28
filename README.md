@@ -25,10 +25,10 @@ This is project is created for helping the owners of the studios to manage every
 - <img src="https://img.shields.io/badge/Containerization-Docker-green">
 
 #### Other Technologies
-- <img src="https://img.shields.io/badge/Language-Tailwind%20CSS-blue">
-- <img src="https://img.shields.io/badge/Framework-HTMX-%23e34f26">
-- <img src="https://img.shields.io/badge/Framework-Hyperscript-orange">
-- <img src="https://img.shields.io/badge/Language-Alpine.js-green">
+- <img src="https://img.shields.io/badge/Tailwind%20CSS-blue">
+- <img src="https://img.shields.io/badge/HTMX-%23e34f26">
+- <img src="https://img.shields.io/badge/Hyperscript-orange">
+- <img src="https://img.shields.io/badge/Alpine.js-green">
 
 #### Miscellaneous
 - <img src="https://img.shields.io/badge/ChatGPT-blue">
