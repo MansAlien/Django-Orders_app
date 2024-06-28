@@ -63,7 +63,7 @@ This project is designed to streamline studio management by providing comprehens
 
 <br><br>
 
-### 📸 Screenshots
+## 📸 Screenshots
 ![ScreenShot](./images/23-Mar/screen_01.png)
 ![ScreenShot](./images/23-Mar/screen_02.png)
 ![ScreenShot](./images/23-Mar/screen_03.png)
