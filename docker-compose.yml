@@ -5,8 +5,8 @@ services:
     image: mansalien/vision_app:v0.7
     build:
       context: .
-    ports:
-      - "8000:8000"
+    expose:
+      - 8000
     volumes:
       - .:/app
       - ~/orders:/root/orders
@@ -43,6 +43,16 @@ services:
       - P_PASSWORD=${P_PASSWORD}
     depends_on:
       - postgres_db
+    restart: always
+
+  nginx:
+    image: nginx:1.25
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - web
     restart: always
 
 volumes:
