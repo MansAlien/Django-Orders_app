@@ -436,9 +436,9 @@ def order_details_view(request):
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
             row_data = dict(list(row.items())[1:])  # Remove the product_line_id and order_detail_id from row_data
-            row_data["deliver_date"]=date.today()
-            row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
-            print(row_data["deliver_date"])
+            if not row_data["deliver_date"]:
+                row_data["deliver_date"]=date.today()
+                row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
             if order_detail_id: #if the order_detail is exist update the data
                 try:
                     order_detail = OrderDetail.objects.get(id=order_detail_id, order=order)

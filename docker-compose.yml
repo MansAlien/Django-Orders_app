@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   web:
-    image: mansalien/vision_app:v0.7
+    image: mansalien/vision_app:v0.8
     build:
       context: .
     expose:
