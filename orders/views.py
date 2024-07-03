@@ -18,6 +18,7 @@ from django.http import Http404
 from accounts.decorators import cashier_required, editor_required
 from django.db.models import Q
 import requests
+from datetime import date, timedelta
 
 
 @login_required
@@ -435,6 +436,9 @@ def order_details_view(request):
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
             row_data = dict(list(row.items())[1:])  # Remove the product_line_id and order_detail_id from row_data
+            row_data["deliver_date"]=date.today()
+            row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
+            print(row_data["deliver_date"])
             if order_detail_id: #if the order_detail is exist update the data
                 try:
                     order_detail = OrderDetail.objects.get(id=order_detail_id, order=order)
@@ -469,11 +473,9 @@ def order_payment(request):
         order = get_object_or_404(Order, id=order_id)
 
         if payment_id:
-            print('update')
             payment = get_object_or_404(Payment, id=payment_id, order=order)
             form = PaymentForm(request.POST, instance=payment)
         else:
-            print('create')
             form = PaymentForm(request.POST)
 
         if form.is_valid():

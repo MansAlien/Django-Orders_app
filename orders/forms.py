@@ -133,12 +133,12 @@ class OrderDetailForm(forms.ModelForm):
             'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
             ':id':"$id('deliver_status')",
         })) 
-    deliver_date = forms.DateField(
+    deliver_date = forms.DateField(required=False,
         widget=widgets.DateInput(attrs={
             'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
             'type': 'date',
-            'value': '2024-06-16',
-            'data-value': '2024-06-16T12:00Z',
+            'value': '0000-00-00',
+            'data-value': '0000-00-00T12:00Z',
             'x-data': "{date: new Date($el.dataset.value)}",
             ':value': "date.toLocaleDateString('sv-en')",
             '_': "on change put my value into the next .date",
