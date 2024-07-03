@@ -7,7 +7,7 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import ( CategoryForm, CommentForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
-                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, PaymentForm )
+                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, UpdateOrderDetailForm, PaymentForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
@@ -404,7 +404,7 @@ def get_order_details(request):
     try:
         order = Order.objects.get(id=order_id)
         order_details = OrderDetail.objects.filter(order=order)
-        forms_and_product_lines = [(OrderDetailForm(instance=order_detail), order_detail.product_line, order_detail.id) for order_detail in order_details]
+        forms_and_product_lines = [(UpdateOrderDetailForm(instance=order_detail), order_detail.product_line, order_detail.id) for order_detail in order_details]
         context = {
             'forms': forms_and_product_lines,
         }       
@@ -436,9 +436,7 @@ def order_details_view(request):
             product_line = ProductLine.objects.get(id=product_line_id)
             order = Order.objects.get(id=order_id)
             row_data = dict(list(row.items())[1:])  # Remove the product_line_id and order_detail_id from row_data
-            if not row_data["deliver_date"]:
-                row_data["deliver_date"]=date.today()
-                row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
+            
             if order_detail_id: #if the order_detail is exist update the data
                 try:
                     order_detail = OrderDetail.objects.get(id=order_detail_id, order=order)
@@ -447,6 +445,11 @@ def order_details_view(request):
                     form = OrderDetailForm(row_data)
                     order_detail = form.save(commit=False)
             else: #if the order_detail is not exist create a new one
+                if not row_data["deliver_date"]:
+                    row_data["deliver_date"]=date.today()
+                    row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
+                if not row_data["deliver_time"]:
+                    row_data["deliver_time"]="06:00"
                 form = OrderDetailForm(row_data)
                 order_detail = form.save(commit=False)
 
@@ -486,7 +489,7 @@ def order_payment(request):
             if payment.discount is None:
                 payment.discount = 0
             payment.save()
-            messages.success(request, "The Order is Successfully Created")
+            messages.success(request, f"The Order is Successfully Created: {payment.order.id}")
             return redirect('cashier')
     return render(request, "cashier/tables/order_detail_row.html")
 

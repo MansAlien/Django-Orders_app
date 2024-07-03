@@ -17,4 +17,5 @@ EXPOSE 8000
 
 COPY . .
 
-CMD ["sh", "./start.sh"]
+# create a CMD to run the django project server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

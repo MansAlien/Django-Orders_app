@@ -93,7 +93,7 @@
           <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
             <div class="col-span-3">
               <div class="flex gap-2">
-                {{ form.deliver_date|date:'j/n/Y' }}
+                {{ form.deliver_date }}
                 {{ form.deliver_time }}
               </div>
               <span class="text-base date" x-show="span">{{ form.instance.deliver_date|date:'j/n/Y' }}</span>

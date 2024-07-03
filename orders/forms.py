@@ -145,12 +145,12 @@ class OrderDetailForm(forms.ModelForm):
             ':id' : "$id('date')",
             'x-show':"input",
         }))
-    deliver_time = forms.TimeField(
+    deliver_time = forms.TimeField(required=False,
         widget=widgets.TimeInput(attrs={
             'class': 'bg-gray-700 rounded-lg text-white py-1 px-2',
             'type': 'time',
-            'value': '12:00:00',
-            'data-value': '2024-06-16T12:00Z',
+            'value': '00:00:00',
+            'data-value': '0000-00-00T12:00Z',
             'x-data': "{date: new Date($el.dataset.value)}",
             ':value': "date.toLocaleTimeString('sv-en')",
             '_': "on change put my value into the next .time",
@@ -161,6 +161,79 @@ class OrderDetailForm(forms.ModelForm):
         model = OrderDetail
         fields = ['deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date', 'deliver_time']
 
+class UpdateOrderDetailForm(forms.ModelForm):
+    location = forms.CharField(required=False,
+        widget=widgets.TextInput(attrs={
+            'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
+            'placeholder': 'Other Comments',
+            'x-show': 'input',  # Add your custom attributes here
+            ':id':"$id('location')",
+            '_': 'on keyup put my value into the next <span/>',
+        })
+    )
+    customer_comment = forms.CharField(required=False,
+        widget=widgets.TextInput(attrs={
+            'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
+            'placeholder': 'comment',
+            'x-show': 'input',  # Add your custom attributes here
+            ':id':"$id('comment')",
+            '_': 'on keyup put my value into the next <span/>',
+        }))
+    amount = forms.CharField(
+        widget=widgets.TextInput(attrs={
+            'class': 'flex-shrink-0 text-white border-0 bg-gray-900 text-sm font-normal focus:outline-none focus:ring-0 text-center',
+            'style':'width: 50px',
+            'value': '1',
+            ':id':"$id('amount')",
+            '_': """
+                    on change set me.closest('tr').querySelector('.total-price').innerText to
+                    ((parseInt(me.closest('tr').querySelector('.price').innerText) * parseInt(me.value)).toFixed(2))
+                    then call calculateTotal()
+                 """,
+        }))
+    deliver_type = forms.ChoiceField(
+        choices=[('N', 'normal'), ('F', 'fawry')],
+        widget=widgets.Select(attrs={
+            'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+            'x-on:change':"price = $event.target.value === 'F' ? fawryPrice : normalPrice",
+            ':id':"$id('deliver_type')",
+            '_': """
+                    on change 
+                    set me.closest('tr').querySelector('.total-price').innerText to 
+                    (parseFloat(me.closest('tr').querySelector('.price').innerText)
+                    * parseInt(me.closest('tr').querySelector('input[type=text]').value)).toFixed(2) 
+                    then call calculateTotal() 
+                """,
+        })) 
+    delivery_Status = forms.ChoiceField(
+        choices=[('P', 'Printing'), ('D', 'Delivered')],
+        widget=widgets.Select(attrs={
+            'class': 'border text-sm rounded-full block p-1 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500',
+            ':id':"$id('deliver_status')",
+        })) 
+    deliver_date = forms.DateField(required=False,
+        widget=widgets.DateInput(attrs={
+            'class': 'bg-gray-700 rounded-lg w-96 text-white py-1 px-2',
+            'type': 'date',
+            ':id' : "$id('date')",
+            'x-show':"input",
+        }))
+    deliver_time = forms.TimeField(required=False,
+        widget=widgets.TimeInput(attrs={
+            'class': 'bg-gray-700 rounded-lg text-white py-1 px-2',
+            'type': 'time',
+            ':id' : "$id('time')",
+            'x-show':"input",
+        }))
+    class Meta:
+        model = OrderDetail
+        fields = ['deliver_type', 'delivery_Status', 'amount', 'customer_comment', 'location', 'deliver_date', 'deliver_time']
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.fields['deliver_date'].widget.attrs['value'] = self.instance.deliver_date
+            self.fields['deliver_time'].widget.attrs['value'] = self.instance.deliver_time
 
 class PaymentForm(forms.ModelForm):
     total = forms.CharField(required=False,

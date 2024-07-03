@@ -8,7 +8,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 DEBUG = bool(os.environ.get("DEBUG", default=0))
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost").split(" ")
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,7 +69,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # The compressor of Tailwind
-COMPRESS_ROOT = BASE_DIR / 'static'
+COMPRESS_ROOT = BASE_DIR / 'staticfiles'
 COMPRESS_ENABLED = True
 STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
@@ -143,7 +143,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
