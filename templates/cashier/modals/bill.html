@@ -1,134 +1,134 @@
 <div class="container mx-auto p-6" id="print_area">
-  <div class="bg-white p-6 rounded-lg">
-    <div class="flex flex-col justify-center items-center">
-      <h1 class="font-bold" style="font-size: 50px;">Studio Vision</h1>
-      <p class="uppercase font-bold" style="font-size: 30px;">p  h  o  t  o  g  r  a  p  h  y</p>
-      <p class="font-bold mb-4" style="font-size: 30px;">01200 1200 80</p>
+    <div class="bg-white p-6 rounded-lg">
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="font-bold" style="font-size: 50px;">Studio Vision</h1>
+        <p class="uppercase font-bold" style="font-size: 30px;">p  h  o  t  o  g  r  a  p  h  y</p>
+        <p class="font-bold mb-4" style="font-size: 30px;">01200 1200 80</p>
+      </div>
+  
+      <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-black rtl:mb-4" dir="rtl">
+        <tbody>
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">رقم الأوردر</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.id }}</td>
+          </tr>
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">اسم العميل</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.customer.name_one }}</td>
+          </tr>
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">التاريخ</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.created_at|date:'j/n/Y' }}</td>
+          </tr>
+        </tbody>
+      </table>
+  
+      <table class="min-w-full bg-white border border-black mb-4">
+        <thead>
+          <tr>
+            <th class="py-2 px-2 border border-black text-center text-sm font-bold">تاريخ التسليم</th>
+            <th class="py-2 px-2 border border-black text-center font-bold">العدد</th>
+            <th class="py-2 px-2 border border-black text-center font-bold">السعر</th>
+            <th class="py-2 px-2 border border-black text-center font-bold">المنتج</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for detail in order_details %}
+          <tr>
+            <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.deliver_date|date:'j/n/Y' }}</td>
+            <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.amount }}</td>
+            <td class="py-2 px-2 border border-black text-center font-bold">
+              {% if detail.deliver_type == "N" %}
+              {{ detail.product_line.normal_price }}
+              {% else %}
+              {{ detail.product_line.fawry_price }}
+              {% endif %}
+            </td>
+            <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.product_line.product.name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+  
+      <table class="rtl:min-w-full rtl:bg-white rtl:border-0 rtl:border-black rtl:mb-4 w-40" dir="rtl" 
+        x-data="{total: {{ payment.total }}, paid: {{ payment.paid }}, discount: {{ payment.discount }} }">
+        <tbody>
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">إجمالي</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.total }}</td>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
+          </tr>
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">مدفوع</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.paid }}</td>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
+          </tr>
+          {% if payment.discount %}
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">خصم</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total*discount)/100"></td>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
+          </tr>
+          {% endif %}
+          <tr>
+            <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">متبقي</th>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total-((total*discount)/100))-paid"></td>
+            <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
+          </tr>
+        </tbody>
+      </table>
+      <hr class="border-solid border-t-2 border-black">
+      <p class="ml-2 font-bold">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
     </div>
-
-    <table class="rtl:min-w-full rtl:bg-white rtl:border rtl:border-black rtl:mb-4" dir="rtl">
-      <tbody>
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">رقم الأوردر</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.id }}</td>
-        </tr>
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">اسم العميل</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.customer.name_one }}</td>
-        </tr>
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">التاريخ</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border rtl:border-black rtl:text-center rtl:font-bold">{{ order.created_at|date:'j/n/Y' }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table class="min-w-full bg-white border border-black mb-4">
-      <thead>
-        <tr>
-          <th class="py-2 px-2 border border-black text-center text-sm font-bold">تاريخ التسليم</th>
-          <th class="py-2 px-2 border border-black text-center font-bold">العدد</th>
-          <th class="py-2 px-2 border border-black text-center font-bold">السعر</th>
-          <th class="py-2 px-2 border border-black text-center font-bold">المنتج</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for detail in order_details %}
-        <tr>
-          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.deliver_date|date:'j/n/Y' }}</td>
-          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.amount }}</td>
-          <td class="py-2 px-2 border border-black text-center font-bold">
-            {% if detail.deliver_type == "N" %}
-            {{ detail.product_line.normal_price }}
-            {% else %}
-            {{ detail.product_line.fawry_price }}
-            {% endif %}
-          </td>
-          <td class="py-2 px-2 border border-black text-center font-bold">{{ detail.product_line.product.name }}</td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
-    <table class="rtl:min-w-full rtl:bg-white rtl:border-0 rtl:border-black rtl:mb-4 w-40" dir="rtl" 
-      x-data="{total: {{ payment.total }}, paid: {{ payment.paid }}, discount: {{ payment.discount }} }">
-      <tbody>
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">إجمالي</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.total }}</td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
-        </tr>
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">مدفوع</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">{{ payment.paid }}</td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
-        </tr>
-        {% if payment.discount %}
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">خصم</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total*discount)/100"></td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
-        </tr>
-        {% endif %}
-        <tr>
-          <th class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">متبقي</th>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold" x-text="(total-((total*discount)/100))-paid"></td>
-          <td class="rtl:py-2 rtl:px-4 rtl:border-0 rtl:text-center rtl:font-bold">LE</td>
-        </tr>
-      </tbody>
-    </table>
-    <hr class="border-solid border-t-2 border-black">
-    <p class="ml-2 font-bold">{{ order.created_at|date:'(D) j/n/Y  G:i' }}</p>
   </div>
-</div>
-<div class="flex justify-between mt-2 px-5 border-t">
-  <button 
-    _="on click add .hidden to modal_div"
-    type="button" class="text-white focus:outline-none
-    focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 my-3
-    bg-gray-600 hover:bg-gray-800 focus:ring-gray-700 border-gray-700">
-    cancel
-  </button>
-  <button 
-    id="print_button"
-    class="block text-white focus:ring-4 focus:outline-none
-    font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-800 
-    focus:ring-blue-800 my-3">
-    print
-  </button>
-</div>
-
-<script>
-  document.getElementById('print_button').addEventListener('click', function() {
-    const { jsPDF } = window.jspdf;
-    html2canvas(document.getElementById('print_area')).then(canvas => {
-      const imgData = canvas.toDataURL('image/png');
-      const pdfWidth = 80; // Width in mm for thermal printer
-      const imgProps = canvas.width / canvas.height;
-      const pdfHeight = pdfWidth / imgProps; // Dynamic height based on content
-
-      const pdf = new jsPDF({
-        orientation: 'portrait',
-        unit: 'mm',
-        format: [pdfWidth, pdfHeight] // Custom dimensions for thermal paper
+  <div class="flex justify-between mt-2 px-5 border-t">
+    <button 
+      _="on click add .hidden to modal_div"
+      type="button" class="text-white focus:outline-none
+      focus:ring-4 font-medium rounded-lg text-sm px-5 py-2.5 my-3
+      bg-gray-600 hover:bg-gray-800 focus:ring-gray-700 border-gray-700">
+      cancel
+    </button>
+    <button 
+      id="print_button"
+      class="block text-white focus:ring-4 focus:outline-none
+      font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-800 
+      focus:ring-blue-800 my-3">
+      print
+    </button>
+  </div>
+  
+  <script>
+    document.getElementById('print_button').addEventListener('click', function() {
+      const { jsPDF } = window.jspdf;
+      html2canvas(document.getElementById('print_area')).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdfWidth = 80; // Width in mm for thermal printer
+        const imgProps = canvas.width / canvas.height;
+        const pdfHeight = pdfWidth / imgProps; // Dynamic height based on content
+  
+        const pdf = new jsPDF({
+          orientation: 'portrait',
+          unit: 'mm',
+          format: [pdfWidth, pdfHeight] // Custom dimensions for thermal paper
+        });
+  
+        pdf.addImage(imgData, 'PNG', 0, -5, pdfWidth, pdfHeight);
+  
+        const pdfBlob = pdf.output('blob');
+        const url = URL.createObjectURL(pdfBlob);
+        const iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.width = '0';
+        iframe.style.height = '0';
+        iframe.style.border = '0';
+        iframe.src = url;
+        document.body.appendChild(iframe);
+  
+        iframe.onload = function() {
+          iframe.contentWindow.print();
+          URL.revokeObjectURL(url); // Clean up URL object after printing
+        };
       });
-
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-
-      const pdfBlob = pdf.output('blob');
-      const url = URL.createObjectURL(pdfBlob);
-      const iframe = document.createElement('iframe');
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = '0';
-      iframe.src = url;
-      document.body.appendChild(iframe);
-
-      iframe.onload = function() {
-        iframe.contentWindow.print();
-        URL.revokeObjectURL(url); // Clean up URL object after printing
-      };
     });
-  });
-</script>
+  </script>

@@ -440,32 +440,54 @@ def order_details_view(request):
             if order_detail_id: #if the order_detail is exist update the data
                 try:
                     order_detail = OrderDetail.objects.get(id=order_detail_id, order=order)
+                    previous_amount = order_detail.amount
                     form = OrderDetailForm(row_data, instance=order_detail)
                 except OrderDetail.DoesNotExist:
                     form = OrderDetailForm(row_data)
                     order_detail = form.save(commit=False)
             else: #if the order_detail is not exist create a new one
                 if not row_data["deliver_date"]:
-                    row_data["deliver_date"]=date.today()
+                    row_data["deliver_date"] = date.today()
                     row_data["deliver_date"] += timedelta(days=product_line.deliver_date)
                 if not row_data["deliver_time"]:
-                    row_data["deliver_time"]="06:00"
+                    row_data["deliver_time"] = "06:00"
                 form = OrderDetailForm(row_data)
                 order_detail = form.save(commit=False)
+                previous_amount = 0
 
             if form.is_valid():
+                if order_detail_id:
+                    # Adjust the stock quantity based on the change in amount
+                    change_in_amount = order_detail.amount - previous_amount
+                    product_line.stock_qty -= change_in_amount
+                else:
+                    # Decrease the stock quantity by the amount for new order_detail
+                    product_line.stock_qty -= order_detail.amount
+
                 order_detail.product_line = product_line
                 order_detail.order = order
                 order_detail.save()
+                product_line.save()
 
         return HttpResponse(status=204, headers={"HX-Trigger": "payment_submit"})
 
     return JsonResponse({'status': 'invalid request'}, status=400)
 
+
 def delete_order_detail(request, pk):
-    order_detail = OrderDetail.objects.get(id=pk)
-    order_detail.delete()
-    return HttpResponse(status=204)
+    try:
+        order_detail = OrderDetail.objects.get(id=pk)
+        product_line = order_detail.product_line
+
+        # Increase the product_line stock by 1
+        product_line.stock_qty += order_detail.amount
+        product_line.save()
+
+        order_detail.delete()
+        return HttpResponse(status=204)
+    except OrderDetail.DoesNotExist:
+        return JsonResponse({'status': 'Order detail not found'}, status=404)
+
 
 
 @cashier_required
