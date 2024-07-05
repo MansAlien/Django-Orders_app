@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'login_history',
     'easyaudit',
     'compressor',
+    'rest_framework',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",

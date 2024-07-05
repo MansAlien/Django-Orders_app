@@ -1,6 +1,7 @@
 from django.contrib.auth import views as auth_views
-from django.urls import path
-
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from . import api_views
 from .views import (
     EmployeeView,
     SignUpView,
@@ -21,7 +22,20 @@ from .views import (
     delete_deduction_view,
 )
 
+router = DefaultRouter()
+router.register(r'api/user-profiles', api_views.UserProfileViewSet)
+router.register(r'api/job-titles', api_views.JobTitleViewSet)
+router.register(r'api/departments', api_views.DepartmentViewSet)
+router.register(r'api/countries', api_views.CountryViewSet)
+router.register(r'api/governorates', api_views.GovernorateViewSet)
+router.register(r'api/cities', api_views.CityViewSet)
+router.register(r'api/department-histories', api_views.DepartmentHistoryViewSet)
+router.register(r'api/job-title-histories', api_views.JobTitleHistoryViewSet)
+router.register(r'api/salary-histories', api_views.SalaryHistoryViewSet)
+router.register(r'api/deductions', api_views.DeductionViewSet)
+
 urlpatterns = [
+    path('', include(router.urls)),
     path("employee_list/", EmployeeView.as_view(), name="employee_list"),
     path("employee_list/<int:pk>", employee_detail_view, name="employee_detail"),
     # Password reset links (refers to django.contrib.auth.views)

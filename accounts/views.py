@@ -20,8 +20,7 @@ from .forms import (
     UserProfileForm,
     UserUpdateForm,
 )
-from .models import Deduction, JobTitleHistory, SalaryHistory, UserProfile
-
+from .models import UserProfile, JobTitleHistory, SalaryHistory, Deduction
 
 ##########################################################
 #######                Forms                ##############

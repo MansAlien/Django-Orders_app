@@ -1,7 +1,7 @@
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment
+from .models import Category, Sub_Category, Product, ProductLine, Customer, Order, OrderDetail, Payment, Comment, Attribute, AttributeValue
 from django.http.response import HttpResponse 
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -19,6 +19,7 @@ from accounts.decorators import cashier_required, editor_required
 from django.db.models import Q
 import requests
 from datetime import date, timedelta
+
 
 
 @login_required

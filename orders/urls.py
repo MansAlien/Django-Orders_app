@@ -1,5 +1,19 @@
-from django.urls import path
+from django.urls import path, include
 from orders import views
+from rest_framework.routers import DefaultRouter
+from . import api_views
+
+router = DefaultRouter()
+router.register(r'api/categories', api_views.CategoryViewSet)
+router.register(r'api/sub-categories', api_views.Sub_CategoryViewSet)
+router.register(r'api/products', api_views.ProductViewSet)
+router.register(r'api/product-lines', api_views.ProductLineViewSet)
+router.register(r'api/customers', api_views.CustomerViewSet)
+router.register(r'api/orders', api_views.OrderViewSet)
+router.register(r'api/order-details', api_views.OrderDetailViewSet)
+router.register(r'api/payments', api_views.PaymentViewSet)
+router.register(r'api/comments', api_views.CommentViewSet)
+
 
 urlpatterns = [
     path("", views.home_view, name="home"),
@@ -16,8 +30,7 @@ urlpatterns = [
     path("settings/cashier/customer", views.customer_view, name="customer_settings_view"),
     path("settings/cashier/order", views.order_view, name="order_view"),
     path("settings/cashier/order/order_details/<int:pk>", views.order_details_list, name="order_details"),
-    
-
+    path('', include(router.urls)),
 ]
 
 
