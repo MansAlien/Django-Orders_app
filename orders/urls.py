@@ -16,6 +16,9 @@ urlpatterns = [
     path("settings/cashier/customer", views.customer_view, name="customer_settings_view"),
     path("settings/cashier/order", views.order_view, name="order_view"),
     path("settings/cashier/order/order_details/<int:pk>", views.order_details_list, name="order_details"),
+
+
+    path('test-images/', views.UploadImageListView.as_view(), name='test_image_list'),
     
 
 ]

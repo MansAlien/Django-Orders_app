@@ -183,3 +183,10 @@ _register(models.Order, OrderAdmin)
 _register(models.OrderDetail, OrderDetailAdmin)
 _register(models.Payment, PaymentAdmin)
 _register(models.Comment, CommentAdmin)
+
+
+from .models import UploadImage
+
+@admin.register(UploadImage)
+class TestImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'author', 'image', 'uploaded_at')

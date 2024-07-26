@@ -826,3 +826,19 @@ def bill(request):
         "payment":payment,
     }
     return render(request, 'cashier/modals/bill.html', context)
+
+
+
+from .models import UploadImage
+from django.views.generic import ListView
+
+
+
+class UploadImageListView(ListView):
+    model = UploadImage
+    template_name = 'test_image_list.html'
+    context_object_name = 'images'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.select_related('author')

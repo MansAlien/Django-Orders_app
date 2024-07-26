@@ -148,7 +148,6 @@ STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # login & logout redirection
 LOGIN_REDIRECT_URL = 'home'
@@ -163,3 +162,29 @@ AUTO_LOGOUT = {
     'IDLE_TIME': 600,
     'MESSAGE': 'The session has expired. Please login again to continue.',
 }
+
+# MinIO settings
+MINIO_ENDPOINT = os.environ.get('MINIO_ENDPOINT', 'minio:9000')
+MINIO_ACCESS_KEY = os.environ.get('MINIO_ACCESS_KEY')
+MINIO_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY')
+MINIO_USE_HTTPS = False
+MINIO_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'media')
+AWS_S3_URL = os.environ.get('AWS_S3_URL', 'http://minio:9000')
+
+# Configure Django to use MinIO for media files
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# S3 compatible settings for MinIO
+AWS_S3_ENDPOINT_URL = AWS_S3_URL
+AWS_ACCESS_KEY_ID = MINIO_ACCESS_KEY
+AWS_SECRET_ACCESS_KEY = MINIO_SECRET_KEY
+AWS_STORAGE_BUCKET_NAME = MINIO_BUCKET_NAME
+AWS_DEFAULT_ACL = 'public-read'
+AWS_QUERYSTRING_AUTH = False
+AWS_S3_FILE_OVERWRITE = False
+
+# Media files configuration
+# Use an external endpoint for serving media files
+MEDIA_URL = f'http://test.com:9000/{MINIO_BUCKET_NAME}/'
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

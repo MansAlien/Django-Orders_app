@@ -166,3 +166,13 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.content
+
+
+class UploadImage(models.Model):
+    order_detail = models.ForeignKey(OrderDetail, on_delete=models.PROTECT, null=True)
+    author = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
+    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.author.username

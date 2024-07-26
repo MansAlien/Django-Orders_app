@@ -72,3 +72,6 @@ zope.interface==6.3
 flask==3.0.3
 requests==2.32.3
 
+django-storages==1.14.4
+boto3==1.34.145
+Pillow==10.4.0
