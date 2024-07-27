@@ -1,5 +1,5 @@
 from django import forms
-from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment, UploadImage
 from django.forms import widgets
 
 
@@ -279,3 +279,9 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
 
+
+
+class UploadImageForm(forms.ModelForm):
+    class Meta:
+        model = UploadImage
+        fields = ['image']

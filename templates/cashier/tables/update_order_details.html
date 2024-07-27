@@ -74,6 +74,23 @@
     <table class="w-full text-sm text-left rtl:text-right text-gray-200">
       <tbody>
         <tr class="border-b border-gray-600">
+          <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700">Upload</th>
+          <td class="px-2 py-2 text-base">
+            <form method="post" enctype="multipart/form-data" action="{% url 'upload_image' detail_id %}">
+              {% csrf_token %}
+              {{ upload_form }}
+              <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mt-2">
+                Upload
+              </button>
+            </form>
+            {% if existing_image %}
+            <a href="{{ existing_image.image.url }}" target="_blank" class="text-blue-500 hover:text-blue-700">
+              View uploaded image
+            </a>
+            {% endif %}
+          </td>
+        </tr>
+        <tr class="border-b border-gray-600">
           <th scope="row" class="uppercase px-6 py-2 font-medium whitespace-nowrap text-white bg-gray-700 w-36">comment</th>
           <td class="px-2 py-2 grid grid-cols-4 place-items-start" x-data="{input: false, span: true}">
             <div class="col-span-3">

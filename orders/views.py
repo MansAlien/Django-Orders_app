@@ -1,13 +1,13 @@
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment
+from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment, UploadImage
 from django.http.response import HttpResponse 
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import ( CategoryForm, CommentForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
-                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, UpdateOrderDetailForm, PaymentForm )
+                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, UpdateOrderDetailForm, PaymentForm, UploadImageForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
@@ -404,14 +404,40 @@ def get_order_details(request):
     try:
         order = Order.objects.get(id=order_id)
         order_details = OrderDetail.objects.filter(order=order)
-        forms_and_product_lines = [(UpdateOrderDetailForm(instance=order_detail), order_detail.product_line, order_detail.id) for order_detail in order_details]
+        forms_and_product_lines = []
+        for order_detail in order_details:
+            form = UpdateOrderDetailForm(instance=order_detail)
+            upload_form = UploadImageForm()
+            existing_image = UploadImage.objects.filter(order_detail=order_detail).first()
+            forms_and_product_lines.append((
+                form, 
+                order_detail.product_line, 
+                order_detail.id, 
+                upload_form, 
+                existing_image
+            ))
         context = {
             'forms': forms_and_product_lines,
         }       
         return render(request, "cashier/tables/update_order_details.html", context)
-    except :
+    except:
         messages.error(request, "Order not found.")
         return HttpResponse(status=204, headers={"HX-Trigger": "sdf"})
+
+@cashier_required
+def upload_image(request, detail_id):
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            order_detail = OrderDetail.objects.get(id=detail_id)
+            image = form.save(commit=False)
+            image.order_detail = order_detail
+            image.author = request.user
+            image.save()
+            messages.success(request, "Image uploaded successfully.")
+        else:
+            messages.error(request, "Error uploading image.")
+    return redirect('get_order_details')
 
 def merge_dicts(dict_list):
     merged_dict = {}
@@ -828,17 +854,3 @@ def bill(request):
     return render(request, 'cashier/modals/bill.html', context)
 
 
-
-from .models import UploadImage
-from django.views.generic import ListView
-
-
-
-class UploadImageListView(ListView):
-    model = UploadImage
-    template_name = 'test_image_list.html'
-    context_object_name = 'images'
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.select_related('author')

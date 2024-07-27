@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'login_history',
     'easyaudit',
     'compressor',
+    'django_components',
     # my app
     "accounts.apps.AccountsConfig",
     "orders.apps.OrdersConfig",
@@ -53,7 +54,6 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / "templates"],
-        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -61,6 +61,13 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'loaders':[(
+                'django.template.loaders.cached.Loader', [
+                    'django.template.loaders.filesystem.Loader',
+                    'django.template.loaders.app_directories.Loader',
+                    'django_components.template_loader.Loader',
+                ]
+            )],
         },
     },
 ]
@@ -77,16 +84,6 @@ STATICFILES_FINDERS = [
     "compressor.finders.CompressorFinder",
 ]
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#         'OPTIONS': {
-#             'timeout': 80,  # Set timeout to 20 seconds
-#         },
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("P_ENGINE", "django.db.backends.sqlite3"),
@@ -97,17 +94,6 @@ DATABASES = {
         "PORT": os.environ.get("P_PORT", "5432"),
     }
 }
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'vision_db',
-#         'USER': 'alien',
-#         'PASSWORD': 'AAsd01203394542',
-#         'HOST': 'vision-1.cj2g2i08e29f.eu-north-1.rds.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -141,7 +127,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "components"
+]
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"
 

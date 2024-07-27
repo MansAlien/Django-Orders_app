@@ -1,3 +1,4 @@
+{% load component_tags %}
 <div class="p-4 md:ml-64">
   <!-- Breadcrumb -->
   <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
@@ -30,16 +31,8 @@
 
     <!-- Toggle Modal -->
     {% if perms.accounts.add_userprofile %}
-    <button 
-      hx-get="{% url "create_user" %}"
-      hx-target="#modal_form"
-      hx-swap="innerHtml"
-      _="on click remove .hidden from modal_div " 
-      class="block text-white focus:ring-4 focus:outline-none
-      font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600 hover:bg-blue-700 
-      focus:ring-blue-800 my-3" type="button">
-      Add Employee
-    </button>
+    {% component "button"  label="Add Employee" hx_swap="innerHtml" hx_target="#modal_form" hx_trigger="click" hx_get=True url_name="create_user" hyper="on click remove .hidden from modal_div" %}
+    {% endcomponent %}
     {% endif %}
 
     <!-- Main Modal -->
