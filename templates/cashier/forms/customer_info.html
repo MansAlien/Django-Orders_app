@@ -35,40 +35,12 @@
     type="hidden" id="customer_id_hidden" name="customer_id" value="{{ customer.id }}"
     _="on load set #form_customer_id's value to my.value">
 
-  <div class="col-span-2 place-self-center">
+  <div class="flex flex-col col-span-2 place-self-center">
     {% if customer.id %}
-    <button
-      hx-get="{% url 'edit_customer' customer.id %}"
-      hx-target="#modal_form"
-      hx-swap="innerHTML"
-      _="on click remove .hidden from modal_div " 
-      id="cusomter_edit_button"
-      class="block text-white focus:ring-4 focus:outline-none
-       font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center bg-green-600
-      hover:bg-green-700 focus:ring-green-800 my-3" type="button">
-      Update
-    </button>
+    {% component "button" label="Update" style="green" hx_get=True url_name="edit_customer" url_params=customer.id hx_target="#modal_form" hx_swap="innerHTML" hyper="on click remove .hidden from modal_div" %}{% endcomponent %}
     {% endif %}
-    <button
-      hx-get="{% url 'create_customer' %}"
-      hx-target="#modal_form"
-      hx-swap="innerHtml"
-      _="on click remove .hidden from modal_div " 
-      class="block text-white focus:ring-4 focus:outline-none
-       font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center bg-blue-600
-      hover:bg-blue-700 focus:ring-blue-800 my-3" type="button">
-      New
-    </button>
-    <button
-      hx-get="{% url 'clear_customer_info' %}"
-      hx-target="#customer"
-      hx-swap="innerHtml"
-      hx-trigger="click, clear_info"
-      _="on click set #customer_order_id.value to '' then reset() the #order_id_form"
-      class="block text-white focus:ring-4 focus:outline-none
-       font-medium rounded-lg text-sm w-24 h-9 px-5 py-2.5 text-center bg-gray-600
-      hover:bg-gray-700 focus:ring-gray-800 my-3" type="button">
-      Clear
-    </button>
+    {% component "button" label="New" hx_get=True url_name="create_customer" hx_target="#modal_form" hx_swap="innerHTML" hyper="on click remove .hidden from modal_div" %}{% endcomponent %}
+
+    {% component "button" label="Clear" style="light" hx_get=True url_name="clear_customer_info" hx_target="#customer" hx_swap="innerHTML" hx_trigger="click, clear_info" hyper="on click set #customer_order_id.value to '' then reset() the #order_id_form" %}{% endcomponent %}
   </div>
 </div>

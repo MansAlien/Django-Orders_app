@@ -8,7 +8,7 @@ class Button(component.Component):
     template_name = "button.html"
 
     def get_context_data(self, label, style="default", hx_target=None, hx_swap="none", hx_trigger=None, 
-                         url_name=None, url_params=None, hx_post=None, hx_get=None, hyper=None, **kwargs):
+                         url_name=None, url_params=None, hx_post=None, hx_get=None, hyper=None, type="button", id=None, form=None, **kwargs):
         styles = {
             "default": "text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-800",
             "alternative": "text-gray-400 bg-gray-800 border border-gray-600 hover:text-white hover:bg-gray-700",
@@ -51,5 +51,8 @@ class Button(component.Component):
             "hx_post": hx_post,
             "hx_get": hx_get,
             "hyper": hyper,
+            "type": type,
+            "id": id,
+            "form": form,
             **kwargs
         }

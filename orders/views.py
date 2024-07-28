@@ -407,14 +407,10 @@ def get_order_details(request):
         forms_and_product_lines = []
         for order_detail in order_details:
             form = UpdateOrderDetailForm(instance=order_detail)
-            upload_form = UploadImageForm()
-            existing_image = UploadImage.objects.filter(order_detail=order_detail).first()
             forms_and_product_lines.append((
                 form, 
                 order_detail.product_line, 
                 order_detail.id, 
-                upload_form, 
-                existing_image
             ))
         context = {
             'forms': forms_and_product_lines,

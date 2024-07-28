@@ -9,3 +9,18 @@ _="on load set #table_order_id.value to my.value
   then set #payment_order_id.value to my.value
   then set #folder_order_id.value to my.value"
 readOnly />
+
+<div>
+  <button data-tooltip-target="tooltip-bottom" data-tooltip-placement="bottom">
+    <i class="text-lg text-gray-400 fa-regular fa-circle-info"></i>
+  </button>
+  <div 
+    id="tooltip-bottom" role="tooltip"
+    class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium
+    text-white rounded-lg shadow-sm opacity-0 tooltip bg-gray-500">
+    <p> - Write the Order ID </p>
+    <p> - press "Enter" from the keyboard </p>
+    <p> - If the order is exist it will get the order data </p>
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+</div>
