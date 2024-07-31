@@ -1,6 +1,8 @@
 from django import forms
 from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment, UploadFile
 from django.forms import widgets
+from django.core.exceptions import ValidationError
+
 
 
 class CategoryForm(forms.ModelForm):
@@ -283,9 +285,12 @@ class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 class MultipleFileField(forms.FileField):
-    def __init__(self, *args, **kwargs):
+    allowed_extensions = None
+
+    def __init__(self, *args, allowed_extensions=None, **kwargs):
         kwargs.setdefault("widget", MultipleFileInput())
         super().__init__(*args, **kwargs)
+        self.allowed_extensions = allowed_extensions
 
     def clean(self, data, initial=None):
         single_file_clean = super().clean
@@ -293,7 +298,14 @@ class MultipleFileField(forms.FileField):
             result = [single_file_clean(d, initial) for d in data]
         else:
             result = [single_file_clean(data, initial)]
+
+        if self.allowed_extensions:
+            for file in result:
+                ext = file.name.split('.')[-1].lower()
+                if ext not in self.allowed_extensions:
+                    raise ValidationError(f'File with extension {ext} is not allowed.')
+
         return result
 
 class UploadFileForm(forms.Form):
-    file_field = MultipleFileField()
+    file_field = MultipleFileField(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf', 'psd', 'nef'])
