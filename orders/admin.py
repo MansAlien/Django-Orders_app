@@ -185,8 +185,8 @@ _register(models.Payment, PaymentAdmin)
 _register(models.Comment, CommentAdmin)
 
 
-from .models import UploadImage
+from .models import UploadFile
 
-@admin.register(UploadImage)
+@admin.register(UploadFile)
 class TestImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'image', 'uploaded_at')
+    list_display = ('id', 'author', 'file', 'uploaded_at')

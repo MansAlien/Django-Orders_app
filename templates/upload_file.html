@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-4 md:ml-64">
+  <!-- Breadcrumb -->
+  <nav class="flex my-2 mt-12 p-4" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="inline-flex items-center space-x-1 text-gray-400 ">
+        <i class="fas fa-home"></i>
+        <span class="ms-1 text-sm font-medium md:ms-2 text-gray-400">
+          Home
+        </span>
+      </li>
+    </ol>
+  </nav>
+  <form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="block text-white focus:ring-4 focus:outline-none
+       font-medium rounded-lg text-sm w-24 h-10 px-5 py-2.5 text-center bg-blue-600
+      hover:bg-blue-700 focus:ring-blue-800 my-3" type="submit">
+      Save
+    </button>
+  </form>
+</div>
+{% endblock content %}

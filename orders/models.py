@@ -168,10 +168,10 @@ class Comment(models.Model):
         return self.content
 
 
-class UploadImage(models.Model):
+class UploadFile(models.Model):
     order_detail = models.ForeignKey(OrderDetail, on_delete=models.PROTECT, null=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT, null=True)
-    image = models.ImageField(upload_to='images/', null=True, blank=True)
+    file = models.FileField(upload_to='files/', null=True, blank=True)
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

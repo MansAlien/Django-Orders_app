@@ -1,5 +1,5 @@
 from django import forms
-from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment, UploadImage
+from orders.models import Category, Sub_Category, Attribute, Product, ProductLine, AttributeValue, Customer, OrderDetail, Payment, Comment, UploadFile
 from django.forms import widgets
 
 
@@ -279,9 +279,21 @@ class CommentForm(forms.ModelForm):
         model = Comment
         fields = ['content']
 
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
 
+class MultipleFileField(forms.FileField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("widget", MultipleFileInput())
+        super().__init__(*args, **kwargs)
 
-class UploadImageForm(forms.ModelForm):
-    class Meta:
-        model = UploadImage
-        fields = ['image']
+    def clean(self, data, initial=None):
+        single_file_clean = super().clean
+        if isinstance(data, (list, tuple)):
+            result = [single_file_clean(d, initial) for d in data]
+        else:
+            result = [single_file_clean(data, initial)]
+        return result
+
+class UploadFileForm(forms.Form):
+    file_field = MultipleFileField()

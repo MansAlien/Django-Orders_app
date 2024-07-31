@@ -1,13 +1,13 @@
 from django.db.models import ProtectedError, F
 from django.views.generic import TemplateView
 from accounts.models import UserProfile
-from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment, UploadImage
+from .models import Attribute, AttributeValue, Category, OrderDetail, Sub_Category, Product, ProductLine, Customer, Order, Payment, Comment, UploadFile
 from django.http.response import HttpResponse 
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from orders.forms import ( CategoryForm, CommentForm, ProductLineForm, ProductLineCreateForm, SubCategoryForm ,
-                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, UpdateOrderDetailForm, PaymentForm, UploadImageForm )
+                            AttributeForm, ProductForm, AttributeValueForm, CustomerForm, OrderDetailForm, UpdateOrderDetailForm, PaymentForm, UploadFileForm, UploadFileForm )
 from django.contrib import messages
 from django.contrib.auth.decorators import permission_required
 from django.http import JsonResponse
@@ -420,20 +420,7 @@ def get_order_details(request):
         messages.error(request, "Order not found.")
         return HttpResponse(status=204, headers={"HX-Trigger": "sdf"})
 
-@cashier_required
-def upload_image(request, detail_id):
-    if request.method == 'POST':
-        form = UploadImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            order_detail = OrderDetail.objects.get(id=detail_id)
-            image = form.save(commit=False)
-            image.order_detail = order_detail
-            image.author = request.user
-            image.save()
-            messages.success(request, "Image uploaded successfully.")
-        else:
-            messages.error(request, "Error uploading image.")
-    return redirect('get_order_details')
+
 
 def merge_dicts(dict_list):
     merged_dict = {}
@@ -838,7 +825,6 @@ def search_orders(request):
 
 def bill(request):
     order_id = request.POST.get('order_id')
-    print(order_id)
     order = Order.objects.get(id=order_id)
     order_details = OrderDetail.objects.filter(order=order)
     payment = Payment.objects.filter(order=order).last()
@@ -849,4 +835,49 @@ def bill(request):
     }
     return render(request, 'cashier/modals/bill.html', context)
 
+# def upload_file(request):
+#     if request.method == 'POST':
+#         form = UploadFileForm(request.POST, request.FILES)
+#         files = request.FILES.getlist('file')
+#         if form.is_valid():
+#             for f in files:
+#                 instance = UploadFile(
+#                     order_detail=form.cleaned_data['order_detail'],
+#                     author=form.cleaned_data['author'],
+#                     file=f
+#                 )
+#                 instance.save()
+#             messages.success(request, "Files uploaded successfully.")
+#             return HttpResponse(status=204)
+#         else:
+#             messages.error(request, "Error uploading files.")
+#     else:
+#         form = UploadFileForm()
+#
+#     context = {
+#         "form": form,
+#     }
+#     return render(request, 'upload_file.html', context)
+#
+from django.views.generic.edit import FormView
 
+class FileFieldFormView(FormView):
+    form_class = UploadFileForm
+    template_name = "upload_file.html"  # Replace with your template.
+    success_url = "upload"  # Replace with your URL or use reverse().
+
+    def form_valid(self, form):
+        files = form.cleaned_data["file_field"]
+        order_detail_id = self.kwargs['order_detail_id']  # Assuming the URL pattern is set to capture this
+        author = self.request.user
+        
+        for f in files:
+            instance = UploadFile(order_detail_id=order_detail_id, author=author, file=f)
+            instance.save()
+
+        messages.success(self.request, "Files uploaded successfully.")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, "Error uploading files.")
+        return super().form_invalid(form)
