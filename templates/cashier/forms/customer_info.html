@@ -37,10 +37,36 @@
 
   <div class="flex flex-col col-span-2 place-self-center">
     {% if customer.id %}
-    {% component "button" label="Update" style="green" hx_get=True url_name="edit_customer" url_params=customer.id hx_target="#modal_form" hx_swap="innerHTML" hyper="on click remove .hidden from modal_div" %}{% endcomponent %}
+      {% component "button" 
+        label="Update" 
+        style="green" 
+        hx_get=True 
+        url_name="edit_customer" 
+        url_params=customer.id hx_target="#modal_form"
+        hx_swap="innerHTML" 
+        hyper="on click remove .hidden from modal_div" 
+      %}
+      {% endcomponent %}
     {% endif %}
-    {% component "button" label="New" hx_get=True url_name="create_customer" hx_target="#modal_form" hx_swap="innerHTML" hyper="on click remove .hidden from modal_div" %}{% endcomponent %}
+    {% component "button" 
+      label="New" 
+      hx_get=True 
+      url_name="create_customer" 
+      hx_target="#modal_form" 
+      hx_swap="innerHTML" 
+      hyper="on click remove .hidden from modal_div" 
+    %}
+    {% endcomponent %}
 
-    {% component "button" label="Clear" style="light" hx_get=True url_name="clear_customer_info" hx_target="#customer" hx_swap="innerHTML" hx_trigger="click, clear_info" hyper="on click set #customer_order_id.value to '' then reset() the #order_id_form" %}{% endcomponent %}
+    {% component "button" 
+      label="Clear" 
+      style="light" 
+      hx_get=True 
+      url_name="clear_customer_info" 
+      hx_target="#customer" 
+      hx_swap="innerHTML" 
+      hx_trigger="click, clear_info" 
+      hyper="on click set #customer_order_id.value to '' then reset() the #order_id_form" 
+    %}{% endcomponent %}
   </div>
 </div>

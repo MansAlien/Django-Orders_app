@@ -121,7 +121,14 @@ form label {
           </div>
           <input type="hidden" name="customer_id" id="form_customer_id">
           <br>
-          {% component "button" label="New Order" hx_post=True url_name="order_info" hx_target="#order_id" hx_swap="innerHTML"  %}{% endcomponent %}
+          {% component "button" 
+            label="New Order" 
+            hx_post=True 
+            url_name="order_info" 
+            hx_target="#order_id" 
+            hx_swap="innerHTML"  
+          %}
+          {% endcomponent %}
         </form>
       </div>
     </div>
@@ -154,7 +161,11 @@ form label {
           <!--Order Details buttons-->
           <div class="row-span-1 flex justify-between items-center bg-gray-800 h-full px-5 rounded-br-lg">
             <div class="flex justify-center items-center px-5 gap-10">
-              {% component "button" type="submit" label="Ok" form="order_details_form" %}{% endcomponent %}
+              {% component "button" 
+                type="submit" 
+                label="Ok" 
+                form="order_details_form"
+              %}{% endcomponent %}
               <form method="POST">
                 <input type="hidden" name="order_id" id="print_order_id">
                 <button 
