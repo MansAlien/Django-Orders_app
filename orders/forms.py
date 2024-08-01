@@ -308,4 +308,4 @@ class MultipleFileField(forms.FileField):
         return result
 
 class UploadFileForm(forms.Form):
-    file_field = MultipleFileField(allowed_extensions=['jpg', 'jpeg', 'png', 'pdf', 'psd', 'nef'])
+    file_field = MultipleFileField(allowed_extensions=['jpg', 'jpeg', 'nef', 'raw', 'cr2', 'psd', 'png'])
