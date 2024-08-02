@@ -881,3 +881,18 @@ class FileFieldFormView(FormView):
     def form_invalid(self, form):
         messages.error(self.request, "Error uploading files.")
         return super().form_invalid(form)
+
+@cashier_required
+def upload_image(request, detail_id):
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            order_detail = OrderDetail.objects.get(id=detail_id)
+            image = form.save(commit=False)
+            image.order_detail = order_detail
+            image.author = request.user
+            image.save()
+            messages.success(request, "Image uploaded successfully.")
+        else:
+            messages.error(request, "Error uploading image.")
+    return redirect('get_order_details')
