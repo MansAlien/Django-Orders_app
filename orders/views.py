@@ -837,26 +837,6 @@ def bill(request):
     }
     return render(request, 'cashier/modals/bill.html', context)
 
-class FileFieldFormView(FormView):
-    form_class = UploadFileForm
-    template_name = "upload/upload.html"  
-    success_url = "upload"  
-
-    def form_valid(self, form):
-        files = form.cleaned_data["file_field"]
-        order_detail_id = self.kwargs['order_detail_id']  # Assuming the URL pattern is set to capture this
-        author = self.request.user
-        
-        for f in files:
-            instance = UploadFile(order_detail_id=order_detail_id, author=author, file=f)
-            instance.save()
-
-        messages.success(self.request, "Files uploaded successfully.")
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        messages.error(self.request, "Error uploading files.")
-        return super().form_invalid(form)
 
 ###############################
 ########   Upload  ############
@@ -930,6 +910,33 @@ def upload_order_detail_image(request, pk):
         "upload_files": upload_files,
     }
     return render(request, "upload/upload_image.html", context)
+
+def upload_file_view(request, pk):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            order_detail = OrderDetail.objects.get(id=pk)
+            files = request.FILES.getlist('file_field')  # Correct way to get multiple files
+            
+            if not files:
+                messages.error(request, "No files were selected.")
+                return render(request, 'upload/upload_file.html', {'form': form, "pk": pk})
+
+            author = request.user
+
+            for f in files:
+                instance = UploadFile(order_detail=order_detail, author=author, file=f)
+                instance.save()
+
+            messages.success(request, "Files uploaded successfully.")
+            return HttpResponse(status=204)
+        else:
+            print(form.errors)
+            messages.error(request, "Error uploading files.")
+    else:
+        form = UploadFileForm()
+
+    return render(request, 'upload/upload_file.html', {'form': form, "pk": pk})
 
 @cashier_required
 def upload_image(request, detail_id):

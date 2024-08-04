@@ -6,7 +6,6 @@ urlpatterns = [
     path("settings/", views.SettingsTemplateView.as_view(), name="settings"),
     path("dashboard/inventory", views.inventory_dashboard_view, name="inventory_dashboard"),
 
-    path("upload/<int:order_detail_id>/", views.FileFieldFormView.as_view(), name="upload"),
 
     path("settings/inventory/", views.inventory_view, name="inventory"),
     path("settings/inventory/category", views.category_view, name="category"), # category & sub_category
@@ -100,6 +99,7 @@ htmx_urlpatterns = [
     path('cashier/upload/search_orders/', views.upload_search_orders, name='upload_search_orders'),
     path('cashier/upload/order_details/<int:pk>', views.upload_order_details, name='upload_order_details'),
     path('cashier/upload/order_details/<int:pk>/images', views.upload_order_detail_image, name='upload_order_detail_image'),
+    path("cashier/upload/order_details/<int:pk>/upload", views.upload_file_view, name="upload_order_detail_images"),
 
 ]
 
