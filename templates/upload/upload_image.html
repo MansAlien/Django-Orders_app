@@ -3,15 +3,25 @@
   <div class="overflow-hidden relative rounded-lg shadow-lg">
     <div id="carousel" class="flex">
       {% for file in upload_files %}
-      <div class="w-full flex-shrink-0 flex justify-center items-center">
-        <img src="http://192.168.1.16:9000/media/{{ file.file }}"
-          alt="Order Detail Image"
-          style="max-height: 34dvh"
-          class="object-cover">
+      <div 
+        style="max-height: 36dvh"
+        class="w-full flex-shrink-0 flex justify-center items-center">
+        <a href="http://192.168.1.16:9000/media/{{ file.file }}" class="h-full" target="_blank">
+          <img src="http://192.168.1.16:9000/media/{{ file.file }}"
+            alt="Order Detail Image"
+            class="h-full object-cover">
+        </a>
+      </div>
+      {% empty %}
+      <div 
+        style="height: 36dvh"
+        class="w-full flex-shrink-0 flex justify-center items-center">
+        <p class="text-white">Image is not found</p>
       </div>
       {% endfor %}
     </div>
   </div>
+  {% if upload_files|length > 1 %}
   <button id="prevBtn"
     class="prev absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none hover:bg-opacity-75">
     <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -23,6 +33,7 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
     </svg>
   </button>
+  {% endif %}
 </div>
 
 <script>
@@ -59,8 +70,10 @@
     updateCarousel();
   }
 
-  prevBtn.onclick = previousSlide;
-  nextBtn.onclick = nextSlide;
+  if (prevBtn && nextBtn) {
+    prevBtn.onclick = previousSlide;
+    nextBtn.onclick = nextSlide;
+  }
 
   // Initial update
   updateCarousel();
