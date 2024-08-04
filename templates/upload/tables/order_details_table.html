@@ -1,0 +1,46 @@
+<table class="w-full text-sm text-left rtl:text-right text-gray-400" ">
+  <thead class="sticky top-0 text-sm uppercase bg-gray-700 text-gray-400">
+    <tr>
+      <th scope="col" class="px-3 py-3">Name</th>
+      <th scope="col" class="px-3 py-3">Attributes</th>
+      <th scope="col" class="px-3 py-3">Deliver Type</th>
+      <th scope="col" class="px-3 py-3">Deliver Date</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for detail in order_details_list %}
+    <tr
+      class="text-lg odd:bg-gray-900 even:bg-gray-800">
+      <td
+        _="on click toggle .hidden on the next <tr/>"
+        class="px-3 py-3 hover:text-white cursor-pointer">
+        {{ detail.product_line.product.name }}
+      </td>
+      <td class="px-3 py-3 cursor-pointer">
+        {{ detail.product_line.values }}
+      </td>
+      <td class="px-3 py-3 cursor-pointer">
+        {{ detail.get_deliver_type_display }}
+      </td>
+      <td class="px-3 py-3 cursor-pointer">
+        {{ detail.deliver_date }}
+      </td>
+    </tr>
+    <tr class="bg-gray-800 text-xs">
+      <td colspan="8" class="text-base">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-200">
+          <tbody>
+            <tr class="border-b border-gray-600">
+              <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700 w-36">comment</th>
+              <td class="px-2 py-3 grid grid-cols-4 place-items-start">{{ detail.customer_comment }} </td>
+            </tr>
+            <tr class="border-b border-gray-600">
+              <th scope="row" class="uppercase px-6 py-3 font-medium whitespace-nowrap text-white bg-gray-700 w-36">Location</th>
+              <td class="px-2 py-3 grid grid-cols-4 place-items-start">{{ detail.location }} </td>
+            </tr>
+          </tbody>
+        </table>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

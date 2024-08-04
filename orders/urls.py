@@ -76,20 +76,28 @@ htmx_urlpatterns = [
     path('upload_image/<int:detail_id>/', views.upload_image, name='upload_image'),
     path("get_order_details/delete/<int:pk>", views.delete_order_detail, name="delete_order_detail"),
     
+    # Comment
     path("comment/create/<int:pk>", views.create_comment, name="create_comment"),
     path("comment/edit/<int:pk>", views.edit_comment, name="edit_comment"),
     path("comment/delete/<int:pk>", views.delete_comment, name="delete_comment"),
 
+    # Editor
     path("editor", views.editor_view, name="editor_view"),
     path('editor/search_orders/', views.search_orders, name='search_orders'),
     path('editor/table_refresh/', views.editor_table_refresh, name='editor_table_refresh'),
     path("editor/order_details/<int:pk>", views.editor_order_details, name="editor_order_details"),
     path("editor/order_details/comments/<int:pk>", views.editor_comments, name="editor_comments"),
 
+    # Open Folder
     path('orders/files/<int:order_id>/', views.serve_order_file, name='serve_order_file'),
     path('orders/files/', views.open_folder, name='open_folder'),
 
     path('cashier/bill', views.bill, name='bill'),
+
+    # Upload File
+    path('cashier/upload', views.upload_view, name='upload'),
+    path('cashier/upload/orders_list', views.upload_orders_list, name='upload_orders_list'),
+    path('cashier/upload/search_orders/', views.upload_search_orders, name='upload_search_orders'),
 
 ]
 

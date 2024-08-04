@@ -19,6 +19,7 @@ from accounts.decorators import cashier_required, editor_required
 from django.db.models import Q
 import requests
 from datetime import date, timedelta
+from django.views.generic.edit import FormView
 
 
 @login_required
@@ -835,36 +836,10 @@ def bill(request):
     }
     return render(request, 'cashier/modals/bill.html', context)
 
-# def upload_file(request):
-#     if request.method == 'POST':
-#         form = UploadFileForm(request.POST, request.FILES)
-#         files = request.FILES.getlist('file')
-#         if form.is_valid():
-#             for f in files:
-#                 instance = UploadFile(
-#                     order_detail=form.cleaned_data['order_detail'],
-#                     author=form.cleaned_data['author'],
-#                     file=f
-#                 )
-#                 instance.save()
-#             messages.success(request, "Files uploaded successfully.")
-#             return HttpResponse(status=204)
-#         else:
-#             messages.error(request, "Error uploading files.")
-#     else:
-#         form = UploadFileForm()
-#
-#     context = {
-#         "form": form,
-#     }
-#     return render(request, 'upload_file.html', context)
-#
-from django.views.generic.edit import FormView
-
 class FileFieldFormView(FormView):
     form_class = UploadFileForm
-    template_name = "upload_file.html"  # Replace with your template.
-    success_url = "upload"  # Replace with your URL or use reverse().
+    template_name = "upload/upload.html"  
+    success_url = "upload"  
 
     def form_valid(self, form):
         files = form.cleaned_data["file_field"]
@@ -881,6 +856,56 @@ class FileFieldFormView(FormView):
     def form_invalid(self, form):
         messages.error(self.request, "Error uploading files.")
         return super().form_invalid(form)
+
+###############################
+########   Upload  ############
+###############################
+
+def upload_view(request):
+    return render(request, "upload/upload.html")
+
+
+from django.db.models import Count
+
+@editor_required
+def upload_orders_list(request):
+    order_list = Payment.objects.filter(order__delivery_status="P") \
+        .select_related('order') \
+        .annotate(order_details_count=Count('order__orderdetail')) \
+        .order_by('-order__created_at')
+    
+    context = {
+        "order_list": order_list
+    }
+    return render(request, "upload/tables/orders_table.html", context)
+
+def upload_search_orders(request):
+    query = request.GET.get('query', '')
+    filter_type = request.GET.get('filter_type', 'id')
+    
+    orders = Order.objects.annotate(order_details_count=Count('orderdetail'))
+
+    if query:
+        if filter_type == 'id':
+            orders = orders.filter(id__icontains=query)
+        elif filter_type == 'date':
+            orders = orders.filter(created_at__icontains=query)
+        elif filter_type == 'name':
+            orders = orders.filter(
+                Q(customer__name_one__icontains=query) |
+                Q(customer__name_two__icontains=query)
+            )
+        elif filter_type == 'phone':
+            orders = orders.filter(
+                Q(customer__phone__icontains=query) |
+                Q(customer__whatsapp__icontains=query)
+            )
+    else:
+        orders = orders.filter(payment__order__id__icontains=query)
+    
+    orders = orders.select_related('customer').order_by('-created_at')
+    
+    return render(request, 'upload/tables/partial_order_list.html', {'order_list': orders})
 
 @cashier_required
 def upload_image(request, detail_id):

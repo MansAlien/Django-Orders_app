@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+  {% block content %} 
+<style>
+form label {
+  display: none;
+}
+</style>
+<div class="p-4 md:ml-64 h-screen">
+  <!-- Breadcrumb -->
+  <nav class="flex mt-12 py-4" aria-label="Breadcrumb">
+    <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <i class=" fas fa-home"></i>
+        <a href="{% url 'home' %}" class="inline-flex items-center text-sm font-medium">
+          Home
+        </a> 
+        <i class="fa-solid fa-angle-right"></i>
+      </li>
+      <li class="inline-flex items-center space-x-1 text-gray-400 hover:text-white">
+        <span class="ms-1 text-sm font-medium md:ms-2 text-gray-400">
+          Editor
+        </span>
+      </li>
+    </ol>
+  </nav>
+  <div class="flex">
+    <select id="filterType" name="filter_type" 
+      class="border text-base rounded-lg block p-2 bg-gray-700 border-gray-600 mr-2
+      placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500">
+      <option value="id">ID</option>
+      <option value="date">Date</option>
+      <option value="name">Customer Name</option>
+      <option value="phone">Customer phone</option>
+    </select>
+    <div class="flex gap-2 w-full">
+      <input type="text" id="searchInput" name="query" placeholder="Search" 
+        class="border text-base text-center rounded-lg block w-30 p-2 bg-gray-700 
+        border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 ">
+      <button 
+        hx-get="{% url 'upload_search_orders' %}" 
+        hx-target="#orderTable" 
+        hx-include="#searchInput,#filterType" 
+        class="text-white focus:ring-4 focus:outline-none
+        font-medium rounded-lg text-sm px-5 py-2.5 text-center bg-blue-600
+        hover:bg-blue-700 focus:ring-blue-800"
+      >Search
+      </button>
+    </div>
+  </div>
+  <div class="grid grid-cols-4 py-4 rounded-lg gap-5 " style="height:80dvh">
+
+    <!--Orders Section-->
+    <div class=" bg-gray-800 rounded-bl-lg overflow-y-auto h-full rounded-tl-xl">
+      <div class="bg-gray-700 flex justify-center text-gray-300 p-2 sticky top-0 rounded-tl-lg">
+        <p class="text-lg border-b"> Orders List </p>
+      </div>
+      <div class="pt-2"
+        hx-target="this" hx-trigger="load, every 10s" hx-get="{% url 'upload_orders_list' %}">
+      </div>
+    </div>
+
+    <!--Orders Details Section-->
+    <div class="col-span-3 h-full bg-gray-800 rounded-r-lg">
+      <div class="bg-gray-700 flex justify-center text-gray-300 p-2 sticky top-0 rounded-tr-lg">
+        <p class="text-lg border-b"> Orders Detail </p>
+      </div>
+      <div id="order_details_section" style="height: 73dvh">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
