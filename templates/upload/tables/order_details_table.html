@@ -10,6 +10,9 @@
   <tbody>
     {% for detail in order_details_list %}
     <tr
+      hx-get="{% url 'upload_order_detail_image' detail.id %}"
+      hx-target="#image_preview"
+      hx-swap="innerHTML"
       class="text-lg odd:bg-gray-900 even:bg-gray-800 cursor-pointer hover:text-white">
       <td class="px-3 py-3">
         {{ detail.product_line.product.name }}

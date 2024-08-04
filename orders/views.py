@@ -918,6 +918,19 @@ def upload_order_details(request, pk):
     }
     return render(request, "upload/upload_order_details.html", context)
 
+def upload_order_detail_image(request, pk):
+    upload_files = UploadFile.objects.filter(order_detail__id=pk)\
+    .filter(
+        Q(file__endswith='.jpg') | 
+        Q(file__endswith='.jpeg') | 
+        Q(file__endswith='.png')
+    ).select_related('order_detail')
+
+    context = {
+        "upload_files": upload_files,
+    }
+    return render(request, "upload/upload_image.html", context)
+
 @cashier_required
 def upload_image(request, detail_id):
     if request.method == 'POST':

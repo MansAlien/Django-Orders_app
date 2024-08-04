@@ -1,0 +1,70 @@
+<!-- Image Carousel -->
+<div class="relative w-full max-w-3xl mx-auto">
+  <div class="overflow-hidden relative rounded-lg shadow-lg">
+    <div id="carousel" class="flex">
+      {% for file in upload_files %}
+      <div class="w-full flex-shrink-0 flex justify-center items-center">
+        <img src="http://192.168.1.16:9000/media/{{ file.file }}"
+          alt="Order Detail Image"
+          style="max-height: 34dvh"
+          class="object-cover">
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  <button id="prevBtn"
+    class="prev absolute top-1/2 left-2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none hover:bg-opacity-75">
+    <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+  <button id="nextBtn" class="next absolute top-1/2 right-2 transform -translate-y-1/2 bg-white bg-opacity-50 rounded-full p-2 focus:outline-none hover:bg-opacity-75">
+    <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+(function() {
+  var carousel = document.getElementById('carousel');
+  var prevBtn = document.getElementById('prevBtn');
+  var nextBtn = document.getElementById('nextBtn');
+  var slides = carousel.querySelectorAll('div');
+  var currentIndex = 0;
+
+  if (slides.length === 0) {
+    console.error('No slides found in the carousel');
+    return;
+  }
+
+  // Set initial styles
+  carousel.style.width = (slides.length * 100) + '%';
+  slides.forEach(function(slide) {
+    slide.style.width = (100 / slides.length) + '%';
+  });
+
+  function updateCarousel() {
+    var translateX = -currentIndex * (100 / slides.length);
+    carousel.style.transform = 'translateX(' + translateX + '%)';
+  }
+
+  function previousSlide() {
+    currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+    updateCarousel();
+  }
+
+  function nextSlide() {
+    currentIndex = (currentIndex + 1) % slides.length;
+    updateCarousel();
+  }
+
+  prevBtn.onclick = previousSlide;
+  nextBtn.onclick = nextSlide;
+
+  // Initial update
+  updateCarousel();
+
+})();
+</script>
+
