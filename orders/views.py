@@ -20,6 +20,7 @@ from django.db.models import Q
 import requests
 from datetime import date, timedelta
 from django.views.generic.edit import FormView
+from django.db.models import Count, Max
 
 
 @login_required
@@ -865,7 +866,6 @@ def upload_view(request):
     return render(request, "upload/upload.html")
 
 
-from django.db.models import Count
 
 @editor_required
 def upload_orders_list(request):
@@ -884,7 +884,6 @@ def upload_search_orders(request):
     filter_type = request.GET.get('filter_type', 'id')
     
     orders = Order.objects.annotate(order_details_count=Count('orderdetail'))
-
     if query:
         if filter_type == 'id':
             orders = orders.filter(id__icontains=query)
@@ -906,6 +905,18 @@ def upload_search_orders(request):
     orders = orders.select_related('customer').order_by('-created_at')
     
     return render(request, 'upload/tables/partial_order_list.html', {'order_list': orders})
+
+def upload_order_details(request, pk):
+    order = get_object_or_404(Order, id=pk)
+    order_details_list = OrderDetail.objects.filter(order=order).annotate(
+        uploaded_files_count=Count('uploadfile'),
+    ).select_related('product_line')
+
+    context = {
+        "order": order,
+        "order_details_list": order_details_list,
+    }
+    return render(request, "upload/upload_order_details.html", context)
 
 @cashier_required
 def upload_image(request, detail_id):

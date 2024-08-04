@@ -12,7 +12,7 @@
       class="text-lg odd:bg-gray-900 even:bg-gray-800">
       <td class="p-0 hover:text-white hover:font-bold cursor-pointer">
         <a 
-          hx-get="{% url 'editor_order_details' order.order.id %}"
+          hx-get="{% url 'upload_order_details' order.order.id %}"
           hx-target="#order_details_section"
           hx-swap="innerHTML"
           class="cursor-pointer h-full w-full px-3 py-3">

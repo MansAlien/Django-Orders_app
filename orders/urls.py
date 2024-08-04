@@ -98,6 +98,7 @@ htmx_urlpatterns = [
     path('cashier/upload', views.upload_view, name='upload'),
     path('cashier/upload/orders_list', views.upload_orders_list, name='upload_orders_list'),
     path('cashier/upload/search_orders/', views.upload_search_orders, name='upload_search_orders'),
+    path('cashier/upload/order_details/<int:pk>', views.upload_order_details, name='upload_order_details'),
 
 ]
 
