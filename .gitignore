@@ -8,3 +8,4 @@ node_modules/
 static/CACHE/
 .aider*
 db_backup/
+minio_backup/
