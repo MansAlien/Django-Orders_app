@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   web:
     image: mansalien/vision_app:v0.8
@@ -18,7 +17,6 @@ services:
     restart: always
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
   postgres_db:
     image: postgres:16
     volumes:
@@ -76,6 +74,26 @@ services:
       interval: 30s
       timeout: 20s
       retries: 3
+    restart: always
+
+  minio_backup:
+    image: minio/mc
+    volumes:
+      - ./minio_backup:/backup
+    environment:
+      - MINIO_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - MINIO_SECRET_KEY=${MINIO_SECRET_KEY}
+    entrypoint: >
+      /bin/sh -c "
+      while true; do
+        mc alias set myminio http://minio:9000 $${MINIO_ACCESS_KEY} $${MINIO_SECRET_KEY};
+        mc mirror --overwrite myminio/media /backup;
+        echo 'MinIO backup completed at $$(date)';
+        sleep 86400;
+      done
+      "
+    depends_on:
+      - minio
     restart: always
 
 volumes:
