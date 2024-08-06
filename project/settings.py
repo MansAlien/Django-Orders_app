@@ -161,6 +161,7 @@ MINIO_ACCESS_KEY = os.environ.get('MINIO_ACCESS_KEY')
 MINIO_SECRET_KEY = os.environ.get('MINIO_SECRET_KEY')
 MINIO_USE_HTTPS = False
 MINIO_BUCKET_NAME = os.environ.get('MINIO_BUCKET_NAME', 'media')
+MINIO_USE_SSL=False
 AWS_S3_URL = os.environ.get('AWS_S3_URL', 'http://minio:9000')
 
 # Configure Django to use MinIO for media files

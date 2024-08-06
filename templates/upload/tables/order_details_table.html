@@ -36,6 +36,11 @@
           class="cursor-pointer hover:text-blue-700">
           <i class="fa-solid fa-cloud-arrow-up"></i>
         </a>
+        <a 
+          href="{% url 'download_order_details_uploads' detail.id %}"
+          class="ml-5 cursor-pointer hover:text-blue-700">
+          <i class="fa-solid fa-cloud-arrow-down"></i>
+        </a>
       </td>
     </tr>
     {% endfor %}

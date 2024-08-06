@@ -21,6 +21,7 @@ import requests
 from datetime import date, timedelta
 from django.views.generic.edit import FormView
 from django.db.models import Count, Max
+from django.conf import settings
 
 
 @login_required
@@ -837,6 +838,22 @@ def bill(request):
     }
     return render(request, 'cashier/modals/bill.html', context)
 
+#############################################################################
+@cashier_required
+def upload_image(request, detail_id):
+    if request.method == 'POST':
+        form = UploadImageForm(request.POST, request.FILES)
+        if form.is_valid():
+            order_detail = OrderDetail.objects.get(id=detail_id)
+            image = form.save(commit=False)
+            image.order_detail = order_detail
+            image.author = request.user
+            image.save()
+            messages.success(request, "Image uploaded successfully.")
+        else:
+            messages.error(request, "Error uploading image.")
+    return redirect('get_order_details')
+#############################################################################
 
 ###############################
 ########   Upload  ############
@@ -938,17 +955,89 @@ def upload_file_view(request, pk):
 
     return render(request, 'upload/upload_file.html', {'form': form, "pk": pk})
 
-@cashier_required
-def upload_image(request, detail_id):
-    if request.method == 'POST':
-        form = UploadImageForm(request.POST, request.FILES)
-        if form.is_valid():
-            order_detail = OrderDetail.objects.get(id=detail_id)
-            image = form.save(commit=False)
-            image.order_detail = order_detail
-            image.author = request.user
-            image.save()
-            messages.success(request, "Image uploaded successfully.")
+###############################
+########   Download  ##########
+###############################
+from django.http import FileResponse, HttpResponseNotFound
+from django.conf import settings
+from minio import Minio
+from minio.error import S3Error
+from django.core.files.temp import NamedTemporaryFile
+import os
+
+def download_image(image_url, file_name):
+    try:
+        # Parse the MinIO URL
+        minio_url = "http://minio:9000"  # Update this if your MinIO URL is different
+        bucket_name = "media"  # Update this if your bucket name is different
+        object_name = image_url.split(minio_url + '/' + bucket_name + '/')[-1]
+
+        # Initialize MinIO client
+        minio_client = Minio(
+            "minio:9000",  # MinIO server address
+            access_key=settings.MINIO_ACCESS_KEY,
+            secret_key=settings.MINIO_SECRET_KEY,
+            secure=False  # Set to True if you're using HTTPS
+        )
+
+        # Download the file from MinIO to a temporary file
+        temp_file = NamedTemporaryFile(delete=False, suffix=os.path.splitext(file_name)[1])
+        try:
+            minio_client.fget_object(bucket_name, object_name, temp_file.name)
+            return temp_file.name
+        except S3Error as exc:
+            print(f"Error occurred while downloading image: {exc}")
+            return None
+
+    except Exception as e:
+        print(f"An error occurred: {str(e)}")
+        return None
+
+def download_order_details_uploads(request, pk):
+    try:
+        order_detail = OrderDetail.objects.get(id=pk)
+    except OrderDetail.DoesNotExist:
+        return HttpResponseNotFound("OrderDetail not found")
+
+    upload_list = UploadFile.objects.filter(order_detail=pk)
+    if not upload_list.exists():
+        return HttpResponseNotFound("No uploads found for this order detail")
+
+    # If there's only one file, download it directly
+    if upload_list.count() == 1:
+        upload = upload_list.first()
+        file_path = str(upload.file)
+        image_name = f"{order_detail.order.id}-{pk}{os.path.splitext(file_path)[1]}"
+        image_url = f"http://minio:9000/media/{upload.file}"  # Update this URL if needed
+        
+        temp_file_path = download_image(image_url, image_name)
+        if temp_file_path:
+            response = FileResponse(open(temp_file_path, 'rb'), as_attachment=True, filename=image_name)
+            response['Content-Disposition'] = f'attachment; filename="{image_name}"'
+            return response
         else:
-            messages.error(request, "Error uploading image.")
-    return redirect('get_order_details')
+            return HttpResponseNotFound("Failed to download the file")
+
+    # If there are multiple files, create a zip file
+    else:
+        import zipfile
+        from io import BytesIO
+
+        zip_filename = f"order_detail_{pk}_uploads.zip"
+        zip_buffer = BytesIO()
+
+        with zipfile.ZipFile(zip_buffer, 'w', zipfile.ZIP_DEFLATED) as zip_file:
+            for upload in upload_list:
+                file_path = str(upload.file)
+                image_name = f"{order_detail.order.id}-{upload.id}{os.path.splitext(file_path)[1]}"
+                image_url = f"http://minio:9000/media/{upload.file}"  # Update this URL if needed
+
+                temp_file_path = download_image(image_url, image_name)
+                if temp_file_path:
+                    zip_file.write(temp_file_path, image_name)
+                    os.unlink(temp_file_path)  # Delete the temporary file
+
+        zip_buffer.seek(0)
+        response = FileResponse(zip_buffer, as_attachment=True, filename=zip_filename)
+        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        return response

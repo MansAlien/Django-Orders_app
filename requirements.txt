@@ -76,3 +76,4 @@ django-storages==1.14.4
 boto3==1.34.145
 Pillow==10.4.0
 django_components==0.84
+minio==7.2.7
